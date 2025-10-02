@@ -1,0 +1,14 @@
+/* path: app/document/%5Bdocfile_id%5D/components/DocView.module.css */
+
+.noSpinners::-webkit-outer-spin-button,
+.noSpinners::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.noSpinners {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+
