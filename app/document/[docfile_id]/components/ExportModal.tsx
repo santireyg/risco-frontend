@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@heroui/modal";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "@heroui/modal";
 import { Button } from "@heroui/button";
 import { useDisclosure } from "@heroui/use-disclosure";
 
@@ -29,7 +35,11 @@ const ExportModal: React.FC<ExportModalProps> = ({
   const [isLoading, setIsLoading] = useState(false);
 
   // Estado para el modal de resultado
-  const { isOpen: isResultModalOpen, onOpen: onResultModalOpen, onOpenChange: onResultModalOpenChange } = useDisclosure();
+  const {
+    isOpen: isResultModalOpen,
+    onOpen: onResultModalOpen,
+    onOpenChange: onResultModalOpenChange,
+  } = useDisclosure();
 
   const [exportResult, setExportResult] = useState<{
     isSuccess: boolean;
@@ -61,7 +71,8 @@ const ExportModal: React.FC<ExportModalProps> = ({
         method: "GET",
         credentials: "include",
         headers: {
-          Accept: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          Accept:
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         },
       });
 
@@ -75,14 +86,18 @@ const ExportModal: React.FC<ExportModalProps> = ({
 
           if (errorBody.detail) {
             if (typeof errorBody.detail === "object") {
-              errorMessage = errorBody.detail.message || "Error al exportar el documento";
+              errorMessage =
+                errorBody.detail.message || "Error al exportar el documento";
               errorDetails = {
                 codigo: errorBody.detail.codigo,
                 error: errorBody.detail.error,
                 error_raw: errorBody.detail.error_raw,
               };
             } else {
-              errorMessage = typeof errorBody.detail === "string" ? errorBody.detail : JSON.stringify(errorBody.detail);
+              errorMessage =
+                typeof errorBody.detail === "string"
+                  ? errorBody.detail
+                  : JSON.stringify(errorBody.detail);
             }
           }
         } catch {
@@ -92,7 +107,8 @@ const ExportModal: React.FC<ExportModalProps> = ({
         setExportResult({
           isSuccess: false,
           message: errorMessage,
-          errorDetails: Object.keys(errorDetails).length > 0 ? errorDetails : undefined,
+          errorDetails:
+            Object.keys(errorDetails).length > 0 ? errorDetails : undefined,
         });
 
         onOpenChange(false);
@@ -162,44 +178,66 @@ const ExportModal: React.FC<ExportModalProps> = ({
 
   return (
     <>
-      <Modal className="p-3" isOpen={isOpen} size="lg" onOpenChange={onOpenChange}>
+      <Modal
+        className="p-3"
+        isOpen={isOpen}
+        size="lg"
+        onOpenChange={onOpenChange}
+      >
         <ModalContent>
-          <ModalHeader className="flex flex-col gap-1">Exportar a Excel</ModalHeader>
+          <ModalHeader className="flex flex-col gap-1">
+            Exportar a Excel
+          </ModalHeader>
           <ModalBody>
             <div className="space-y-4">
               <p className="text-sm text-foreground-600">
-                Se generará un archivo Excel con los datos financieros del documento analizado.
+                Se generará un archivo Excel con los datos financieros del
+                documento analizado.
               </p>
 
               <div className="bg-default-100 rounded-lg p-4 space-y-3">
                 <div className="flex items-start gap-2">
-                  <span className="font-semibold text-sm min-w-[120px]">CUIT:</span>
+                  <span className="font-semibold text-sm min-w-[120px]">
+                    CUIT:
+                  </span>
                   {companyCuit ? (
                     <span className="text-sm">{companyCuit}</span>
                   ) : (
-                    <span className="text-danger-500 font-semibold text-sm">No se encontró el CUIT.</span>
+                    <span className="text-danger-500 font-semibold text-sm">
+                      No se encontró el CUIT.
+                    </span>
                   )}
                 </div>
 
                 <div className="flex items-start gap-2">
-                  <span className="font-semibold text-sm min-w-[120px]">Razón social:</span>
-                  <span className="text-sm">{companyName || "No disponible"}</span>
+                  <span className="font-semibold text-sm min-w-[120px]">
+                    Razón social:
+                  </span>
+                  <span className="text-sm">
+                    {companyName || "No disponible"}
+                  </span>
                 </div>
 
                 <div className="flex items-start gap-2">
-                  <span className="font-semibold text-sm min-w-[120px]">Período actual:</span>
+                  <span className="font-semibold text-sm min-w-[120px]">
+                    Período actual:
+                  </span>
                   <span className="text-sm">{periodoActual}</span>
                 </div>
 
                 <div className="flex items-start gap-2">
-                  <span className="font-semibold text-sm min-w-[120px]">Período anterior:</span>
+                  <span className="font-semibold text-sm min-w-[120px]">
+                    Período anterior:
+                  </span>
                   <span className="text-sm">{periodoAnterior}</span>
                 </div>
               </div>
 
               <div className="bg-primary-50 border-l-4 border-primary rounded-r-lg p-3">
                 <p className="text-sm text-foreground-700">
-                  <span className="font-semibold">El archivo Excel incluirá:</span>
+                  <span className="font-semibold">
+                    El archivo Excel incluirá:
+                  </span>
                 </p>
                 <ul className="mt-2 space-y-1 text-sm text-foreground-600">
                   <li>• Situación Patrimonial (Balance)</li>
@@ -210,10 +248,20 @@ const ExportModal: React.FC<ExportModalProps> = ({
             </div>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" isDisabled={!companyCuit || isLoading} isLoading={isLoading} onPress={handleConfirmExport}>
+            <Button
+              color="primary"
+              isDisabled={!companyCuit || isLoading}
+              isLoading={isLoading}
+              onPress={handleConfirmExport}
+            >
               {isLoading ? "Exportando..." : "Exportar a Excel"}
             </Button>
-            <Button color="danger" isDisabled={isLoading} variant="light" onPress={() => onOpenChange(false)}>
+            <Button
+              color="danger"
+              isDisabled={isLoading}
+              variant="light"
+              onPress={() => onOpenChange(false)}
+            >
               Cancelar
             </Button>
           </ModalFooter>

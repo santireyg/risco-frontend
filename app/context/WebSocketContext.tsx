@@ -2,7 +2,13 @@
 
 "use client";
 
-import React, { createContext, useState, useEffect, useContext, useRef } from "react";
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  useContext,
+  useRef,
+} from "react";
 
 // Interfaz para las actualizaciones de documentos recibidas por WebSocket
 // Asegúrate que coincida con lo que envía el backend
@@ -48,7 +54,9 @@ const WebSocketContext = createContext<WebSocketContextType>({
   lastMessage: null,
 });
 
-export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [docUpdates, setDocUpdates] = useState<Record<string, DocUpdate>>({});
   const [isConnected, setIsConnected] = useState(false);
   const [lastMessage, setLastMessage] = useState<DocUpdate | null>(null);
@@ -131,7 +139,11 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     // y la limpieza se ejecute al desmontar.
   }, []);
 
-  return <WebSocketContext.Provider value={{ docUpdates, isConnected, lastMessage }}>{children}</WebSocketContext.Provider>;
+  return (
+    <WebSocketContext.Provider value={{ docUpdates, isConnected, lastMessage }}>
+      {children}
+    </WebSocketContext.Provider>
+  );
 };
 
 // Hook para consumir el contexto fácilmente

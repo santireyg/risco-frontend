@@ -13,7 +13,7 @@ import NavBar from "@/components/NavBar";
 const kumbhSans = Kumbh_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Integrity IA | Caución",
+  title: "Risco IA | Caución",
   description: "Análisis de riesgos con IA",
 };
 

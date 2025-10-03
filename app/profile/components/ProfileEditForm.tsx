@@ -5,10 +5,21 @@ import { Input } from "@heroui/input";
 import { Button } from "@heroui/button";
 import { Card, CardBody, CardHeader } from "@heroui/card";
 
-import { useProfile, type ProfileUpdateData } from "../../auth/hooks/useProfile";
+import {
+  useProfile,
+  type ProfileUpdateData,
+} from "../../auth/hooks/useProfile";
 
 const ProfileEditForm: React.FC = () => {
-  const { user, loading, errors, success, updateProfile, clearErrors, clearSuccess } = useProfile();
+  const {
+    user,
+    loading,
+    errors,
+    success,
+    updateProfile,
+    clearErrors,
+    clearSuccess,
+  } = useProfile();
   const [formData, setFormData] = useState<ProfileUpdateData>({
     first_name: "",
     last_name: "",
@@ -27,15 +38,16 @@ const ProfileEditForm: React.FC = () => {
     }
   }, [user]);
 
-  const handleInputChange = (field: keyof ProfileUpdateData) => (value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-    if (errors[field]) {
-      clearErrors();
-    }
-    if (success) {
-      clearSuccess();
-    }
-  };
+  const handleInputChange =
+    (field: keyof ProfileUpdateData) => (value: string) => {
+      setFormData((prev) => ({ ...prev, [field]: value }));
+      if (errors[field]) {
+        clearErrors();
+      }
+      if (success) {
+        clearSuccess();
+      }
+    };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,7 +60,9 @@ const ProfileEditForm: React.FC = () => {
 
   const hasChanges =
     user &&
-    (formData.first_name !== user.first_name || formData.last_name !== user.last_name || formData.username !== user.username);
+    (formData.first_name !== user.first_name ||
+      formData.last_name !== user.last_name ||
+      formData.username !== user.username);
 
   return (
     <Card>
@@ -92,11 +106,15 @@ const ProfileEditForm: React.FC = () => {
           />
 
           {errors.general && (
-            <div className="p-3 bg-danger-50 border border-danger-200 rounded-lg text-danger-600 text-sm">{errors.general}</div>
+            <div className="p-3 bg-danger-50 border border-danger-200 rounded-lg text-danger-600 text-sm">
+              {errors.general}
+            </div>
           )}
 
           {success && (
-            <div className="p-3 bg-success-50 border border-success-200 rounded-lg text-success-600 text-sm">{success}</div>
+            <div className="p-3 bg-success-50 border border-success-200 rounded-lg text-success-600 text-sm">
+              {success}
+            </div>
           )}
 
           <div className="flex justify-end space-x-2">
@@ -116,11 +134,17 @@ const ProfileEditForm: React.FC = () => {
                   clearErrors();
                   clearSuccess();
                 }
-              }}>
+              }}
+            >
               Cancelar
             </Button>
 
-            <Button color="primary" isDisabled={loading || !hasChanges} isLoading={loading} type="submit">
+            <Button
+              color="primary"
+              isDisabled={loading || !hasChanges}
+              isLoading={loading}
+              type="submit"
+            >
               {loading ? "Guardando..." : "Guardar Cambios"}
             </Button>
           </div>

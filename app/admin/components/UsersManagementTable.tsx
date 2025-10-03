@@ -1,10 +1,22 @@
 // app/admin/components/UsersManagementTable.tsx
 
 import React from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from "@heroui/table";
+import {
+  Table,
+  TableHeader,
+  TableColumn,
+  TableBody,
+  TableRow,
+  TableCell,
+} from "@heroui/table";
 import { Button } from "@heroui/button";
 import { Chip } from "@heroui/chip";
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@heroui/dropdown";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+} from "@heroui/dropdown";
 import { Tooltip } from "@heroui/tooltip";
 import { User } from "@heroui/user";
 import { Pagination } from "@heroui/pagination";
@@ -27,7 +39,11 @@ import UserStatusBadge from "./UserStatusBadge";
 
 interface UsersManagementTableProps {
   users: UserProfile[];
-  onUserAction: (user: UserProfile, action: UserAction, targetRole?: string) => void;
+  onUserAction: (
+    user: UserProfile,
+    action: UserAction,
+    targetRole?: string,
+  ) => void;
   actionLoading: string | null;
   pagination: {
     total: number;
@@ -144,7 +160,8 @@ const UsersManagementTable: React.FC<UsersManagementTableProps> = ({
                 endContent={<ChevronDownIcon className="h-3 w-3" />}
                 size="sm"
                 startContent={getRoleIcon(user.role)}
-                variant="bordered">
+                variant="bordered"
+              >
                 {getRoleLabel(user.role)}
               </Chip>
             </DropdownTrigger>
@@ -156,13 +173,28 @@ const UsersManagementTable: React.FC<UsersManagementTableProps> = ({
                 } else if (key === "user" && canChangeRole(user, "user")) {
                   onUserAction(user, "change_role", "user");
                 }
-              }}>
-              <DropdownItem key="change_role_header" className="opacity-100 pointer-events-none" textValue="Cambiar rol">
-                <span className="text-sm font-medium text-foreground-600">Cambiar rol</span>
+              }}
+            >
+              <DropdownItem
+                key="change_role_header"
+                className="opacity-100 pointer-events-none"
+                textValue="Cambiar rol"
+              >
+                <span className="text-sm font-medium text-foreground-600">
+                  Cambiar rol
+                </span>
               </DropdownItem>
 
-              <DropdownItem key="admin" isDisabled={!canChangeRole(user, "admin")} textValue="Administrador">
-                <Tooltip content={getTooltipMessage(user, "admin")} delay={0} isDisabled={canChangeRole(user, "admin")}>
+              <DropdownItem
+                key="admin"
+                isDisabled={!canChangeRole(user, "admin")}
+                textValue="Administrador"
+              >
+                <Tooltip
+                  content={getTooltipMessage(user, "admin")}
+                  delay={0}
+                  isDisabled={canChangeRole(user, "admin")}
+                >
                   <div className="flex items-center gap-2">
                     <ShieldCheckIcon className="h-4 w-4" />
                     Administrador
@@ -170,8 +202,16 @@ const UsersManagementTable: React.FC<UsersManagementTableProps> = ({
                 </Tooltip>
               </DropdownItem>
 
-              <DropdownItem key="user" isDisabled={!canChangeRole(user, "user")} textValue="Usuario">
-                <Tooltip content={getTooltipMessage(user, "user")} delay={0} isDisabled={canChangeRole(user, "user")}>
+              <DropdownItem
+                key="user"
+                isDisabled={!canChangeRole(user, "user")}
+                textValue="Usuario"
+              >
+                <Tooltip
+                  content={getTooltipMessage(user, "user")}
+                  delay={0}
+                  isDisabled={canChangeRole(user, "user")}
+                >
                   <div className="flex items-center gap-2">
                     <UserIcon className="h-4 w-4" />
                     Usuario
@@ -218,11 +258,19 @@ const UsersManagementTable: React.FC<UsersManagementTableProps> = ({
     return (
       <Dropdown>
         <DropdownTrigger>
-          <Button isIconOnly isDisabled={!!actionLoading} size="sm" variant="light">
+          <Button
+            isIconOnly
+            isDisabled={!!actionLoading}
+            size="sm"
+            variant="light"
+          >
             <EllipsisVerticalIcon className="h-4 w-4" />
           </Button>
         </DropdownTrigger>
-        <DropdownMenu aria-label="Acciones de usuario" onAction={(key) => onUserAction(user, key as UserAction)}>
+        <DropdownMenu
+          aria-label="Acciones de usuario"
+          onAction={(key) => onUserAction(user, key as UserAction)}
+        >
           {actions.map((action) => (
             <DropdownItem
               key={action.key}
@@ -238,7 +286,8 @@ const UsersManagementTable: React.FC<UsersManagementTableProps> = ({
                 ) : (
                   <UserIcon className="h-4 w-4" />
                 )
-              }>
+              }
+            >
               {action.label}
             </DropdownItem>
           ))}
@@ -297,7 +346,9 @@ const UsersManagementTable: React.FC<UsersManagementTableProps> = ({
 
               <TableCell>
                 {user.created_at && (
-                  <span className="text-sm text-foreground-600">{new Date(user.created_at).toLocaleDateString("es-ES")}</span>
+                  <span className="text-sm text-foreground-600">
+                    {new Date(user.created_at).toLocaleDateString("es-ES")}
+                  </span>
                 )}
               </TableCell>
 

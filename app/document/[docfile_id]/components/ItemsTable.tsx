@@ -1,7 +1,14 @@
 // ruta: app/document/[docfile_id]/components/ItemsTable.tsx
 
 import React from "react";
-import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from "@heroui/table";
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableColumn,
+  TableRow,
+  TableCell,
+} from "@heroui/table";
 import { Input } from "@heroui/input";
 import { Button } from "@heroui/button";
 import { TrashIcon, PlusIcon } from "@heroicons/react/24/outline";
@@ -38,7 +45,11 @@ const formatCurrency = (value: number) => {
 };
 
 const ItemsTable: React.FC<ItemTableProps> = ({ data, isEditing, setData }) => {
-  const handleInputChange = (index: number, field: "concepto" | "monto_actual" | "monto_anterior", value: string) => {
+  const handleInputChange = (
+    index: number,
+    field: "concepto" | "monto_actual" | "monto_anterior",
+    value: string,
+  ) => {
     const updatedData = [...data];
 
     if (field === "monto_actual" || field === "monto_anterior") {
@@ -74,15 +85,23 @@ const ItemsTable: React.FC<ItemTableProps> = ({ data, isEditing, setData }) => {
                     monto_anterior: 0,
                   },
                 ]);
-              }}>
+              }}
+            >
               Agregar Ítem
             </Button>
           )
-        }>
+        }
+      >
         <TableHeader>
-          <TableColumn className="text-foreground-500 text-sm font-semibold uppercase">Concepto</TableColumn>
-          <TableColumn className="text-foreground-500 text-sm font-semibold uppercase text-right">Actual</TableColumn>
-          <TableColumn className="text-foreground-500 text-sm font-semibold uppercase text-right">Anterior</TableColumn>
+          <TableColumn className="text-foreground-500 text-sm font-semibold uppercase">
+            Concepto
+          </TableColumn>
+          <TableColumn className="text-foreground-500 text-sm font-semibold uppercase text-right">
+            Actual
+          </TableColumn>
+          <TableColumn className="text-foreground-500 text-sm font-semibold uppercase text-right">
+            Anterior
+          </TableColumn>
           <TableColumn className="text-foreground-500 text-sm font-semibold uppercase text-center">
             {isEditing && "Quitar"}
           </TableColumn>
@@ -95,7 +114,8 @@ const ItemsTable: React.FC<ItemTableProps> = ({ data, isEditing, setData }) => {
               style={{
                 borderBottom: "0.5px solid #E8E8E8", // Línea delgada
                 height: "3rem",
-              }}>
+              }}
+            >
               <TableCell>
                 {isEditing ? (
                   <Input
@@ -103,7 +123,9 @@ const ItemsTable: React.FC<ItemTableProps> = ({ data, isEditing, setData }) => {
                       inputWrapper: ["bg-transparent", "shadow-none"],
                     }}
                     value={row.concepto}
-                    onChange={(e) => handleInputChange(index, "concepto", e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange(index, "concepto", e.target.value)
+                    }
                   />
                 ) : (
                   row.concepto
@@ -114,7 +136,8 @@ const ItemsTable: React.FC<ItemTableProps> = ({ data, isEditing, setData }) => {
                 style={{
                   whiteSpace: "nowrap",
                   overflow: "hidden",
-                }}>
+                }}
+              >
                 {isEditing ? (
                   <Input
                     classNames={{
@@ -128,7 +151,9 @@ const ItemsTable: React.FC<ItemTableProps> = ({ data, isEditing, setData }) => {
                     }
                     type="number"
                     value={row.monto_actual.toString()}
-                    onChange={(e) => handleInputChange(index, "monto_actual", e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange(index, "monto_actual", e.target.value)
+                    }
                   />
                 ) : (
                   formatCurrency(row.monto_actual)
@@ -139,7 +164,8 @@ const ItemsTable: React.FC<ItemTableProps> = ({ data, isEditing, setData }) => {
                 style={{
                   whiteSpace: "nowrap",
                   overflow: "hidden",
-                }}>
+                }}
+              >
                 {isEditing ? (
                   <Input
                     classNames={{
@@ -153,7 +179,9 @@ const ItemsTable: React.FC<ItemTableProps> = ({ data, isEditing, setData }) => {
                     }
                     type="number"
                     value={row.monto_anterior.toString()}
-                    onChange={(e) => handleInputChange(index, "monto_anterior", e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange(index, "monto_anterior", e.target.value)
+                    }
                   />
                 ) : (
                   formatCurrency(row.monto_anterior)
@@ -161,7 +189,13 @@ const ItemsTable: React.FC<ItemTableProps> = ({ data, isEditing, setData }) => {
               </TableCell>
               <TableCell className="text-center">
                 {isEditing && (
-                  <Button isIconOnly radius="full" size="sm" variant="light" onClick={() => handleDeleteRow(index)}>
+                  <Button
+                    isIconOnly
+                    radius="full"
+                    size="sm"
+                    variant="light"
+                    onClick={() => handleDeleteRow(index)}
+                  >
                     <TrashIcon className="h-5 w-5 text-foreground-400" />
                   </Button>
                 )}

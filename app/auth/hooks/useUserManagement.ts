@@ -38,7 +38,13 @@ export interface UserFilters {
   page?: number;
 }
 
-export type UserAction = "approve" | "reject" | "deactivate" | "activate" | "change_role" | "delete";
+export type UserAction =
+  | "approve"
+  | "reject"
+  | "deactivate"
+  | "activate"
+  | "change_role"
+  | "delete";
 
 export const useUserManagement = () => {
   const [users, setUsers] = useState<UserProfile[]>([]);
@@ -69,7 +75,9 @@ export const useUserManagement = () => {
       if (filters.status) queryParams.append("status", filters.status);
       if (filters.role) queryParams.append("role", filters.role);
 
-      const response = await api.get<UsersResponse>(`admin/users?${queryParams.toString()}`);
+      const response = await api.get<UsersResponse>(
+        `admin/users?${queryParams.toString()}`,
+      );
 
       setUsers(response.users || []);
       setPagination(
@@ -80,7 +88,7 @@ export const useUserManagement = () => {
           page_size: 20,
           has_next: false,
           has_prev: false,
-        }
+        },
       );
     } catch (apiError) {
       if (apiError instanceof ApiError) {
@@ -91,16 +99,22 @@ export const useUserManagement = () => {
             setError("No tienes permisos para ver los usuarios registrados.");
             break;
           case 429:
-            setError("Demasiadas consultas. Espera un momento antes de intentar nuevamente.");
+            setError(
+              "Demasiadas consultas. Espera un momento antes de intentar nuevamente.",
+            );
             break;
           case 500:
             setError("Error interno del servidor. Intenta más tarde.");
             break;
           default:
-            setError(`Error inesperado (${apiError.status}). Intenta nuevamente.`);
+            setError(
+              `Error inesperado (${apiError.status}). Intenta nuevamente.`,
+            );
         }
       } else {
-        setError("Error de conexión. Verifica tu internet e intenta nuevamente.");
+        setError(
+          "Error de conexión. Verifica tu internet e intenta nuevamente.",
+        );
       }
     } finally {
       setLoading(false);
@@ -125,12 +139,20 @@ export const useUserManagement = () => {
             console.error("Error cargando usuarios pendientes:", apiError);
         }
       } else {
-        console.error("Error de conexión al cargar usuarios pendientes:", apiError);
+        console.error(
+          "Error de conexión al cargar usuarios pendientes:",
+          apiError,
+        );
       }
     }
   }, []);
 
-  const performUserAction = async (userId: string, action: UserAction, newRole?: string, reason?: string) => {
+  const performUserAction = async (
+    userId: string,
+    action: UserAction,
+    newRole?: string,
+    reason?: string,
+  ) => {
     setActionLoading(userId);
     setError(null);
     setSuccess(null);
@@ -141,7 +163,10 @@ export const useUserManagement = () => {
 
       switch (action) {
         case "approve":
-          response = await api.post<UserActionResponse>(`admin/approve-user/${userId}`, {});
+          response = await api.post<UserActionResponse>(
+            `admin/approve-user/${userId}`,
+            {},
+          );
           successMessage = `Usuario ${response.username} aprobado exitosamente`;
           if (response.email_sent === false) {
             successMessage += " (no se pudo enviar email de bienvenida)";
@@ -154,7 +179,10 @@ export const useUserManagement = () => {
           if (reason) {
             rejectFormData.append("reason", reason);
           }
-          response = await api.post<UserActionResponse>(`admin/reject-user/${userId}`, rejectFormData);
+          response = await api.post<UserActionResponse>(
+            `admin/reject-user/${userId}`,
+            rejectFormData,
+          );
           successMessage = `Usuario ${response.username} rechazado`;
           if (reason) {
             successMessage += ` - Razón: ${reason}`;
@@ -165,7 +193,10 @@ export const useUserManagement = () => {
           const deactivateFormData = new FormData();
 
           deactivateFormData.append("action", "deactivate");
-          response = await api.put<UserActionResponse>(`admin/manage-user/${userId}`, deactivateFormData);
+          response = await api.put<UserActionResponse>(
+            `admin/manage-user/${userId}`,
+            deactivateFormData,
+          );
           successMessage = `Usuario ${response.username} desactivado exitosamente`;
           if (response.email_sent === false) {
             successMessage += " (no se pudo enviar notificación por email)";
@@ -176,7 +207,10 @@ export const useUserManagement = () => {
           const activateFormData = new FormData();
 
           activateFormData.append("action", "activate");
-          response = await api.put<UserActionResponse>(`admin/manage-user/${userId}`, activateFormData);
+          response = await api.put<UserActionResponse>(
+            `admin/manage-user/${userId}`,
+            activateFormData,
+          );
           successMessage = `Usuario ${response.username} activado exitosamente`;
           if (response.email_sent === false) {
             successMessage += " (no se pudo enviar notificación por email)";
@@ -189,7 +223,10 @@ export const useUserManagement = () => {
 
           changeRoleFormData.append("action", "change_role");
           changeRoleFormData.append("new_role", newRole);
-          response = await api.put<UserActionResponse>(`admin/manage-user/${userId}`, changeRoleFormData);
+          response = await api.put<UserActionResponse>(
+            `admin/manage-user/${userId}`,
+            changeRoleFormData,
+          );
           successMessage = `Rol de ${response.username} cambiado exitosamente`;
           if (response.details) {
             successMessage += ` (${response.details})`;
@@ -206,7 +243,10 @@ export const useUserManagement = () => {
           if (reason) {
             deleteFormData.append("reason", reason);
           }
-          response = await api.put<UserActionResponse>(`admin/manage-user/${userId}`, deleteFormData);
+          response = await api.put<UserActionResponse>(
+            `admin/manage-user/${userId}`,
+            deleteFormData,
+          );
           successMessage = `Usuario ${response.username} eliminado exitosamente`;
           if (response.reason) {
             successMessage += ` - Razón: ${response.reason}`;
@@ -231,7 +271,9 @@ export const useUserManagement = () => {
           queryParams.append("limit", "20");
           // Removido el filtro de status para traer todos los usuarios
 
-          const response = await api.get<UsersResponse>(`admin/users?${queryParams.toString()}`);
+          const response = await api.get<UsersResponse>(
+            `admin/users?${queryParams.toString()}`,
+          );
 
           setUsers(response.users || []);
           setPagination(
@@ -242,7 +284,7 @@ export const useUserManagement = () => {
               page_size: 20,
               has_next: false,
               has_prev: false,
-            }
+            },
           );
         } catch (error) {
           console.error("Error refrescando usuarios:", error);
@@ -287,25 +329,35 @@ export const useUserManagement = () => {
 
           case 404:
             if (detail.includes("Usuario pendiente no encontrado")) {
-              setError("Usuario pendiente no encontrado. Es posible que ya haya sido procesado.");
+              setError(
+                "Usuario pendiente no encontrado. Es posible que ya haya sido procesado.",
+              );
             } else {
               setError("Usuario no encontrado.");
             }
             break;
 
           case 429:
-            setError("Demasiadas acciones. Espera un momento antes de intentar nuevamente.");
+            setError(
+              "Demasiadas acciones. Espera un momento antes de intentar nuevamente.",
+            );
             break;
 
           case 500:
-            setError("Error interno del servidor. Intenta más tarde o contacta al soporte.");
+            setError(
+              "Error interno del servidor. Intenta más tarde o contacta al soporte.",
+            );
             break;
 
           default:
-            setError(`Error inesperado (${apiError.status}). Intenta nuevamente.`);
+            setError(
+              `Error inesperado (${apiError.status}). Intenta nuevamente.`,
+            );
         }
       } else {
-        setError("Error de conexión. Verifica tu internet e intenta nuevamente.");
+        setError(
+          "Error de conexión. Verifica tu internet e intenta nuevamente.",
+        );
       }
 
       return false;

@@ -21,7 +21,11 @@ interface ImageViewerProps {
   setCurrentPage: (page: (prev: number) => number) => void;
 }
 
-const ImageViewer: React.FC<ImageViewerProps> = ({ documentSheets, currentPage, setCurrentPage }) => {
+const ImageViewer: React.FC<ImageViewerProps> = ({
+  documentSheets,
+  currentPage,
+  setCurrentPage,
+}) => {
   const [zoom, setZoom] = useState(1);
   const [rotation, setRotation] = useState(0);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -47,8 +51,8 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ documentSheets, currentPage, 
                     height: img.naturalHeight,
                   });
                 img.onerror = reject;
-              })
-          )
+              }),
+          ),
         );
 
         setPreloadedImages(loadedImages);
@@ -68,7 +72,9 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ documentSheets, currentPage, 
       const imageWidth = preloadedImages[currentPage].width;
       const imageHeight = preloadedImages[currentPage].height;
       // Calcula el factor de escala máximo que mantenga la proporción sin exceder el contenedor.
-      const scale = Math.min(containerWidth / imageWidth, containerHeight / imageHeight) * 0.95;
+      const scale =
+        Math.min(containerWidth / imageWidth, containerHeight / imageHeight) *
+        0.95;
 
       setZoom(scale);
       setPosition({ x: 0, y: 0 });
@@ -109,7 +115,9 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ documentSheets, currentPage, 
   };
 
   const handleNextPage = () => {
-    setCurrentPage((prev) => (prev < documentSheets.length - 1 ? prev + 1 : prev));
+    setCurrentPage((prev) =>
+      prev < documentSheets.length - 1 ? prev + 1 : prev,
+    );
     setPosition({ x: 0, y: 0 });
   };
 
@@ -141,7 +149,10 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ documentSheets, currentPage, 
           onPrevPage={handlePrevPage}
         />
       )}
-      <div ref={containerRef} className="relative flex-grow w-full z-0 overflow-hidden flex items-center justify-center">
+      <div
+        ref={containerRef}
+        className="relative flex-grow w-full z-0 overflow-hidden flex items-center justify-center"
+      >
         {preloadedImages.length > 0 ? (
           // Contenedor absoluto centrado que envuelve la imagen
           <button
@@ -157,7 +168,8 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ documentSheets, currentPage, 
               }deg) scale(${zoom})`,
               transition: isDragging ? "none" : "transform 0.1s ease",
             }}
-            onMouseDown={handleMouseDown}>
+            onMouseDown={handleMouseDown}
+          >
             <Image
               unoptimized
               alt={`Page ${currentSheet?.number || "N/A"}`}
@@ -172,7 +184,12 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ documentSheets, currentPage, 
           </div>
         )}
       </div>
-      <ImageViewerFooters onCrop={handleCrop} onRotate={handleRotate} onZoomIn={handleZoomIn} onZoomOut={handleZoomOut} />
+      <ImageViewerFooters
+        onCrop={handleCrop}
+        onRotate={handleRotate}
+        onZoomIn={handleZoomIn}
+        onZoomOut={handleZoomOut}
+      />
     </div>
   );
 };

@@ -3,7 +3,11 @@
 import { useState } from "react";
 
 import { api, ApiError } from "../../lib/apiClient";
-import { validateField, validationRules, validatePasswordMatch } from "../utils/validations";
+import {
+  validateField,
+  validationRules,
+  validatePasswordMatch,
+} from "../utils/validations";
 import { useAuth } from "../../context/AuthContext";
 
 export interface ProfileUpdateData {
@@ -51,22 +55,32 @@ export const useProfile = () => {
     const newErrors: ProfileErrors = {};
 
     if (!data.current_password.trim()) {
-      newErrors.current_password = "La contraseña actual es requerida para confirmar cambios";
+      newErrors.current_password =
+        "La contraseña actual es requerida para confirmar cambios";
     }
 
-    const firstNameValidation = validateField(data.first_name, validationRules.names);
+    const firstNameValidation = validateField(
+      data.first_name,
+      validationRules.names,
+    );
 
     if (!firstNameValidation.isValid) {
       newErrors.first_name = firstNameValidation.message;
     }
 
-    const lastNameValidation = validateField(data.last_name, validationRules.names);
+    const lastNameValidation = validateField(
+      data.last_name,
+      validationRules.names,
+    );
 
     if (!lastNameValidation.isValid) {
       newErrors.last_name = lastNameValidation.message;
     }
 
-    const usernameValidation = validateField(data.username, validationRules.username);
+    const usernameValidation = validateField(
+      data.username,
+      validationRules.username,
+    );
 
     if (!usernameValidation.isValid) {
       newErrors.username = usernameValidation.message;
@@ -84,7 +98,10 @@ export const useProfile = () => {
       newErrors.current_password = "La contraseña actual es requerida";
     }
 
-    const passwordValidation = validateField(data.new_password, validationRules.password);
+    const passwordValidation = validateField(
+      data.new_password,
+      validationRules.password,
+    );
 
     if (!passwordValidation.isValid) {
       newErrors.new_password = passwordValidation.message;
@@ -109,7 +126,10 @@ export const useProfile = () => {
     setSuccess(null);
 
     try {
-      const response = await api.put<ProfileUpdateResponse>("user-registration/update-profile", data);
+      const response = await api.put<ProfileUpdateResponse>(
+        "user-registration/update-profile",
+        data,
+      );
 
       // Actualizar el usuario en el contexto sin current_password
       const { current_password: _current_password, ...updateData } = data;
@@ -146,19 +166,25 @@ export const useProfile = () => {
               // Errores de validación del backend
               const backendErrors = apiError.responseBody?.errors || {};
 
-              setErrors(Object.keys(backendErrors).length > 0 ? backendErrors : { general: detail || "Error de validación." });
+              setErrors(
+                Object.keys(backendErrors).length > 0
+                  ? backendErrors
+                  : { general: detail || "Error de validación." },
+              );
             }
             break;
 
           case 429:
             setErrors({
-              general: "Demasiadas actualizaciones. Espera un momento antes de intentar nuevamente.",
+              general:
+                "Demasiadas actualizaciones. Espera un momento antes de intentar nuevamente.",
             });
             break;
 
           case 500:
             setErrors({
-              general: "Error interno del servidor. Intenta más tarde o contacta al soporte.",
+              general:
+                "Error interno del servidor. Intenta más tarde o contacta al soporte.",
             });
             break;
 
@@ -169,7 +195,8 @@ export const useProfile = () => {
         }
       } else {
         setErrors({
-          general: "Error de conexión. Verifica tu internet e intenta nuevamente.",
+          general:
+            "Error de conexión. Verifica tu internet e intenta nuevamente.",
         });
       }
 
@@ -189,7 +216,10 @@ export const useProfile = () => {
     setSuccess(null);
 
     try {
-      const response = await api.put<PasswordChangeResponse>("user-registration/change-password", data);
+      const response = await api.put<PasswordChangeResponse>(
+        "user-registration/change-password",
+        data,
+      );
 
       let successMessage = response.message;
 
@@ -216,7 +246,8 @@ export const useProfile = () => {
               });
             } else if (detail.includes("contraseña debe tener")) {
               setErrors({
-                new_password: "La nueva contraseña debe tener al menos 8 caracteres, incluir mayúsculas, minúsculas y números.",
+                new_password:
+                  "La nueva contraseña debe tener al menos 8 caracteres, incluir mayúsculas, minúsculas y números.",
               });
             } else {
               setErrors({
@@ -227,13 +258,15 @@ export const useProfile = () => {
 
           case 429:
             setErrors({
-              general: "Demasiados intentos de cambio de contraseña. Espera un momento antes de intentar nuevamente.",
+              general:
+                "Demasiados intentos de cambio de contraseña. Espera un momento antes de intentar nuevamente.",
             });
             break;
 
           case 500:
             setErrors({
-              general: "Error interno del servidor. Intenta más tarde o contacta al soporte.",
+              general:
+                "Error interno del servidor. Intenta más tarde o contacta al soporte.",
             });
             break;
 
@@ -244,7 +277,8 @@ export const useProfile = () => {
         }
       } else {
         setErrors({
-          general: "Error de conexión. Verifica tu internet e intenta nuevamente.",
+          general:
+            "Error de conexión. Verifica tu internet e intenta nuevamente.",
         });
       }
 

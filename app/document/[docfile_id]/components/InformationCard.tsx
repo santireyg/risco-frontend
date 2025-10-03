@@ -15,10 +15,22 @@ import {
   ArrowDownTrayIcon,
 } from "@heroicons/react/24/outline";
 import { DatePicker } from "@heroui/date-picker";
-import { CalendarDate, CalendarDateTime, DateValue, parseDate, ZonedDateTime } from "@internationalized/date";
+import {
+  CalendarDate,
+  CalendarDateTime,
+  DateValue,
+  parseDate,
+  ZonedDateTime,
+} from "@internationalized/date";
 import { I18nProvider } from "@react-aria/i18n";
 import { useDisclosure } from "@heroui/use-disclosure";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@heroui/modal";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "@heroui/modal";
 
 import { api } from "../../../lib/apiClient"; // Importa tu apiClient
 
@@ -51,14 +63,18 @@ const InformationCard: React.FC<InformationCardProps> = ({
   const [balanceDate, setBalanceDate] = useState<DateValue>(
     editableDocument.balance_date
       ? parseDate(editableDocument.balance_date.split("T")[0])
-      : parseDate(new Date().toISOString().split("T")[0])
+      : parseDate(new Date().toISOString().split("T")[0]),
   );
 
-  const handleBalanceDateChange = (newDate: CalendarDate | CalendarDateTime | ZonedDateTime | null) => {
+  const handleBalanceDateChange = (
+    newDate: CalendarDate | CalendarDateTime | ZonedDateTime | null,
+  ) => {
     if (newDate) {
       setBalanceDate(newDate);
       // Convert CalendarDate to JS Date at midnight UTC
-      const jsDate = new Date(Date.UTC(newDate.year, newDate.month - 1, newDate.day, 0, 0, 0, 0));
+      const jsDate = new Date(
+        Date.UTC(newDate.year, newDate.month - 1, newDate.day, 0, 0, 0, 0),
+      );
       // Format as ISO string with timezone offset +00:00
       const isoString = jsDate.toISOString().replace("Z", "+00:00");
 
@@ -71,9 +87,12 @@ const InformationCard: React.FC<InformationCardProps> = ({
 
   // Estado para la fecha del período anterior
   const previousPeriodRaw =
-    editableDocument.balance_date_previous || editableDocument.balance_data?.informacion_general?.periodo_anterior;
+    editableDocument.balance_date_previous ||
+    editableDocument.balance_data?.informacion_general?.periodo_anterior;
   const [balanceDatePrevious, setBalanceDatePrevious] = useState<DateValue>(
-    previousPeriodRaw ? parseDate(previousPeriodRaw.split("T")[0]) : parseDate(new Date().toISOString().split("T")[0])
+    previousPeriodRaw
+      ? parseDate(previousPeriodRaw.split("T")[0])
+      : parseDate(new Date().toISOString().split("T")[0]),
   );
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const {
@@ -84,10 +103,14 @@ const InformationCard: React.FC<InformationCardProps> = ({
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
 
   // Handler para editar la fecha del período anterior
-  const handleBalanceDatePreviousChange = (newDate: CalendarDate | CalendarDateTime | ZonedDateTime | null) => {
+  const handleBalanceDatePreviousChange = (
+    newDate: CalendarDate | CalendarDateTime | ZonedDateTime | null,
+  ) => {
     if (newDate) {
       setBalanceDatePrevious(newDate);
-      const jsDate = new Date(Date.UTC(newDate.year, newDate.month - 1, newDate.day, 0, 0, 0, 0));
+      const jsDate = new Date(
+        Date.UTC(newDate.year, newDate.month - 1, newDate.day, 0, 0, 0, 0),
+      );
       const isoString = jsDate.toISOString().replace("Z", "+00:00");
 
       setEditableDocument((prev: any) => ({
@@ -132,13 +155,21 @@ const InformationCard: React.FC<InformationCardProps> = ({
     return null;
   };
 
-  const cuitError = validateCuit(editableDocument?.company_info?.company_cuit || "");
-  const companyNameError = validateCompanyName(editableDocument?.company_info?.company_name || "");
+  const cuitError = validateCuit(
+    editableDocument?.company_info?.company_cuit || "",
+  );
+  const companyNameError = validateCompanyName(
+    editableDocument?.company_info?.company_name || "",
+  );
 
   // Función para validar todos los campos antes de guardar
   const validateFormBeforeSave = () => {
-    const cuitValidation = validateCuit(editableDocument?.company_info?.company_cuit || "");
-    const companyNameValidation = validateCompanyName(editableDocument?.company_info?.company_name || "");
+    const cuitValidation = validateCuit(
+      editableDocument?.company_info?.company_cuit || "",
+    );
+    const companyNameValidation = validateCompanyName(
+      editableDocument?.company_info?.company_name || "",
+    );
 
     if (cuitValidation || companyNameValidation) {
       const errors = [];
@@ -281,63 +312,105 @@ const InformationCard: React.FC<InformationCardProps> = ({
   };
 
   // Datos a exportar para el modal (con valores actual y anterior)
-  const resultadosPrincipalesBalance = editableDocument?.balance_data?.resultados_principales || {};
-  const resultadosPrincipalesResultados = editableDocument?.income_statement_data?.resultados_principales || {};
+  const resultadosPrincipalesBalance =
+    editableDocument?.balance_data?.resultados_principales || {};
+  const resultadosPrincipalesResultados =
+    editableDocument?.income_statement_data?.resultados_principales || {};
   const exportData = [
     {
       concepto: "Disponibilidades",
-      actual: formatCurrency(resultadosPrincipalesBalance.disponibilidades_caja_banco_o_equivalentes_actual),
-      anterior: formatCurrency(resultadosPrincipalesBalance.disponibilidades_caja_banco_o_equivalentes_anterior),
+      actual: formatCurrency(
+        resultadosPrincipalesBalance.disponibilidades_caja_banco_o_equivalentes_actual,
+      ),
+      anterior: formatCurrency(
+        resultadosPrincipalesBalance.disponibilidades_caja_banco_o_equivalentes_anterior,
+      ),
     },
     {
       concepto: "Bienes de cambio o equivalentes",
-      actual: formatCurrency(resultadosPrincipalesBalance.bienes_de_cambio_o_equivalentes_actual),
-      anterior: formatCurrency(resultadosPrincipalesBalance.bienes_de_cambio_o_equivalentes_anterior),
+      actual: formatCurrency(
+        resultadosPrincipalesBalance.bienes_de_cambio_o_equivalentes_actual,
+      ),
+      anterior: formatCurrency(
+        resultadosPrincipalesBalance.bienes_de_cambio_o_equivalentes_anterior,
+      ),
     },
     {
       concepto: "Activo corriente",
-      actual: formatCurrency(resultadosPrincipalesBalance.activo_corriente_actual),
-      anterior: formatCurrency(resultadosPrincipalesBalance.activo_corriente_anterior),
+      actual: formatCurrency(
+        resultadosPrincipalesBalance.activo_corriente_actual,
+      ),
+      anterior: formatCurrency(
+        resultadosPrincipalesBalance.activo_corriente_anterior,
+      ),
     },
     {
       concepto: "Activo no corriente",
-      actual: formatCurrency(resultadosPrincipalesBalance.activo_no_corriente_actual),
-      anterior: formatCurrency(resultadosPrincipalesBalance.activo_no_corriente_anterior),
+      actual: formatCurrency(
+        resultadosPrincipalesBalance.activo_no_corriente_actual,
+      ),
+      anterior: formatCurrency(
+        resultadosPrincipalesBalance.activo_no_corriente_anterior,
+      ),
     },
     {
       concepto: "Activo total",
       actual: formatCurrency(resultadosPrincipalesBalance.activo_total_actual),
-      anterior: formatCurrency(resultadosPrincipalesBalance.activo_total_anterior),
+      anterior: formatCurrency(
+        resultadosPrincipalesBalance.activo_total_anterior,
+      ),
     },
     {
       concepto: "Pasivo corriente",
-      actual: formatCurrency(resultadosPrincipalesBalance.pasivo_corriente_actual),
-      anterior: formatCurrency(resultadosPrincipalesBalance.pasivo_corriente_anterior),
+      actual: formatCurrency(
+        resultadosPrincipalesBalance.pasivo_corriente_actual,
+      ),
+      anterior: formatCurrency(
+        resultadosPrincipalesBalance.pasivo_corriente_anterior,
+      ),
     },
     {
       concepto: "Pasivo no corriente",
-      actual: formatCurrency(resultadosPrincipalesBalance.pasivo_no_corriente_actual),
-      anterior: formatCurrency(resultadosPrincipalesBalance.pasivo_no_corriente_anterior),
+      actual: formatCurrency(
+        resultadosPrincipalesBalance.pasivo_no_corriente_actual,
+      ),
+      anterior: formatCurrency(
+        resultadosPrincipalesBalance.pasivo_no_corriente_anterior,
+      ),
     },
     {
       concepto: "Pasivo total",
       actual: formatCurrency(resultadosPrincipalesBalance.pasivo_total_actual),
-      anterior: formatCurrency(resultadosPrincipalesBalance.pasivo_total_anterior),
+      anterior: formatCurrency(
+        resultadosPrincipalesBalance.pasivo_total_anterior,
+      ),
     },
     {
       concepto: "Patrimonio neto",
-      actual: formatCurrency(resultadosPrincipalesBalance.patrimonio_neto_actual),
-      anterior: formatCurrency(resultadosPrincipalesBalance.patrimonio_neto_anterior),
+      actual: formatCurrency(
+        resultadosPrincipalesBalance.patrimonio_neto_actual,
+      ),
+      anterior: formatCurrency(
+        resultadosPrincipalesBalance.patrimonio_neto_anterior,
+      ),
     },
     {
       concepto: "Ingresos operativos",
-      actual: formatCurrency(resultadosPrincipalesResultados.ingresos_operativos_empresa_actual),
-      anterior: formatCurrency(resultadosPrincipalesResultados.ingresos_operativos_empresa_anterior),
+      actual: formatCurrency(
+        resultadosPrincipalesResultados.ingresos_operativos_empresa_actual,
+      ),
+      anterior: formatCurrency(
+        resultadosPrincipalesResultados.ingresos_operativos_empresa_anterior,
+      ),
     },
     {
       concepto: "Resultados del ejercicio",
-      actual: formatCurrency(resultadosPrincipalesResultados.resultados_del_ejercicio_actual),
-      anterior: formatCurrency(resultadosPrincipalesResultados.resultados_del_ejercicio_anterior),
+      actual: formatCurrency(
+        resultadosPrincipalesResultados.resultados_del_ejercicio_actual,
+      ),
+      anterior: formatCurrency(
+        resultadosPrincipalesResultados.resultados_del_ejercicio_anterior,
+      ),
     },
   ];
 
@@ -353,13 +426,18 @@ const InformationCard: React.FC<InformationCardProps> = ({
               content={editableDocument?.company_info?.company_name}
               delay={0}
               isDisabled={
-                !editableDocument?.company_info?.company_name || editableDocument?.company_info?.company_name.length <= 30
+                !editableDocument?.company_info?.company_name ||
+                editableDocument?.company_info?.company_name.length <= 30
               }
-              placement="top">
+              placement="top"
+            >
               <h2
                 className="font-medium leading-none text-lg text-foreground-700 truncate max-w-full cursor-pointer"
-                style={{ maxWidth: "100%" }}>
-                {editableDocument?.company_info?.company_name || <span className="text-foreground-400">-</span>}
+                style={{ maxWidth: "100%" }}
+              >
+                {editableDocument?.company_info?.company_name || (
+                  <span className="text-foreground-400">-</span>
+                )}
               </h2>
             </Tooltip>
             {/* Nombre archivo debajo, más chico y gris */}
@@ -370,16 +448,23 @@ const InformationCard: React.FC<InformationCardProps> = ({
                 content={document.name}
                 delay={0}
                 isDisabled={!document.name || document.name.length <= 30}
-                placement="top">
+                placement="top"
+              >
                 <span className="text-slate-500 text-xs truncate max-w-xs block">
-                  {document.name || <span className="text-foreground-400">-</span>}
+                  {document.name || (
+                    <span className="text-foreground-400">-</span>
+                  )}
                 </span>
               </Tooltip>
             </div>
           </div>
           {/* Right: Chips y Exportar */}
           <div className="flex flex-row border-l items-center gap-6 pl-5">
-            <StatusChip errorMessage={document.errorMessage} progress={document.progress} status={document.status} />
+            <StatusChip
+              errorMessage={document.errorMessage}
+              progress={document.progress}
+              status={document.status}
+            />
             <ValidationChip
               message={document.validation?.message}
               progress={document.progress}
@@ -395,14 +480,21 @@ const InformationCard: React.FC<InformationCardProps> = ({
           <div className="flex flex-col gap-6">
             {/* Empresa */}
             <div className="flex flex-col xl:flex-row xl:items-center xl:gap-x-2 min-w-0">
-              <span className="text-foreground-900 text-md whitespace-nowrap mb-1 xl:mb-0">R. Social:</span>
+              <span className="text-foreground-900 text-md whitespace-nowrap mb-1 xl:mb-0">
+                R. Social:
+              </span>
               <div className="min-w-0 flex-1">
                 {isEditing ? (
                   <Input
                     isRequired
                     aria-label="Editar nombre empresa"
                     classNames={{
-                      inputWrapper: ["bg-white", "shadow-none", "border-1", "pr-2"],
+                      inputWrapper: [
+                        "bg-white",
+                        "shadow-none",
+                        "border-1",
+                        "pr-2",
+                      ],
                       input: ["text-md"],
                     }}
                     errorMessage={companyNameError}
@@ -419,11 +511,15 @@ const InformationCard: React.FC<InformationCardProps> = ({
                     content={editableDocument?.company_info?.company_name}
                     delay={0}
                     isDisabled={
-                      !editableDocument?.company_info?.company_name || editableDocument?.company_info?.company_name.length <= 20
+                      !editableDocument?.company_info?.company_name ||
+                      editableDocument?.company_info?.company_name.length <= 20
                     }
-                    placement="top">
+                    placement="top"
+                  >
                     <span className="text-foreground-400 text-sm truncate block max-w-full">
-                      {editableDocument?.company_info?.company_name || <span className="text-foreground-400">-</span>}
+                      {editableDocument?.company_info?.company_name || (
+                        <span className="text-foreground-400">-</span>
+                      )}
                     </span>
                   </Tooltip>
                 )}
@@ -431,14 +527,21 @@ const InformationCard: React.FC<InformationCardProps> = ({
             </div>
             {/* CUIT */}
             <div className="flex flex-col xl:flex-row xl:items-center xl:gap-x-2 min-w-0">
-              <span className="text-foreground-900 text-md whitespace-nowrap mb-1 xl:mb-0">CUIT:</span>
+              <span className="text-foreground-900 text-md whitespace-nowrap mb-1 xl:mb-0">
+                CUIT:
+              </span>
               <div className="min-w-0 flex-1">
                 {isEditing ? (
                   <Input
                     isRequired
                     aria-label="Editar CUIT"
                     classNames={{
-                      inputWrapper: ["bg-white", "shadow-none", "border-1", "pr-2"],
+                      inputWrapper: [
+                        "bg-white",
+                        "shadow-none",
+                        "border-1",
+                        "pr-2",
+                      ],
                       input: ["text-md"],
                     }}
                     errorMessage={cuitError}
@@ -464,14 +567,18 @@ const InformationCard: React.FC<InformationCardProps> = ({
           <div className="flex flex-col gap-6">
             {/* Período actual */}
             <div className="flex flex-col xl:flex-row xl:items-center xl:gap-x-2 min-w-0">
-              <span className="text-foreground-900 text-md whitespace-nowrap mb-1 xl:mb-0">Período actual:</span>
+              <span className="text-foreground-900 text-md whitespace-nowrap mb-1 xl:mb-0">
+                Período actual:
+              </span>
               <div className="min-w-0 flex-1">
                 {!isEditing ? (
                   (() => {
                     if (!document.balance_date) return <span>-</span>;
                     const d = parseDate(document.balance_date.slice(0, 10));
 
-                    return <span>{`${d.day.toString().padStart(2, "0")}/${d.month.toString().padStart(2, "0")}/${d.year}`}</span>;
+                    return (
+                      <span>{`${d.day.toString().padStart(2, "0")}/${d.month.toString().padStart(2, "0")}/${d.year}`}</span>
+                    );
                   })()
                 ) : (
                   <I18nProvider locale="es-AR">
@@ -492,16 +599,23 @@ const InformationCard: React.FC<InformationCardProps> = ({
             </div>
             {/* Período anterior */}
             <div className="flex flex-col xl:flex-row xl:items-center xl:gap-x-2 min-w-0">
-              <span className="text-foreground-900 text-md whitespace-nowrap mb-1 xl:mb-0">Período anterior:</span>
+              <span className="text-foreground-900 text-md whitespace-nowrap mb-1 xl:mb-0">
+                Período anterior:
+              </span>
               <div className="min-w-0 flex-1">
                 {!isEditing ? (
                   (() => {
-                    const raw = document.balance_date_previous || document.balance_data?.informacion_general?.periodo_anterior;
+                    const raw =
+                      document.balance_date_previous ||
+                      document.balance_data?.informacion_general
+                        ?.periodo_anterior;
 
                     if (!raw) return <span>-</span>;
                     const d = parseDate(raw.slice(0, 10));
 
-                    return <span>{`${d.day.toString().padStart(2, "0")}/${d.month.toString().padStart(2, "0")}/${d.year}`}</span>;
+                    return (
+                      <span>{`${d.day.toString().padStart(2, "0")}/${d.month.toString().padStart(2, "0")}/${d.year}`}</span>
+                    );
                   })()
                 ) : (
                   <I18nProvider locale="es-AR">
@@ -536,7 +650,8 @@ const InformationCard: React.FC<InformationCardProps> = ({
                   size="sm"
                   startContent={<ArrowUpOnSquareIcon className="h-5 w-5" />}
                   variant="flat"
-                  onPress={onOpen}>
+                  onPress={onOpen}
+                >
                   Exportar
                 </Button>
               </Tooltip>
@@ -547,12 +662,20 @@ const InformationCard: React.FC<InformationCardProps> = ({
                   size="sm"
                   startContent={<PencilIcon className="h-5 w-5" />}
                   variant="flat"
-                  onPress={() => setIsEditing(true)}>
+                  onPress={() => setIsEditing(true)}
+                >
                   Editar
                 </Button>
               </Tooltip>
               <Tooltip content="Descargar archivo PDF">
-                <Button isIconOnly color="primary" radius="md" size="sm" variant="flat" onPress={handleDownloadPdf}>
+                <Button
+                  isIconOnly
+                  color="primary"
+                  radius="md"
+                  size="sm"
+                  variant="flat"
+                  onPress={handleDownloadPdf}
+                >
                   <ArrowDownTrayIcon className="h-5 w-5" />
                 </Button>
               </Tooltip>
@@ -566,7 +689,8 @@ const InformationCard: React.FC<InformationCardProps> = ({
                 size="sm"
                 startContent={<FolderArrowDownIcon className="h-5 w-5" />}
                 variant="flat"
-                onPress={handleSaveWithValidation}>
+                onPress={handleSaveWithValidation}
+              >
                 Guardar cambios
               </Button>
               <Button
@@ -575,7 +699,8 @@ const InformationCard: React.FC<InformationCardProps> = ({
                 size="sm"
                 startContent={<ArrowUturnLeftIcon className="h-5 w-5" />}
                 variant="flat"
-                onPress={handleCancelEdit}>
+                onPress={handleCancelEdit}
+              >
                 Cancelar
               </Button>
             </div>
@@ -584,12 +709,26 @@ const InformationCard: React.FC<InformationCardProps> = ({
         {/* Contenedor de la mitad derecha */}
         <div className="flex items-center justify-end w-1/2 space-x-2">
           <Tooltip content="Rehacer análisis completo del documento">
-            <Button isIconOnly color="primary" radius="full" size="md" variant="light" onPress={handleReiniciarProcesamiento}>
+            <Button
+              isIconOnly
+              color="primary"
+              radius="full"
+              size="md"
+              variant="light"
+              onPress={handleReiniciarProcesamiento}
+            >
               <ArrowPathIcon className="h-5 w-5" />
             </Button>
           </Tooltip>
           <Tooltip content="Rehacer sólo el proceso de extracción de datos">
-            <Button isIconOnly color="primary" radius="full" size="md" variant="light" onPress={handleReiniciarExtraccion}>
+            <Button
+              isIconOnly
+              color="primary"
+              radius="full"
+              size="md"
+              variant="light"
+              onPress={handleReiniciarExtraccion}
+            >
               <DocumentMagnifyingGlassIcon className="h-5 w-5" />
             </Button>
           </Tooltip>
@@ -611,7 +750,12 @@ const InformationCard: React.FC<InformationCardProps> = ({
       )}
 
       {/* Modal de validación */}
-      <Modal isOpen={isValidationModalOpen} placement="center" size="md" onOpenChange={onValidationModalOpenChange}>
+      <Modal
+        isOpen={isValidationModalOpen}
+        placement="center"
+        size="md"
+        onOpenChange={onValidationModalOpenChange}
+      >
         <ModalContent>
           {(onClose) => (
             <>
@@ -624,7 +768,10 @@ const InformationCard: React.FC<InformationCardProps> = ({
                 </div>
               </ModalHeader>
               <ModalBody>
-                <p className="text-foreground-600 mb-3">No se pueden guardar los cambios debido a los siguientes errores:</p>
+                <p className="text-foreground-600 mb-3">
+                  No se pueden guardar los cambios debido a los siguientes
+                  errores:
+                </p>
                 <div className="space-y-2">
                   {validationErrors.map((error, index) => (
                     <div key={index} className="flex items-start gap-2">
@@ -635,7 +782,12 @@ const InformationCard: React.FC<InformationCardProps> = ({
                 </div>
               </ModalBody>
               <ModalFooter>
-                <Button color="primary" size="sm" variant="flat" onPress={onClose}>
+                <Button
+                  color="primary"
+                  size="sm"
+                  variant="flat"
+                  onPress={onClose}
+                >
                   Entendido
                 </Button>
               </ModalFooter>
@@ -651,7 +803,8 @@ const InformationCard: React.FC<InformationCardProps> = ({
         isOpen={isOpen}
         periodoActual={formatDate(document.balance_date)}
         periodoAnterior={formatDate(
-          document.balance_date_previous || document.balance_data?.informacion_general?.periodo_anterior
+          document.balance_date_previous ||
+            document.balance_data?.informacion_general?.periodo_anterior,
         )}
         onConfirm={() => {
           /* Acción de confirmación de exportación */

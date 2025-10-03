@@ -1,5 +1,11 @@
 import React from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@heroui/modal";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "@heroui/modal";
 import { Button } from "@heroui/button";
 import { Alert } from "@heroui/alert";
 
@@ -72,7 +78,11 @@ const ExportResultModal: React.FC<ExportResultModalProps> = ({
       balanceInfo.push(`• Período anterior: ${periodoAnterior}`);
     }
 
-    return balanceInfo.length > 0 ? <div className="text-xs whitespace-pre-line">{balanceInfo.join("\n")}</div> : null;
+    return balanceInfo.length > 0 ? (
+      <div className="text-xs whitespace-pre-line">
+        {balanceInfo.join("\n")}
+      </div>
+    ) : null;
   };
 
   // Construir descripción para alert de error con tamaños de texto diferenciados
@@ -97,12 +107,23 @@ const ExportResultModal: React.FC<ExportResultModalProps> = ({
   };
 
   return (
-    <Modal isOpen={isOpen} placement="center" size="md" onOpenChange={onOpenChange}>
+    <Modal
+      isOpen={isOpen}
+      placement="center"
+      size="md"
+      onOpenChange={onOpenChange}
+    >
       <ModalContent>
         {(onClose) => (
           <>
             <ModalHeader className="flex flex-col gap-1 border-b text-center mb-2">
-              <span className={isSuccess ? "text-success-600 font-medium" : "text-danger-500 font-medium"}>
+              <span
+                className={
+                  isSuccess
+                    ? "text-success-600 font-medium"
+                    : "text-danger-500 font-medium"
+                }
+              >
                 {isSuccess ? "Exportación exitosa" : "Error en la exportación"}
               </span>
             </ModalHeader>
@@ -133,17 +154,25 @@ const ExportResultModal: React.FC<ExportResultModalProps> = ({
                   <div className="space-y-1 pl-5 text-gray-400">
                     {exportDetails.export_id && (
                       <div className="text-xs">
-                        <span className="font-medium text-slate-800">• ID de exportación:</span> {exportDetails.export_id}
+                        <span className="font-medium text-slate-800">
+                          • ID de exportación:
+                        </span>{" "}
+                        {exportDetails.export_id}
                       </div>
                     )}
                     {exportDetails.event_type && (
                       <div className="text-xs">
-                        <span className="font-medium text-slate-800">• Tipo de evento:</span> {exportDetails.event_type}
+                        <span className="font-medium text-slate-800">
+                          • Tipo de evento:
+                        </span>{" "}
+                        {exportDetails.event_type}
                       </div>
                     )}
                     {exportDetails.exported_at && (
                       <div className="text-xs">
-                        <span className="font-medium text-slate-800">• Exportado el:</span>{" "}
+                        <span className="font-medium text-slate-800">
+                          • Exportado el:
+                        </span>{" "}
                         {formatExportDate(exportDetails.exported_at)}
                       </div>
                     )}

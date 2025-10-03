@@ -59,29 +59,43 @@ const ProfileView: React.FC<ProfileViewProps> = ({ user }) => {
       <CardBody className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <span className="text-sm font-medium text-foreground-600">Nombre</span>
+            <span className="text-sm font-medium text-foreground-600">
+              Nombre
+            </span>
             <p className="text-foreground mt-1">{user.first_name}</p>
           </div>
 
           <div>
-            <span className="text-sm font-medium text-foreground-600">Apellido</span>
+            <span className="text-sm font-medium text-foreground-600">
+              Apellido
+            </span>
             <p className="text-foreground mt-1">{user.last_name}</p>
           </div>
 
           <div>
-            <span className="text-sm font-medium text-foreground-600">Username</span>
+            <span className="text-sm font-medium text-foreground-600">
+              Username
+            </span>
             <p className="text-foreground mt-1">@{user.username}</p>
           </div>
 
           <div>
-            <span className="text-sm font-medium text-foreground-600">Email</span>
+            <span className="text-sm font-medium text-foreground-600">
+              Email
+            </span>
             <p className="text-foreground mt-1">{user.email}</p>
           </div>
 
           <div>
-            <span className="text-sm font-medium text-foreground-600">Estado</span>
+            <span className="text-sm font-medium text-foreground-600">
+              Estado
+            </span>
             <div className="mt-1">
-              <Chip color={getStatusColor(user.status)} size="sm" variant="flat">
+              <Chip
+                color={getStatusColor(user.status)}
+                size="sm"
+                variant="flat"
+              >
                 {getStatusLabel(user.status)}
               </Chip>
             </div>
@@ -99,7 +113,9 @@ const ProfileView: React.FC<ProfileViewProps> = ({ user }) => {
 
         {user.created_at && (
           <div className="pt-4 border-t border-divider">
-            <span className="text-sm font-medium text-foreground-600">Fecha de registro</span>
+            <span className="text-sm font-medium text-foreground-600">
+              Fecha de registro
+            </span>
             <p className="text-foreground-500 text-sm mt-1">
               {new Date(user.created_at).toLocaleDateString("es-ES", {
                 year: "numeric",

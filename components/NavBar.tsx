@@ -30,7 +30,13 @@ const NavBar: React.FC = () => {
     <Navbar isBordered height="5rem" maxWidth="2xl">
       <NavbarBrand>
         <Link href="/home">
-          <Image alt="Logo" className="h-14 mr-2" height={56} src="/integrity-logo.svg" width={200} />
+          <Image
+            alt="Logo"
+            className="h-14 mr-2"
+            height={56}
+            src="/integrity-logo.svg"
+            width={200}
+          />
         </Link>
       </NavbarBrand>
 
@@ -43,7 +49,12 @@ const NavBar: React.FC = () => {
             {(user.role === "admin" || user.role === "superadmin") && (
               <NavbarItem>
                 <Tooltip content="Ir al panel de administradores" delay={0}>
-                  <Button isIconOnly color="default" variant="bordered" onPress={() => router.push("/admin")}>
+                  <Button
+                    isIconOnly
+                    color="default"
+                    variant="bordered"
+                    onPress={() => router.push("/admin")}
+                  >
                     <UsersIcon className="h-5 w-5" />
                   </Button>
                 </Tooltip>

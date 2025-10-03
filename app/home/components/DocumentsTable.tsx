@@ -1,12 +1,30 @@
 "use client";
 import React, { useState, useMemo, useCallback, useEffect } from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from "@heroui/table";
+import {
+  Table,
+  TableHeader,
+  TableColumn,
+  TableBody,
+  TableRow,
+  TableCell,
+} from "@heroui/table";
 import { Input } from "@heroui/input";
 import { Button } from "@heroui/button";
-import { DropdownTrigger, Dropdown, DropdownMenu, DropdownItem } from "@heroui/dropdown";
+import {
+  DropdownTrigger,
+  Dropdown,
+  DropdownMenu,
+  DropdownItem,
+} from "@heroui/dropdown";
 import { Pagination } from "@heroui/pagination";
 import { Skeleton } from "@heroui/skeleton";
-import { FiSearch, FiPlus, FiChevronDown, FiTrash2, FiRotateCcw } from "react-icons/fi";
+import {
+  FiSearch,
+  FiPlus,
+  FiChevronDown,
+  FiTrash2,
+  FiRotateCcw,
+} from "react-icons/fi";
 import { TbEyeEdit } from "react-icons/tb";
 import { useRouter } from "next/navigation";
 import { ToastProvider, addToast } from "@heroui/toast";
@@ -79,7 +97,9 @@ const DEFAULT_STATE = {
   sortDescriptor: { column: "upload_date", direction: "descending" as const },
   page: 1,
   rowsPerPage: 7,
-  visibleColumns: new Set(tableColumns.map((col) => col.key).filter((key) => key !== "name")),
+  visibleColumns: new Set(
+    tableColumns.map((col) => col.key).filter((key) => key !== "name"),
+  ),
 };
 
 const DocumentsTable: React.FC = () => {
@@ -102,8 +122,12 @@ const DocumentsTable: React.FC = () => {
 
   // Estado inicial desde sessionStorage
   const initialState = getInitialTableState() || {};
-  const [searchQuery, setSearchQuery] = useState<string>(initialState.searchQuery ?? "");
-  const [validationFilter, setValidationFilter] = useState<string>(initialState.validationFilter ?? "all");
+  const [searchQuery, setSearchQuery] = useState<string>(
+    initialState.searchQuery ?? "",
+  );
+  const [validationFilter, setValidationFilter] = useState<string>(
+    initialState.validationFilter ?? "all",
+  );
   const [sortDescriptor, setSortDescriptor] = useState<{
     column: string;
     direction: "ascending" | "descending";
@@ -111,12 +135,17 @@ const DocumentsTable: React.FC = () => {
     initialState.sortDescriptor ?? {
       column: "upload_date",
       direction: "descending",
-    }
+    },
   );
   const [page, setPage] = useState<number>(initialState.page ?? 1);
-  const [rowsPerPage, setRowsPerPage] = useState<number>(initialState.rowsPerPage ?? 7);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(
+    initialState.rowsPerPage ?? 7,
+  );
   const [visibleColumns, setVisibleColumns] = useState<"all" | Set<string>>(
-    initialState.visibleColumns ?? new Set(tableColumns.map((col) => col.key).filter((key) => key !== "name"))
+    initialState.visibleColumns ??
+      new Set(
+        tableColumns.map((col) => col.key).filter((key) => key !== "name"),
+      ),
   );
   const [storedTotalPages, setStoredTotalPages] = useState<number>(1);
   const [storedTotalDocs, setStoredTotalDocs] = useState<number>(0);
@@ -131,7 +160,8 @@ const DocumentsTable: React.FC = () => {
     sort_order: sortDescriptor.direction === "ascending" ? "asc" : "desc",
     page,
     page_size: rowsPerPage,
-    validation_status: validationFilter !== "all" ? validationFilter : undefined, // <-- Pasar filtro a la API
+    validation_status:
+      validationFilter !== "all" ? validationFilter : undefined, // <-- Pasar filtro a la API
   });
 
   // Hook para mantener un mínimo de tiempo en el estado de carga
@@ -174,7 +204,8 @@ const DocumentsTable: React.FC = () => {
       return {
         ...item,
         status: update?.status || item.status,
-        progress: update?.progress !== undefined ? update.progress : item.progress,
+        progress:
+          update?.progress !== undefined ? update.progress : item.progress,
         upload_date: update?.upload_date || item.upload_date,
         balance_date: update?.balance_date || item.balance_date,
         validation: update?.validation || item.validation,
@@ -183,7 +214,10 @@ const DocumentsTable: React.FC = () => {
         company_info: companyInfo,
         company_name: companyInfo.company_name || "",
         company_cuit: companyInfo.company_cuit || "",
-        page_count: update?.page_count !== undefined ? update.page_count : item.page_count,
+        page_count:
+          update?.page_count !== undefined
+            ? update.page_count
+            : item.page_count,
         processing_time: update?.processing_time || item.processing_time,
       };
     });
@@ -204,7 +238,9 @@ const DocumentsTable: React.FC = () => {
 
   // Función para eliminar un documento
   const handleDelete = async (docId: string) => {
-    const confirmed = window.confirm("¿Deseas eliminar este documento de forma permanente? Esta acción no se puede deshacer.");
+    const confirmed = window.confirm(
+      "¿Deseas eliminar este documento de forma permanente? Esta acción no se puede deshacer.",
+    );
 
     if (!confirmed) return;
     try {
@@ -231,7 +267,8 @@ const DocumentsTable: React.FC = () => {
       if (column === prev.column) {
         return {
           column,
-          direction: prev.direction === "ascending" ? "descending" : "ascending",
+          direction:
+            prev.direction === "ascending" ? "descending" : "ascending",
         };
       } else {
         return {
@@ -270,9 +307,18 @@ const DocumentsTable: React.FC = () => {
       visibleColumns instanceof Set &&
       DEFAULT_STATE.visibleColumns instanceof Set &&
       visibleColumns.size === DEFAULT_STATE.visibleColumns.size &&
-      Array.from(visibleColumns).every((v) => DEFAULT_STATE.visibleColumns.has(v))
+      Array.from(visibleColumns).every((v) =>
+        DEFAULT_STATE.visibleColumns.has(v),
+      )
     );
-  }, [searchQuery, validationFilter, sortDescriptor, page, rowsPerPage, visibleColumns]);
+  }, [
+    searchQuery,
+    validationFilter,
+    sortDescriptor,
+    page,
+    rowsPerPage,
+    visibleColumns,
+  ]);
 
   // Función para resetear todo
   const handleReset = () => {
@@ -281,7 +327,11 @@ const DocumentsTable: React.FC = () => {
     setSortDescriptor({ ...DEFAULT_STATE.sortDescriptor });
     setPage(DEFAULT_STATE.page);
     setRowsPerPage(DEFAULT_STATE.rowsPerPage);
-    setVisibleColumns(new Set(tableColumns.map((col) => col.key).filter((key) => key !== "name")));
+    setVisibleColumns(
+      new Set(
+        tableColumns.map((col) => col.key).filter((key) => key !== "name"),
+      ),
+    );
     sessionStorage.removeItem(LOCAL_STORAGE_KEY);
   };
 
@@ -302,7 +352,9 @@ const DocumentsTable: React.FC = () => {
   function capitalizeCompanyName(name: string): string {
     if (!name) return "-";
 
-    return name.toLowerCase().replace(/(^|[\.\s])([a-záéíóúüñ])/g, (match) => match.toUpperCase());
+    return name
+      .toLowerCase()
+      .replace(/(^|[\.\s])([a-záéíóúüñ])/g, (match) => match.toUpperCase());
   }
 
   // Renderizamos cada celda según la columna
@@ -327,7 +379,9 @@ const DocumentsTable: React.FC = () => {
         case "name": {
           const fileName = item.name || "-";
           const truncated =
-            fileName.length > FILE_NAME_TRUNCATE_LENGTH ? fileName.slice(0, FILE_NAME_TRUNCATE_LENGTH) + "..." : fileName;
+            fileName.length > FILE_NAME_TRUNCATE_LENGTH
+              ? fileName.slice(0, FILE_NAME_TRUNCATE_LENGTH) + "..."
+              : fileName;
 
           return fileName.length > FILE_NAME_TRUNCATE_LENGTH ? (
             <TableCell className="text-xs text-slate-400 2xl:text-sm">
@@ -340,23 +394,35 @@ const DocumentsTable: React.FC = () => {
           );
         }
         case "uploaded_by":
-          return <TableCell className="text-xs text-slate-400 2xl:text-sm">{item.uploaded_by}</TableCell>;
+          return (
+            <TableCell className="text-xs text-slate-400 2xl:text-sm">
+              {item.uploaded_by}
+            </TableCell>
+          );
         case "status":
           return (
             <TableCell className="text-center">
-              <StatusChip errorMessage={item.error_message} progress={item.progress} status={item.status} />
+              <StatusChip
+                errorMessage={item.error_message}
+                progress={item.progress}
+                status={item.status}
+              />
             </TableCell>
           );
         case "upload_date":
           return (
             <TableCell className="text-xs text-slate-400 2xl:text-sm text-center">
-              {item.upload_date ? new Date(item.upload_date).toLocaleDateString() : "-"}
+              {item.upload_date
+                ? new Date(item.upload_date).toLocaleDateString()
+                : "-"}
             </TableCell>
           );
         case "balance_date":
           return (
             <TableCell className="text-xs text-slate-400 2xl:text-sm text-center">
-              {item.balance_date ? new Date(item.balance_date).toLocaleDateString() : "-"}
+              {item.balance_date
+                ? new Date(item.balance_date).toLocaleDateString()
+                : "-"}
             </TableCell>
           );
         case "validation":
@@ -376,7 +442,10 @@ const DocumentsTable: React.FC = () => {
         case "processing":
           return (
             <TableCell className="text-center">
-              <ProcessingChip pageCount={item.page_count} processingTime={item.processing_time} />
+              <ProcessingChip
+                pageCount={item.page_count}
+                processingTime={item.processing_time}
+              />
             </TableCell>
           );
         case "actions":
@@ -390,7 +459,10 @@ const DocumentsTable: React.FC = () => {
                     radius="md"
                     size="sm"
                     variant="flat"
-                    onPress={() => router.push(`/document/${item.id || item._id}`)}>
+                    onPress={() =>
+                      router.push(`/document/${item.id || item._id}`)
+                    }
+                  >
                     <TbEyeEdit className="h-4 w-4" />
                   </Button>
                 </Tooltip>
@@ -402,7 +474,8 @@ const DocumentsTable: React.FC = () => {
                     radius="md"
                     size="sm"
                     variant="ghost"
-                    onPress={() => handleDelete(item.id || item._id)}>
+                    onPress={() => handleDelete(item.id || item._id)}
+                  >
                     <FiTrash2 className="h-4 w-4 text-gray-400" />
                   </Button>
                 </Tooltip>
@@ -413,7 +486,7 @@ const DocumentsTable: React.FC = () => {
           return <TableCell>{item[String(columnKey)]}</TableCell>;
       }
     },
-    [router]
+    [router],
   );
 
   // Anchos de columna responsivos
@@ -475,7 +548,11 @@ const DocumentsTable: React.FC = () => {
           {/* Controles y botón: ocupan toda la fila en mobile, horizontal en md+ */}
           <div className="flex gap-3 items-end">
             {/* Botón Reset a la izquierda del selector de Estado de validación */}
-            <Tooltip closeDelay={0} content="Reinicia los filtros y opciones" delay={0}>
+            <Tooltip
+              closeDelay={0}
+              content="Reinicia los filtros y opciones"
+              delay={0}
+            >
               <Button
                 isIconOnly
                 className="mr-1 mb-1 "
@@ -484,16 +561,26 @@ const DocumentsTable: React.FC = () => {
                 radius="full"
                 size="sm"
                 variant="bordered"
-                onPress={handleReset}>
+                onPress={handleReset}
+              >
                 <FiRotateCcw className="h-3 w-3 text-slate-500" />
               </Button>
             </Tooltip>
             <div className="text-xs text-gray-400">
-              <span className="hidden sm:flex mb-1 block">Estado de validación</span>
+              <span className="hidden sm:flex mb-1 block">
+                Estado de validación
+              </span>
               <Dropdown>
                 <DropdownTrigger className="hidden sm:flex">
-                  <Button className="min-w-[140px]" id="validation-dropdown" size="md" variant="bordered">
-                    {validationOptions.find((opt) => opt.value === validationFilter)?.name || "Seleccionar"}{" "}
+                  <Button
+                    className="min-w-[140px]"
+                    id="validation-dropdown"
+                    size="md"
+                    variant="bordered"
+                  >
+                    {validationOptions.find(
+                      (opt) => opt.value === validationFilter,
+                    )?.name || "Seleccionar"}{" "}
                     <FiChevronDown className="ml-1" />
                   </Button>
                 </DropdownTrigger>
@@ -506,18 +593,27 @@ const DocumentsTable: React.FC = () => {
                     const key = Array.from(keys)[0] as string;
 
                     handleValidationChange(key);
-                  }}>
+                  }}
+                >
                   {validationOptions.map((option) => (
-                    <DropdownItem key={option.value}>{option.name}</DropdownItem>
+                    <DropdownItem key={option.value}>
+                      {option.name}
+                    </DropdownItem>
                   ))}
                 </DropdownMenu>
               </Dropdown>
             </div>
             <div className="text-xs text-gray-400">
-              <span className="hidden sm:flex mb-1 block">Modificar columnas</span>
+              <span className="hidden sm:flex mb-1 block">
+                Modificar columnas
+              </span>
               <Dropdown>
                 <DropdownTrigger className="hidden sm:flex">
-                  <Button className="min-w-[140px]" size="md" variant="bordered">
+                  <Button
+                    className="min-w-[140px]"
+                    size="md"
+                    variant="bordered"
+                  >
                     Columnas <FiChevronDown className="ml-1" />
                   </Button>
                 </DropdownTrigger>
@@ -527,28 +623,42 @@ const DocumentsTable: React.FC = () => {
                   closeOnSelect={false}
                   selectedKeys={visibleColumns}
                   selectionMode="multiple"
-                  onSelectionChange={(keys) => setVisibleColumns(keys as Set<string>)}>
+                  onSelectionChange={(keys) =>
+                    setVisibleColumns(keys as Set<string>)
+                  }
+                >
                   {tableColumns.map((column) => (
                     <DropdownItem key={column.key}>{column.label}</DropdownItem>
                   ))}
                 </DropdownMenu>
               </Dropdown>
             </div>
-            <Button color="primary" size="md" variant="flat" onPress={() => router.push("/upload")}>
+            <Button
+              color="primary"
+              size="md"
+              variant="flat"
+              onPress={() => router.push("/upload")}
+            >
               <FiPlus className="mr-1" />
               Nuevo Documento
             </Button>
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <span className="text-sm text-gray-500">Total {storedTotalDocs} documentos</span>
-          <label className="flex items-center text-sm text-gray-500" htmlFor="rows-per-page-select">
+          <span className="text-sm text-gray-500">
+            Total {storedTotalDocs} documentos
+          </span>
+          <label
+            className="flex items-center text-sm text-gray-500"
+            htmlFor="rows-per-page-select"
+          >
             Filas por página:
             <select
               className="ml-2 bg-transparent outline-none"
               id="rows-per-page-select"
               value={rowsPerPage}
-              onChange={handleRowsPerPageChange}>
+              onChange={handleRowsPerPageChange}
+            >
               <option value="5">5</option>
               <option value="7">7</option>
               <option value="10">10</option>
@@ -560,7 +670,15 @@ const DocumentsTable: React.FC = () => {
         </div>
       </div>
     ),
-    [searchQuery, validationFilter, rowsPerPage, storedTotalDocs, visibleColumns, router, isDefaultState]
+    [
+      searchQuery,
+      validationFilter,
+      rowsPerPage,
+      storedTotalDocs,
+      visibleColumns,
+      router,
+      isDefaultState,
+    ],
   );
 
   // Contenido inferior: paginación
@@ -592,7 +710,8 @@ const DocumentsTable: React.FC = () => {
             radius="md"
             size="sm"
             variant="ghost"
-            onPress={onPreviousPage}>
+            onPress={onPreviousPage}
+          >
             Anterior
           </Button>
           <Button
@@ -601,7 +720,8 @@ const DocumentsTable: React.FC = () => {
             radius="md"
             size="sm"
             variant="ghost"
-            onPress={onNextPage}>
+            onPress={onNextPage}
+          >
             Siguiente
           </Button>
         </div>
@@ -626,7 +746,14 @@ const DocumentsTable: React.FC = () => {
     };
 
     sessionStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(state));
-  }, [searchQuery, validationFilter, sortDescriptor, page, rowsPerPage, visibleColumns]);
+  }, [
+    searchQuery,
+    validationFilter,
+    sortDescriptor,
+    page,
+    rowsPerPage,
+    visibleColumns,
+  ]);
 
   // Limpiar sessionStorage al cerrar sesión
   useEffect(() => {
@@ -662,36 +789,53 @@ const DocumentsTable: React.FC = () => {
 
   return (
     <>
-      <ToastProvider placement="bottom-center" toastProps={{ timeout: 10000, variant: "flat" }} />
+      <ToastProvider
+        placement="bottom-center"
+        toastProps={{ timeout: 10000, variant: "flat" }}
+      />
       {topContent}
       <div className="rounded-2xl shadow-sm overflow-hidden border">
         <Table
+          isHeaderSticky
           aria-label="Tabla de documentos"
           isVirtualized={true}
+          layout="fixed"
           maxTableHeight={rowsPerPage > 10 ? 600 : 420}
           radius="none"
           rowHeight={48}
           shadow="none"
           sortDescriptor={sortDescriptor}
-          isHeaderSticky
-          layout="fixed"
-          onSortChange={({ column, direction: _direction }) => handleSortChange(String(column))}
+          onSortChange={({ column, direction: _direction }) =>
+            handleSortChange(String(column))
+          }
           // isCompact
         >
           <TableHeader
             columns={tableColumns.filter((col) =>
-              visibleColumns === "all" ? true : (visibleColumns as Set<string>).has(col.key)
-            )}>
+              visibleColumns === "all"
+                ? true
+                : (visibleColumns as Set<string>).has(col.key),
+            )}
+          >
             {(column) => {
               const widthClass = headerWidths[column.key];
-              const centerAlignColumns = ["actions", "upload_date", "balance_date", "status", "validation"];
+              const centerAlignColumns = [
+                "actions",
+                "upload_date",
+                "balance_date",
+                "status",
+                "validation",
+              ];
 
               return (
                 <TableColumn
                   key={column.key}
-                  align={centerAlignColumns.includes(column.key) ? "center" : "start"}
+                  align={
+                    centerAlignColumns.includes(column.key) ? "center" : "start"
+                  }
                   allowsSorting={column.sortable}
-                  width={widthClass as any}>
+                  width={widthClass as any}
+                >
                   {column.label.toUpperCase()}
                 </TableColumn>
               );
@@ -702,7 +846,11 @@ const DocumentsTable: React.FC = () => {
               ? skeletonRows.map((_, idx) => (
                   <TableRow key={idx} className="hover:bg-gray-100 h-[48px]">
                     {tableColumns
-                      .filter((col) => (visibleColumns === "all" ? true : (visibleColumns as Set<string>).has(col.key)))
+                      .filter((col) =>
+                        visibleColumns === "all"
+                          ? true
+                          : (visibleColumns as Set<string>).has(col.key),
+                      )
                       .map((col) => (
                         <TableCell key={col.key}>
                           <Skeleton className="rounded-lg" isLoaded={false}>

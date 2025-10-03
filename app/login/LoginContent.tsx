@@ -5,7 +5,6 @@ import React, { useState, FormEvent } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-
 import { Alert } from "@heroui/alert";
 import { Button } from "@heroui/button";
 
@@ -57,24 +56,31 @@ const LoginContent: React.FC = () => {
         if (error.status === 400 || error.status === 404) {
           // Errores comunes de login (usuario no encontrado, contraseña incorrecta)
           const detail =
-            error.responseBody?.detail || "Los datos enviados son inválidos. Verifique usuario y contraseña e intente de nuevo.";
+            error.responseBody?.detail ||
+            "Los datos enviados son inválidos. Verifique usuario y contraseña e intente de nuevo.";
 
           setError(detail);
         } else if (error.status === 401) {
           setError("Usuario o contraseña incorrectos.");
         } else if (error.status === 403) {
           // Cuenta no activada u otro forbidden
-          const detail = error.responseBody?.detail || "Tu cuenta no está activa. Espera aprobación de un administrador.";
+          const detail =
+            error.responseBody?.detail ||
+            "Tu cuenta no está activa. Espera aprobación de un administrador.";
 
           setError(detail);
         } else if (error.status === 410) {
           // Cuenta eliminada (deleted)
-          const detail = error.responseBody?.detail || "Esta cuenta ha sido eliminada y ya no está disponible.";
+          const detail =
+            error.responseBody?.detail ||
+            "Esta cuenta ha sido eliminada y ya no está disponible.";
 
           setError(detail);
         } else if (error.status === 429) {
           // Rate limit alcanzado
-          const detail = error.responseBody?.detail || "Demasiados intentos fallidos. Intenta nuevamente en unos minutos.";
+          const detail =
+            error.responseBody?.detail ||
+            "Demasiados intentos fallidos. Intenta nuevamente en unos minutos.";
 
           setError(detail);
         } else {
@@ -97,12 +103,19 @@ const LoginContent: React.FC = () => {
         {/* Header con bienvenida, logo y título */}
         <div className="text-center mb-8 mt-6">
           <div className="flex justify-center mb-6">
-            <Image alt="Integrity IA Logo" height={60} src="/integrity-logo.svg" width={300} />
+            <Image
+              alt="Integrity IA Logo"
+              height={60}
+              src="/integrity-logo.svg"
+              width={300}
+            />
           </div>
 
           <h1 className="text-xl font-medium text-gray-800">Bienvenido</h1>
 
-          <p className="text-lg font-light text-gray-500 mb-6">IA analítica en Caución</p>
+          <p className="text-lg font-light text-gray-500 mb-6">
+            IA analítica en Caución
+          </p>
 
           {/* Divisor */}
           <div className="border-t border-gray-200" />
@@ -128,10 +141,15 @@ const LoginContent: React.FC = () => {
             </div>
           )}
 
-          <h2 className="text-xl font-medium mb-4 text-left text-gray-600">Iniciar Sesión</h2>
+          <h2 className="text-xl font-medium mb-4 text-left text-gray-600">
+            Iniciar Sesión
+          </h2>
 
           <div className="mb-4">
-            <label className="block text-gray-700 mb-2 font-medium" htmlFor="username">
+            <label
+              className="block text-gray-700 mb-2 font-medium"
+              htmlFor="username"
+            >
               Usuario
             </label>
             <input
@@ -148,7 +166,10 @@ const LoginContent: React.FC = () => {
           </div>
 
           <div className="mb-6">
-            <label className="block text-gray-700 mb-2 font-medium" htmlFor="password">
+            <label
+              className="block text-gray-700 mb-2 font-medium"
+              htmlFor="password"
+            >
               Contraseña
             </label>
             <input
@@ -172,20 +193,27 @@ const LoginContent: React.FC = () => {
             isLoading={isLoggingIn}
             size="lg"
             type="submit"
-            variant="solid">
+            variant="solid"
+          >
             {isLoggingIn ? "Iniciando sesión..." : "Iniciar sesión"}
           </Button>
         </form>
 
         {/* Enlaces discretos al mismo nivel */}
         <div className="flex justify-between items-center text-sm text-gray-500">
-          <Link className="hover:text-gray-700 transition-colors duration-200" href="/auth/forgot-password">
+          <Link
+            className="hover:text-gray-700 transition-colors duration-200"
+            href="/auth/forgot-password"
+          >
             ¿Olvidaste tu contraseña?
           </Link>
 
           <div className="text-center">
             <span className="mr-1">¿No tienes una cuenta?</span>
-            <Link className="text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200" href="/auth/register">
+            <Link
+              className="text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200"
+              href="/auth/register"
+            >
               Registrarse
             </Link>
           </div>
