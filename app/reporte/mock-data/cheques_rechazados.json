@@ -1,0 +1,103 @@
+{
+  "status": 200,
+  "results": {
+    "identificacion": 33714963339,
+    "denominacion": "GRUPO RAMOS MEJIA S.A.",
+    "causales": [
+      {
+        "causal": "SIN FONDOS",
+        "entidades": [
+          {
+            "entidad": 1,
+            "detalle": [
+              {
+                "nroCheque": 1146,
+                "fechaRechazo": "2023-09-12",
+                "monto": 800000.0,
+                "fechaPago": "2024-04-22",
+                "fechaPagoMulta": "2023-09-15",
+                "estadoMulta": null,
+                "ctaPersonal": false,
+                "denomJuridica": null,
+                "enRevision": false,
+                "procesoJud": false
+              },
+              {
+                "nroCheque": 1238,
+                "fechaRechazo": "2023-08-23",
+                "monto": 700000.0,
+                "fechaPago": "2024-04-22",
+                "fechaPagoMulta": "2023-08-28",
+                "estadoMulta": null,
+                "ctaPersonal": false,
+                "denomJuridica": null,
+                "enRevision": false,
+                "procesoJud": false
+              },
+              {
+                "nroCheque": 1157,
+                "fechaRechazo": "2023-08-02",
+                "monto": 500000.0,
+                "fechaPago": "2024-04-22",
+                "fechaPagoMulta": "2023-08-02",
+                "estadoMulta": null,
+                "ctaPersonal": false,
+                "denomJuridica": null,
+                "enRevision": false,
+                "procesoJud": false
+              },
+              {
+                "nroCheque": 1143,
+                "fechaRechazo": "2023-09-13",
+                "monto": 800000.0,
+                "fechaPago": "2024-04-22",
+                "fechaPagoMulta": "2023-09-15",
+                "estadoMulta": null,
+                "ctaPersonal": false,
+                "denomJuridica": null,
+                "enRevision": false,
+                "procesoJud": false
+              },
+              {
+                "nroCheque": 1001,
+                "fechaRechazo": "2023-08-15",
+                "monto": 750000.0,
+                "fechaPago": "2024-04-22",
+                "fechaPagoMulta": "2023-08-22",
+                "estadoMulta": null,
+                "ctaPersonal": false,
+                "denomJuridica": null,
+                "enRevision": false,
+                "procesoJud": false
+              },
+              {
+                "nroCheque": 1235,
+                "fechaRechazo": "2023-09-07",
+                "monto": 500000.0,
+                "fechaPago": "2024-04-22",
+                "fechaPagoMulta": "2023-09-15",
+                "estadoMulta": null,
+                "ctaPersonal": false,
+                "denomJuridica": null,
+                "enRevision": false,
+                "procesoJud": false
+              },
+              {
+                "nroCheque": 994,
+                "fechaRechazo": "2023-08-23",
+                "monto": 750000.0,
+                "fechaPago": "2024-04-22",
+                "fechaPagoMulta": "2023-08-28",
+                "estadoMulta": null,
+                "ctaPersonal": false,
+                "denomJuridica": null,
+                "enRevision": false,
+                "procesoJud": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "status": 200,
+  "results": {
+    "identificacion": 33714963339,
+    "denominacion": "GRUPO RAMOS MEJIA S.A.",
+    "periodos": [
+      {
+        "periodo": "202508",
+        "entidades": [
+          {
+            "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+            "situacion": 1,
+            "fechaSit1": "2024-12-30",
+            "monto": 942123.0,
+            "diasAtrasoPago": 0,
+            "refinanciaciones": false,
+            "recategorizacionOblig": false,
+            "situacionJuridica": false,
+            "irrecDisposicionTecnica": false,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "AMERICAN EXPRESS ARGENTINA S.A.",
+            "situacion": 1,
+            "fechaSit1": "2024-12-30",
+            "monto": 746.0,
+            "diasAtrasoPago": 0,
+            "refinanciaciones": false,
+            "recategorizacionOblig": false,
+            "situacionJuridica": false,
+            "irrecDisposicionTecnica": false,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BBVA ARGENTINA S.A.",
+            "situacion": 1,
+            "fechaSit1": "2024-12-30",
+            "monto": 1758.0,
+            "diasAtrasoPago": 0,
+            "refinanciaciones": false,
+            "recategorizacionOblig": false,
+            "situacionJuridica": false,
+            "irrecDisposicionTecnica": false,
+            "enRevision": false,
+            "procesoJud": false
+          }
+        ]
+      }
+    ]
+  }
+}

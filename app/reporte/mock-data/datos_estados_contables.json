@@ -1,0 +1,49 @@
+{
+  "_id": {
+    "$oid": "68cda783af250ff413462213"
+  },
+  "balance_date": {
+    "$date": "2024-12-31T00:00:00.000Z"
+  },
+  "balance_date_previous": {
+    "$date": "2023-12-31T00:00:00.000Z"
+  },
+  "income_statement_data": {
+    "resultados_principales": {
+      "ingresos_operativos_empresa_actual": 1490489830,
+      "ingresos_operativos_empresa_anterior": 1965901234,
+      "resultados_antes_de_impuestos_actual": 343730142,
+      "resultados_antes_de_impuestos_anterior": 474485746,
+      "resultados_del_ejercicio_actual": 240611099,
+      "resultados_del_ejercicio_anterior": 308415735
+    }
+  },
+  "balance_data": {
+    "resultados_principales": {
+      "disponibilidades_caja_banco_o_equivalentes_actual": 1034356934,
+      "disponibilidades_caja_banco_o_equivalentes_anterior": 591105363,
+      "bienes_de_cambio_o_equivalentes_actual": 205254430,
+      "bienes_de_cambio_o_equivalentes_anterior": 476794091,
+      "activo_corriente_actual": 2927511099,
+      "activo_corriente_anterior": 1765077536,
+      "activo_no_corriente_actual": 1689807653,
+      "activo_no_corriente_anterior": 1442074051,
+      "activo_total_actual": 4617318752,
+      "activo_total_anterior": 3207151586,
+      "pasivo_corriente_actual": 644122623,
+      "pasivo_corriente_anterior": 366780919,
+      "pasivo_no_corriente_actual": 892214361,
+      "pasivo_no_corriente_anterior": 0,
+      "pasivo_total_actual": 1536336984,
+      "pasivo_total_anterior": 366780919,
+      "patrimonio_neto_actual": 3080981768,
+      "patrimonio_neto_anterior": 2840370667
+    }
+  },
+  "company_info": {
+    "company_cuit": "33714963339",
+    "company_name": "GRUPO RAMOS MEJIA S.A.",
+    "company_activity": "VENTA DE ARTICULOS PARA EL HOGAR",
+    "company_address": "Viamonte 1653 PB Ciudad Autónoma de Buenos Aires"
+  }
+}

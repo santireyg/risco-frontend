@@ -1,0 +1,295 @@
+{
+  "status": 200,
+  "results": {
+    "identificacion": 33714963339,
+    "denominacion": "GRUPO RAMOS MEJIA S.A.",
+    "periodos": [
+      {
+        "periodo": "202508",
+        "entidades": [
+          {
+            "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+            "situacion": 1,
+            "monto": 942123.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "AMERICAN EXPRESS ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 746.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BBVA ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 1758.0,
+            "enRevision": false,
+            "procesoJud": false
+          }
+        ]
+      },
+      {
+        "periodo": "202507",
+        "entidades": [
+          {
+            "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+            "situacion": 1,
+            "monto": 849332.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "AMERICAN EXPRESS ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 605.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BBVA ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 5711.0,
+            "enRevision": false,
+            "procesoJud": false
+          }
+        ]
+      },
+      {
+        "periodo": "202506",
+        "entidades": [
+          {
+            "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+            "situacion": 1,
+            "monto": 577252.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "AMERICAN EXPRESS ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 1289.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BBVA ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 6678.0,
+            "enRevision": false,
+            "procesoJud": false
+          }
+        ]
+      },
+      {
+        "periodo": "202505",
+        "entidades": [
+          {
+            "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "AMERICAN EXPRESS ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 1190.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BBVA ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 7752.0,
+            "enRevision": false,
+            "procesoJud": false
+          }
+        ]
+      },
+      {
+        "periodo": "202504",
+        "entidades": [
+          {
+            "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "AMERICAN EXPRESS ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 581.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BBVA ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 8525.0,
+            "enRevision": false,
+            "procesoJud": false
+          }
+        ]
+      },
+      {
+        "periodo": "202503",
+        "entidades": [
+          {
+            "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "AMERICAN EXPRESS ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 359.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BBVA ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 10057.0,
+            "enRevision": false,
+            "procesoJud": false
+          }
+        ]
+      },
+      {
+        "periodo": "202502",
+        "entidades": [
+          {
+            "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "AMERICAN EXPRESS ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 484.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BBVA ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 10286.0,
+            "enRevision": false,
+            "procesoJud": false
+          }
+        ]
+      },
+      {
+        "periodo": "202501",
+        "entidades": [
+          {
+            "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "AMERICAN EXPRESS ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 924.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BBVA ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 11144.0,
+            "enRevision": false,
+            "procesoJud": false
+          }
+        ]
+      },
+      {
+        "periodo": "202412",
+        "entidades": [
+          {
+            "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "AMERICAN EXPRESS ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 729.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BBVA ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 12609.0,
+            "enRevision": false,
+            "procesoJud": false
+          }
+        ]
+      },
+      {
+        "periodo": "202411",
+        "entidades": [
+          {
+            "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "AMERICAN EXPRESS ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 1680.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BBVA ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 12749.0,
+            "enRevision": false,
+            "procesoJud": false
+          }
+        ]
+      },
+      {
+        "periodo": "202410",
+        "entidades": [
+          {
+            "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "AMERICAN EXPRESS ARGENTINA S.A.",
+            "situacion": 2,
+            "monto": 1359.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BBVA ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 13410.0,
+            "enRevision": false,
+            "procesoJud": false
+          }
+        ]
+      }
+    ]
+  }
+}
