@@ -54,7 +54,7 @@ export default function KPIsFinancieros({ kpis }: KPIsFinancierosProps) {
   };
 
   return (
-    <Card shadow="sm">
+    <Card shadow="none" radius="sm" className="border border-slate-200 shadow-sm">
       <CardBody className="p-6">
         <h3 className="text-xl font-bold text-gray-900 mb-4">KPIs Financieros</h3>
         <div className="space-y-3">

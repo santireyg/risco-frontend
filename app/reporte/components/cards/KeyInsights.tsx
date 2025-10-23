@@ -75,7 +75,7 @@ const getInsightBgColor = (type: KeyInsightType["type"]) => {
 
 export default function KeyInsights() {
   return (
-    <Card shadow="sm">
+    <Card shadow="none" radius="sm" className="border border-slate-200 shadow-sm">
       <CardBody className="p-6">
         <h2 className="text-xl font-bold text-gray-900 mb-4">Key Insights</h2>
         <div className="space-y-2.5">

@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Card, CardBody } from "@heroui/card";
 import { Chip } from "@heroui/chip";
-import { FileText, AlertCircle, ChevronDown } from "lucide-react";
+import { AlertCircle, ChevronDown } from "lucide-react";
+import { HiSparkles } from "react-icons/hi2";
 import { formatCurrency } from "../../utils/formatting";
 
 interface AnalisisRiesgoIAProps {
@@ -80,13 +81,13 @@ export default function AnalisisRiesgoIA({ companyName, periodoCurrent, periodoA
   const showGradient = isCollapsible && !isExpanded;
 
   return (
-    <Card shadow="sm" className="overflow-hidden">
+    <Card shadow="none" radius="sm" className="overflow-hidden border border-slate-200 shadow-sm">
       <div className="flex items-center  gap-3 px-6 py-4 border-b border-gray-200/80 bg-white">
-        <div className="rounded-lg bg-primary/10 p-3">
-          <FileText className="h-6 w-6 text-primary" />
+        <div className="rounded-xl bg-slate-100 p-3">
+          <HiSparkles className="h-6 w-6 text-slate-500" />
         </div>
         <div className="flex items-center gap-3">
-          <h2 className="text-2xl  text-black">Análisis de riesgo cualitativo</h2>
+          <h2 className="text-2xl font-lights text-black">Análisis de riesgo cualitativo</h2>
         </div>
       </div>
 

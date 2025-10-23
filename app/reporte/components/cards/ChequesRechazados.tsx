@@ -25,7 +25,7 @@ export default function ChequesRechazados({ data }: ChequesRechazadosProps) {
   const montoImpagos = chequesImpagos.reduce((sum, cheque) => sum + cheque.monto, 0);
 
   return (
-    <Card shadow="sm">
+    <Card shadow="none" radius="sm" className="border border-slate-200 shadow-sm">
       <CardBody className="p-6">
         <div className="flex items-center gap-2 mb-4">
           <FileX className="w-5 h-5 text-danger" />

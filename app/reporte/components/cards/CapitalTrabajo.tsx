@@ -2,6 +2,8 @@ import { Card, CardBody } from "@heroui/card";
 import { Chip } from "@heroui/chip";
 import { Tooltip } from "@heroui/tooltip";
 import { TrendingUp, TrendingDown, Wallet } from "lucide-react";
+import { PiWalletDuotone } from "react-icons/pi";
+import { LiaWalletSolid } from "react-icons/lia";
 import { CapitalTrabajo as CapitalTrabajoType } from "../../types";
 import { formatCurrency, formatNumber, formatPercentage } from "../../utils/formatting";
 
@@ -73,16 +75,16 @@ export default function CapitalTrabajo({ data }: CapitalTrabajoProps) {
   };
 
   return (
-    <Card shadow="sm" className="bg-slate-50 border border-slate-100">
+    <Card radius="sm" shadow="none" className="bg-slate-50  border border-slate-200 shadow-sm">
       <CardBody className="relative p-6">
         <div>
-          <div className="flex items-start justify-between text-lg text-slate-500">
+          <div className="flex items-start justify-between font-light text-lg text-slate-500">
             <span>Capital de trabajo</span>
-            <Wallet className="h-8 w-8 text-slate-400" />
+            <LiaWalletSolid className="h-8 w-8 text-slate-300" />
           </div>
 
           <div className="mt-2 flex flex-wrap items-end">
-            <span className="text-4xl font-semibold text-slate-900">{formatCapitalValue(value)}</span>
+            <span className="text-4xl font-medium text-slate-900">{formatCapitalValue(value)}</span>
             <Tooltip placement="bottom" content={<div className="text-xs max-w-[200px]">vs. período anterior</div>}>
               <Chip
                 variant="light"
