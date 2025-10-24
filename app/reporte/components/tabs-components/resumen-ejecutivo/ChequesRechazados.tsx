@@ -1,8 +1,8 @@
 import { Card, CardBody } from "@heroui/card";
 import { FileX, AlertTriangle, DollarSign, Clock } from "lucide-react";
 
-import { ChequesRechazados as ChequesRechazadosType } from "../../types";
-import { formatCurrency } from "../../utils/formatting";
+import { ChequesRechazados as ChequesRechazadosType } from "../../../types";
+import { formatCurrency } from "../../../utils/formatting";
 
 interface ChequesRechazadosProps {
   data: ChequesRechazadosType;

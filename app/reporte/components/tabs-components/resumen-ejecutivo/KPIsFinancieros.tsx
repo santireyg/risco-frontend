@@ -13,13 +13,13 @@ import {
   TrendingUpDown,
 } from "lucide-react";
 
-import { KPI } from "../../types";
+import { KPI } from "../../../types";
 import {
   formatNumber,
   formatPercentage,
   getKPIStatusColor,
   cn,
-} from "../../utils/formatting";
+} from "../../../utils/formatting";
 
 interface KPIsFinancierosProps {
   kpis: KPI[];

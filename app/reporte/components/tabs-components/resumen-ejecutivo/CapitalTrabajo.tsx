@@ -4,12 +4,12 @@ import { Tooltip } from "@heroui/tooltip";
 import { TrendingUp, TrendingDown } from "lucide-react";
 import { LiaWalletSolid } from "react-icons/lia";
 
-import { CapitalTrabajo as CapitalTrabajoType } from "../../types";
+import { CapitalTrabajo as CapitalTrabajoType } from "../../../types";
 import {
   formatCurrency,
   formatNumber,
   formatPercentage,
-} from "../../utils/formatting";
+} from "../../../utils/formatting";
 
 interface CapitalTrabajoProps {
   data: CapitalTrabajoType;

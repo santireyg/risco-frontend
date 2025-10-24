@@ -4,7 +4,7 @@ import { Chip } from "@heroui/chip";
 import { AlertCircle, ChevronDown } from "lucide-react";
 import { HiSparkles } from "react-icons/hi2";
 
-import { formatCurrency } from "../../utils/formatting";
+import { formatCurrency } from "../../../utils/formatting";
 
 interface AnalisisRiesgoIAProps {
   companyName: string;

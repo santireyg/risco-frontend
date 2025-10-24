@@ -1,7 +1,5 @@
 "use client";
 
-import type { TooltipProps } from "recharts";
-
 import React, { useMemo, useState } from "react";
 import { Card, CardBody } from "@heroui/card";
 import { Chip } from "@heroui/chip";
@@ -20,23 +18,24 @@ import {
   Pie,
   Cell,
 } from "recharts";
-import { ChevronUpDownIcon, ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { CheckCircleIcon, ExclamationTriangleIcon } from "@heroicons/react/24/solid";
 import { Tooltip as HeroTooltip } from "@heroui/tooltip";
 
 import { ChequesRechazados, DebtHistory, DebtPeriod, DebtEntity } from "../../types";
+import { formatCurrency, formatPeriod, formatShortDate, formatSituacionLabel } from "../../utils/formatting";
+import SortHeader, { type SortState } from "../tabs-components/estado-deudor/SortHeader";
+import BarTooltip from "../tabs-components/estado-deudor/BarTooltip";
+import ClassificationTooltip from "../tabs-components/estado-deudor/ClassificationTooltip";
+import BankConcentrationTooltip from "../tabs-components/estado-deudor/BankConcentrationTooltip";
+import ChequesDonutTooltip from "../tabs-components/estado-deudor/ChequesDonutTooltip";
 import {
-  formatCurrency,
-  formatCurrencyShort,
-  formatPeriod,
-  formatShortDate,
-  formatSituacionLabel,
-  cn,
-} from "../../utils/formatting";
-
-type ChipColor = "default" | "primary" | "secondary" | "success" | "warning" | "danger";
-
-type SortDirection = "asc" | "desc";
+  formatCurrencyWithThreshold,
+  formatSituacionForChip,
+  getEstadoMultaChipColor,
+  getSituacionChipColor,
+} from "../tabs-components/estado-deudor/helpers";
+import type { ChipColor } from "../tabs-components/estado-deudor/helpers";
+import type { BarChartEntry } from "../tabs-components/estado-deudor/types";
 
 type DebtSortKey = "entidad" | "situacion" | "monto" | "diasAtraso";
 
@@ -76,14 +75,6 @@ interface ChequeRow {
   fechaPago: string | null;
   fechaPagoMulta: string | null;
   estadoMulta: string;
-}
-
-interface BarChartEntry {
-  period: string;
-  label: string;
-  total: number;
-  breakdown: Record<string, number>;
-  [key: string]: string | number | Record<string, number>;
 }
 
 const stackedPalette = ["#2563EB", "#0EA5E9", "#10B981", "#F59E0B", "#F472B6"];
@@ -137,52 +128,12 @@ const formatEntidadCheque = (entidad: number | string): string => {
   return "Entidad desconocida";
 };
 
-const getSituacionChipColor = (situacion?: number): ChipColor => {
-  if (situacion === undefined || situacion === null) return "default";
-  if (situacion <= 0) return "default";
-  if (situacion === 1) return "success";
-  if (situacion === 2) return "warning";
-
-  return "danger";
-};
-
-const getEstadoMultaChipColor = (estado: string): ChipColor => {
-  const normalized = estado.toLowerCase();
-
-  if (normalized === "pagada") return "success";
-  if (normalized === "impaga") return "danger";
-
-  return "warning";
-};
-
 const getRiskColor = (average: number | null): string => {
   if (average === null) return "#2563EB";
   if (average < 1.5) return "#22C55E";
   if (average <= 2.5) return "#FACC15";
 
   return "#EF4444";
-};
-
-const getClassificationChipColor = (situacion?: number | null): ChipColor => {
-  if (situacion === null || situacion === undefined) return "default";
-  if (situacion <= 1) return "success";
-  if (situacion <= 3) return "warning";
-
-  return "danger";
-};
-
-const normalizeSituacionLabel = (label: string): string => {
-  return label.replace("—", "-");
-};
-
-const formatSituacionForChip = (situacion?: number | null): string => {
-  if (situacion === null || situacion === undefined) return "Sin registro";
-
-  return normalizeSituacionLabel(formatSituacionLabel(situacion));
-};
-
-const formatCurrencyWithThreshold = (value: number): string => {
-  return Math.abs(value) >= 100000 ? formatCurrencyShort(value) : formatCurrency(value);
 };
 
 const formatEstadoMulta = (estado: string | null): string => {
@@ -235,7 +186,7 @@ const buildChequeRows = (cheques: ChequesRechazados): ChequeRow[] => {
   return rows;
 };
 
-const sortDebtRows = (rows: DebtRow[], sort: { column: DebtSortKey; direction: SortDirection }): DebtRow[] => {
+const sortDebtRows = (rows: DebtRow[], sort: SortState<DebtSortKey>): DebtRow[] => {
   const sorted = [...rows].sort((a, b) => {
     const factor = sort.direction === "asc" ? 1 : -1;
 
@@ -264,7 +215,7 @@ const sortDebtRows = (rows: DebtRow[], sort: { column: DebtSortKey; direction: S
   return sorted;
 };
 
-const sortChequeRows = (rows: ChequeRow[], sort: { column: ChequeSortKey; direction: SortDirection }): ChequeRow[] => {
+const sortChequeRows = (rows: ChequeRow[], sort: SortState<ChequeSortKey>): ChequeRow[] => {
   const sorted = [...rows].sort((a, b) => {
     const factor = sort.direction === "asc" ? 1 : -1;
 
@@ -299,154 +250,17 @@ const sortChequeRows = (rows: ChequeRow[], sort: { column: ChequeSortKey; direct
   return sorted;
 };
 
-const BarTooltip = ({ active, payload, mode }: TooltipProps<number, string> & { mode: "total" | "detalle" }) => {
-  if (!active || !payload || !payload.length) return null;
-
-  const dataPoint = payload[0].payload as BarChartEntry | undefined;
-
-  if (!dataPoint) return null;
-
-  const periodLabel = dataPoint.period ? formatPeriod(dataPoint.period) : (payload[0].payload?.label ?? "");
-  const total = Number(dataPoint.total ?? 0);
-
-  return (
-    <div className="rounded-lg border border-slate-200 bg-white px-4 py-3 shadow-sm">
-      <div className="text-xs font-medium uppercase tracking-wide text-gray-500">{periodLabel}</div>
-      <div className="text-sm font-semibold text-gray-900 mt-1">{formatCurrencyWithThreshold(total)}</div>
-      {mode === "detalle" && (
-        <div className="mt-2 space-y-1">
-          {payload
-            .filter((entry) => Number(entry.value) > 0)
-            .map((entry) => {
-              const value = Number(entry.value ?? 0);
-              const percent = total > 0 ? Math.round((value / total) * 100) : 0;
-
-              return (
-                <div key={entry.name} className="flex items-center justify-between text-xs text-gray-600">
-                  <span className="flex items-center gap-2">
-                    <span className="inline-block h-2 w-2 rounded-full" style={{ backgroundColor: entry.color ?? "#2563EB" }} />
-                    {entry.name}
-                  </span>
-                  <span className="font-medium text-gray-900">
-                    {formatCurrencyWithThreshold(value)} · {percent}%
-                  </span>
-                </div>
-              );
-            })}
-        </div>
-      )}
-    </div>
-  );
-};
-
-const ClassificationTooltip = ({ active, payload }: TooltipProps<number, string>) => {
-  if (!active || !payload || !payload.length) return null;
-
-  const dataPoint = payload[0].payload as {
-    period: string;
-    classification: number | null;
-  };
-
-  const classification = dataPoint?.classification ?? null;
-  const label = dataPoint?.period ? formatPeriod(dataPoint.period) : "";
-
-  return (
-    <div className="rounded-lg border border-slate-200 bg-white px-4 py-3 shadow-sm">
-      <div className="text-xs font-medium uppercase tracking-wide text-gray-500">{label}</div>
-      <div className="mt-2">
-        <Chip color={getClassificationChipColor(classification)} size="sm" variant="flat">
-          {formatSituacionForChip(classification)}
-        </Chip>
-      </div>
-    </div>
-  );
-};
-
-const BankConcentrationTooltip = ({ active, payload }: TooltipProps<number, string>) => {
-  if (!active || !payload || !payload.length) return null;
-
-  const dataPoint = payload[0].payload as {
-    entidad: string;
-    value: number;
-    percentage: number;
-  };
-
-  return (
-    <div className="rounded-lg border border-slate-200 bg-white px-4 py-3 shadow-sm">
-      <div className="text-xs font-medium uppercase tracking-wide text-gray-500">{dataPoint.entidad}</div>
-      <div className="mt-1 text-sm font-semibold text-gray-900">{formatCurrencyWithThreshold(dataPoint.value)}</div>
-      <div className="text-xs text-gray-600 mt-1">{dataPoint.percentage}% del total</div>
-    </div>
-  );
-};
-
-const ChequesDonutTooltip = ({ active, payload }: TooltipProps<number, string>) => {
-  if (!active || !payload || !payload.length) return null;
-
-  const dataPoint = payload[0].payload as {
-    causal: string;
-    amount: number;
-    count: number;
-  };
-
-  return (
-    <div className="rounded-lg border border-slate-200 bg-white px-4 py-3 shadow-sm">
-      <div className="text-xs font-medium uppercase tracking-wide text-gray-500">{dataPoint.causal}</div>
-      <div className="mt-1 text-sm text-gray-900">
-        {dataPoint.count} {dataPoint.count === 1 ? "cheque" : "cheques"}
-      </div>
-      <div className="text-xs text-gray-600 mt-1">Monto total: {formatCurrencyWithThreshold(dataPoint.amount)}</div>
-    </div>
-  );
-};
-
-interface SortState {
-  column: string;
-  direction: SortDirection;
-}
-
-interface SortHeaderProps<T extends string> {
-  column: T;
-  current: SortState;
-  label: string;
-  onChange: (column: T) => void;
-}
-
-function SortHeader<T extends string>({ column, current, label, onChange }: SortHeaderProps<T>) {
-  const isActive = current.column === column;
-  const Icon = !isActive ? ChevronUpDownIcon : current.direction === "asc" ? ChevronUpIcon : ChevronDownIcon;
-
-  return (
-    <button
-      className={cn(
-        "inline-flex items-center gap-1 text-left font-medium text-xs uppercase tracking-wide text-slate-500",
-        "hover:text-slate-700 transition-colors"
-      )}
-      type="button"
-      onClick={() => onChange(column)}>
-      <span>{label}</span>
-      <Icon className="h-3.5 w-3.5" />
-    </button>
-  );
-}
-
 const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
   deudasHistoria,
   deudasUltimoPeriodo,
   chequesRechazados,
   reportDate,
 }) => {
-  const [debtSort, setDebtSort] = useState<{
-    column: DebtSortKey;
-    direction: SortDirection;
-  }>({
+  const [debtSort, setDebtSort] = useState<SortState<DebtSortKey>>({
     column: "monto",
     direction: "desc",
   });
-  const [chequeSort, setChequeSort] = useState<{
-    column: ChequeSortKey;
-    direction: SortDirection;
-  }>({
+  const [chequeSort, setChequeSort] = useState<SortState<ChequeSortKey>>({
     column: "fechaRechazo",
     direction: "desc",
   });
@@ -852,7 +666,7 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
                       <CartesianGrid stroke="#E2E8F0" strokeDasharray="3 3" vertical={false} />
                       <XAxis dataKey="label" stroke="#94A3B8" tick={{ fontSize: 11 }} />
                       <YAxis domain={[0, 5]} stroke="#94A3B8" tick={{ fontSize: 11 }} ticks={[0, 1, 2, 3, 4, 5]} />
-                      <RechartsTooltip content={(props) => <ClassificationTooltip {...props} />} />
+                      <RechartsTooltip content={ClassificationTooltip as any} />
                       <Line
                         activeDot={{ r: 5 }}
                         dataKey="classification"
@@ -905,7 +719,7 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
                         tick={{ fontSize: 11 }}
                         tickFormatter={(value: number) => `$${(value / 1000).toFixed(0)}K`}
                       />
-                      <RechartsTooltip content={(props) => <BarTooltip {...props} mode={barMode} />} />
+                      <RechartsTooltip content={(props: any) => <BarTooltip {...props} mode={barMode} />} cursor={false} />
                       {barMode === "total" ? (
                         <Bar dataKey="total" fill="#2563EB" radius={[6, 6, 0, 0]} />
                       ) : (
@@ -959,7 +773,7 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
                             <Cell key={entry.entidad} fill={entry.color} stroke="white" strokeWidth={1} />
                           ))}
                         </Pie>
-                        <RechartsTooltip content={(props) => <BankConcentrationTooltip {...props} />} />
+                        <RechartsTooltip content={BankConcentrationTooltip as any} />
                       </PieChart>
                     </ResponsiveContainer>
                   </div>
@@ -1206,7 +1020,7 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
                             <Cell key={entry.causal} fill={entry.color} stroke="white" strokeWidth={1} />
                           ))}
                         </Pie>
-                        <RechartsTooltip content={(props) => <ChequesDonutTooltip {...props} />} />
+                        <RechartsTooltip content={ChequesDonutTooltip as any} />
                       </PieChart>
                     </ResponsiveContainer>
                   </div>

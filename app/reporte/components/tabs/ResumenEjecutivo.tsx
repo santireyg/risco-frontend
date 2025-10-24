@@ -1,9 +1,9 @@
-import AnalisisRiesgoIA from "../cards/AnalisisRiesgoIA";
-import KeyInsights from "../cards/KeyInsights";
-import CapitalTrabajo from "../cards/CapitalTrabajo";
-import KPIsFinancieros from "../cards/KPIsFinancieros";
-import EstadoDeudor from "../cards/EstadoDeudor";
-import ChequesRechazados from "../cards/ChequesRechazados";
+import AnalisisRiesgoIA from "../tabs-components/resumen-ejecutivo/AnalisisRiesgoIA";
+import KeyInsights from "../tabs-components/resumen-ejecutivo/KeyInsights";
+import CapitalTrabajo from "../tabs-components/resumen-ejecutivo/CapitalTrabajo";
+import KPIsFinancieros from "../tabs-components/resumen-ejecutivo/KPIsFinancieros";
+import EstadoDeudor from "../tabs-components/resumen-ejecutivo/EstadoDeudor";
+import ChequesRechazados from "../tabs-components/resumen-ejecutivo/ChequesRechazados";
 import {
   EstadosContables,
   DebtHistory,

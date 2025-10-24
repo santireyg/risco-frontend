@@ -1,7 +1,7 @@
 import { Card, CardBody } from "@heroui/card";
 import { AlertCircle, AlertTriangle, CheckCircle } from "lucide-react";
 
-import { KeyInsight as KeyInsightType } from "../../types";
+import { KeyInsight as KeyInsightType } from "../../../types";
 
 const mockInsights: KeyInsightType[] = [
   {

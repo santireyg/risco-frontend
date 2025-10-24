@@ -10,8 +10,8 @@ import {
   YAxis,
 } from "recharts";
 
-import { DebtHistory } from "../../types";
-import { formatCurrency, formatPeriod } from "../../utils/formatting";
+import { DebtHistory } from "../../../types";
+import { formatCurrency, formatPeriod } from "../../../utils/formatting";
 
 interface EstadoDeudorProps {
   data: DebtHistory;
