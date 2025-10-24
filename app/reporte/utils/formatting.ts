@@ -14,6 +14,19 @@ export const formatCurrency = (value: number): string => {
   return currencyFormatter.format(value);
 };
 
+const currencyCompactFormatter = new Intl.NumberFormat("es-AR", {
+  style: "currency",
+  currency: "ARS",
+  notation: "compact",
+  maximumFractionDigits: 1,
+});
+
+export const formatCurrencyShort = (value: number): string => {
+  if (!Number.isFinite(value)) return "-";
+
+  return currencyCompactFormatter.format(value);
+};
+
 export const formatNumber = (value: number, decimals = 2): string => {
   if (!Number.isFinite(value)) return "-";
 
