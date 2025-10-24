@@ -1,17 +1,20 @@
 import { Card, CardBody } from "@heroui/card";
 import { AlertCircle, AlertTriangle, CheckCircle } from "lucide-react";
+
 import { KeyInsight as KeyInsightType } from "../../types";
 
 const mockInsights: KeyInsightType[] = [
   {
     type: "critico",
     title: "7 cheques sin fondos por $4.8M en 2023",
-    description: "Regularizados en 2024, pero evidencian problemas históricos de flujo de caja",
+    description:
+      "Regularizados en 2024, pero evidencian problemas históricos de flujo de caja",
   },
   {
     type: "critico",
     title: "Caída de ingresos operativos -24.2% interanual",
-    description: "Reducción de $475M en ventas requiere análisis de causas y perspectivas",
+    description:
+      "Reducción de $475M en ventas requiere análisis de causas y perspectivas",
   },
   {
     type: "alerta",
@@ -26,12 +29,14 @@ const mockInsights: KeyInsightType[] = [
   {
     type: "positivo",
     title: "Excelente posición de liquidez corriente 4.5x",
-    description: "Disponibilidades de $1.034M permiten cubrir ampliamente obligaciones",
+    description:
+      "Disponibilidades de $1.034M permiten cubrir ampliamente obligaciones",
   },
   {
     type: "positivo",
     title: "Capital de trabajo sólido de $2.283M",
-    description: "Representa 153% de ventas anuales, muy por encima del estándar",
+    description:
+      "Representa 153% de ventas anuales, muy por encima del estándar",
   },
   {
     type: "positivo",
@@ -75,7 +80,11 @@ const getInsightBgColor = (type: KeyInsightType["type"]) => {
 
 export default function KeyInsights() {
   return (
-    <Card shadow="none" radius="sm" className="border border-slate-200 shadow-sm">
+    <Card
+      className="border border-slate-200 shadow-sm"
+      radius="sm"
+      shadow="none"
+    >
       <CardBody className="p-6">
         <h2 className="text-xl font-bold text-gray-900 mb-4">Key Insights</h2>
         <div className="space-y-2.5">
@@ -83,12 +92,19 @@ export default function KeyInsights() {
             <div
               key={index}
               className={`flex gap-2.5 p-3 border-l-3 rounded-r transition-colors ${getInsightBorderColor(
-                insight.type
-              )} ${getInsightBgColor(insight.type)} border border-gray-100`}>
-              <div className="flex-shrink-0 mt-0.5">{getInsightIcon(insight.type)}</div>
+                insight.type,
+              )} ${getInsightBgColor(insight.type)} border border-gray-100`}
+            >
+              <div className="flex-shrink-0 mt-0.5">
+                {getInsightIcon(insight.type)}
+              </div>
               <div className="flex-1 min-w-0">
-                <h3 className="text-xs font-semibold text-gray-800 mb-0.5">{insight.title}</h3>
-                <p className="text-xs text-gray-600 leading-relaxed">{insight.description}</p>
+                <h3 className="text-xs font-semibold text-gray-800 mb-0.5">
+                  {insight.title}
+                </h3>
+                <p className="text-xs text-gray-600 leading-relaxed">
+                  {insight.description}
+                </p>
               </div>
             </div>
           ))}

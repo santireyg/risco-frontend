@@ -100,6 +100,12 @@ export interface DebtEntity {
   monto: number;
   enRevision: boolean;
   procesoJud: boolean;
+  fechaSit1?: string | null;
+  diasAtrasoPago?: number | null;
+  refinanciaciones?: boolean;
+  recategorizacionOblig?: boolean;
+  situacionJuridica?: boolean;
+  irrecDisposicionTecnica?: boolean;
 }
 
 export interface DebtPeriod {

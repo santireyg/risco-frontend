@@ -2,15 +2,36 @@
   "status": 200,
   "results": {
     "identificacion": 33714963339,
-    "denominacion": "Grupo Ramos Mejía S.A.",
+    "denominacion": "GRUPO RAMOS MEJIA S.A.",
     "periodos": [
       {
         "periodo": "202508",
         "entidades": [
           {
+            "entidad": "Banco GGAL SA",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
             "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
             "situacion": 1,
             "monto": 942123.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA NACION ARGENTINA",
+            "situacion": 1,
+            "monto": 779341.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "GARANTIZAR SGR",
+            "situacion": 0,
+            "monto": 0.0,
             "enRevision": false,
             "procesoJud": false
           },
@@ -22,9 +43,65 @@
             "procesoJud": false
           },
           {
+            "entidad": "BANCO SUPERVIELLE S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
             "entidad": "BANCO BBVA ARGENTINA S.A.",
             "situacion": 1,
             "monto": 1758.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SANTANDER ARGENTINA S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ARGENPYMES SGR",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE GALICIA Y BUENOS AIRES S.A.",
+            "situacion": 1,
+            "monto": 165.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BMA S.A.U.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ACINDAR PYMES SGR",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO MACRO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE COMERCIO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
             "enRevision": false,
             "procesoJud": false
           }
@@ -34,9 +111,30 @@
         "periodo": "202507",
         "entidades": [
           {
+            "entidad": "Banco GGAL SA",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
             "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
             "situacion": 1,
             "monto": 849332.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA NACION ARGENTINA",
+            "situacion": 1,
+            "monto": 731035.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "GARANTIZAR SGR",
+            "situacion": 0,
+            "monto": 0.0,
             "enRevision": false,
             "procesoJud": false
           },
@@ -48,9 +146,65 @@
             "procesoJud": false
           },
           {
+            "entidad": "BANCO SUPERVIELLE S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
             "entidad": "BANCO BBVA ARGENTINA S.A.",
             "situacion": 1,
             "monto": 5711.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SANTANDER ARGENTINA S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ARGENPYMES SGR",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE GALICIA Y BUENOS AIRES S.A.",
+            "situacion": 1,
+            "monto": 2166.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BMA S.A.U.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ACINDAR PYMES SGR",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO MACRO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE COMERCIO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
             "enRevision": false,
             "procesoJud": false
           }
@@ -60,9 +214,30 @@
         "periodo": "202506",
         "entidades": [
           {
+            "entidad": "Banco GGAL SA",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
             "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
             "situacion": 1,
             "monto": 577252.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA NACION ARGENTINA",
+            "situacion": 1,
+            "monto": 546419.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "GARANTIZAR SGR",
+            "situacion": 0,
+            "monto": 0.0,
             "enRevision": false,
             "procesoJud": false
           },
@@ -74,9 +249,65 @@
             "procesoJud": false
           },
           {
+            "entidad": "BANCO SUPERVIELLE S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
             "entidad": "BANCO BBVA ARGENTINA S.A.",
             "situacion": 1,
             "monto": 6678.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SANTANDER ARGENTINA S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ARGENPYMES SGR",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE GALICIA Y BUENOS AIRES S.A.",
+            "situacion": 1,
+            "monto": 1682.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BMA S.A.U.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ACINDAR PYMES SGR",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO MACRO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE COMERCIO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
             "enRevision": false,
             "procesoJud": false
           }
@@ -86,7 +317,28 @@
         "periodo": "202505",
         "entidades": [
           {
+            "entidad": "Banco GGAL SA",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
             "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA NACION ARGENTINA",
+            "situacion": 1,
+            "monto": 590998.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "GARANTIZAR SGR",
             "situacion": 0,
             "monto": 0.0,
             "enRevision": false,
@@ -100,9 +352,65 @@
             "procesoJud": false
           },
           {
+            "entidad": "BANCO SUPERVIELLE S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
             "entidad": "BANCO BBVA ARGENTINA S.A.",
             "situacion": 1,
             "monto": 7752.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SANTANDER ARGENTINA S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ARGENPYMES SGR",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE GALICIA Y BUENOS AIRES S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BMA S.A.U.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ACINDAR PYMES SGR",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO MACRO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE COMERCIO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
             "enRevision": false,
             "procesoJud": false
           }
@@ -112,7 +420,28 @@
         "periodo": "202504",
         "entidades": [
           {
+            "entidad": "Banco GGAL SA",
+            "situacion": 1,
+            "monto": 178.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
             "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA NACION ARGENTINA",
+            "situacion": 1,
+            "monto": 372030.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "GARANTIZAR SGR",
             "situacion": 0,
             "monto": 0.0,
             "enRevision": false,
@@ -126,9 +455,65 @@
             "procesoJud": false
           },
           {
+            "entidad": "BANCO SUPERVIELLE S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
             "entidad": "BANCO BBVA ARGENTINA S.A.",
             "situacion": 1,
             "monto": 8525.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SANTANDER ARGENTINA S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ARGENPYMES SGR",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE GALICIA Y BUENOS AIRES S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BMA S.A.U.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ACINDAR PYMES SGR",
+            "situacion": 3,
+            "monto": 3961.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO MACRO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE COMERCIO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
             "enRevision": false,
             "procesoJud": false
           }
@@ -138,7 +523,28 @@
         "periodo": "202503",
         "entidades": [
           {
+            "entidad": "Banco GGAL SA",
+            "situacion": 1,
+            "monto": 65.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
             "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA NACION ARGENTINA",
+            "situacion": 1,
+            "monto": 372031.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "GARANTIZAR SGR",
             "situacion": 0,
             "monto": 0.0,
             "enRevision": false,
@@ -152,9 +558,65 @@
             "procesoJud": false
           },
           {
+            "entidad": "BANCO SUPERVIELLE S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
             "entidad": "BANCO BBVA ARGENTINA S.A.",
             "situacion": 1,
             "monto": 10057.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SANTANDER ARGENTINA S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ARGENPYMES SGR",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE GALICIA Y BUENOS AIRES S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BMA S.A.U.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ACINDAR PYMES SGR",
+            "situacion": 3,
+            "monto": 6507.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO MACRO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE COMERCIO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
             "enRevision": false,
             "procesoJud": false
           }
@@ -164,9 +626,30 @@
         "periodo": "202502",
         "entidades": [
           {
+            "entidad": "Banco GGAL SA",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
             "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
             "situacion": 0,
             "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA NACION ARGENTINA",
+            "situacion": 1,
+            "monto": 371458.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "GARANTIZAR SGR",
+            "situacion": 1,
+            "monto": 600.0,
             "enRevision": false,
             "procesoJud": false
           },
@@ -178,9 +661,65 @@
             "procesoJud": false
           },
           {
+            "entidad": "BANCO SUPERVIELLE S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
             "entidad": "BANCO BBVA ARGENTINA S.A.",
             "situacion": 1,
             "monto": 10286.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SANTANDER ARGENTINA S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ARGENPYMES SGR",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE GALICIA Y BUENOS AIRES S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BMA S.A.U.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ACINDAR PYMES SGR",
+            "situacion": 3,
+            "monto": 11911.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO MACRO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE COMERCIO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
             "enRevision": false,
             "procesoJud": false
           }
@@ -190,9 +729,30 @@
         "periodo": "202501",
         "entidades": [
           {
+            "entidad": "Banco GGAL SA",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
             "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
             "situacion": 0,
             "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA NACION ARGENTINA",
+            "situacion": 1,
+            "monto": 372323.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "GARANTIZAR SGR",
+            "situacion": 1,
+            "monto": 1174.0,
             "enRevision": false,
             "procesoJud": false
           },
@@ -204,9 +764,65 @@
             "procesoJud": false
           },
           {
+            "entidad": "BANCO SUPERVIELLE S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
             "entidad": "BANCO BBVA ARGENTINA S.A.",
             "situacion": 1,
             "monto": 11144.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SANTANDER ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 39490.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ARGENPYMES SGR",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE GALICIA Y BUENOS AIRES S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BMA S.A.U.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ACINDAR PYMES SGR",
+            "situacion": 3,
+            "monto": 11911.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO MACRO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE COMERCIO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
             "enRevision": false,
             "procesoJud": false
           }
@@ -216,9 +832,30 @@
         "periodo": "202412",
         "entidades": [
           {
+            "entidad": "Banco GGAL SA",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
             "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
             "situacion": 0,
             "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA NACION ARGENTINA",
+            "situacion": 1,
+            "monto": 381810.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "GARANTIZAR SGR",
+            "situacion": 1,
+            "monto": 1678.0,
             "enRevision": false,
             "procesoJud": false
           },
@@ -230,9 +867,65 @@
             "procesoJud": false
           },
           {
+            "entidad": "BANCO SUPERVIELLE S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
             "entidad": "BANCO BBVA ARGENTINA S.A.",
             "situacion": 1,
             "monto": 12609.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SANTANDER ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 40046.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ARGENPYMES SGR",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE GALICIA Y BUENOS AIRES S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BMA S.A.U.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ACINDAR PYMES SGR",
+            "situacion": 3,
+            "monto": 11911.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO MACRO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE COMERCIO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
             "enRevision": false,
             "procesoJud": false
           }
@@ -242,7 +935,28 @@
         "periodo": "202411",
         "entidades": [
           {
+            "entidad": "Banco GGAL SA",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
             "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA NACION ARGENTINA",
+            "situacion": 1,
+            "monto": 371739.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "GARANTIZAR SGR",
             "situacion": 0,
             "monto": 0.0,
             "enRevision": false,
@@ -256,9 +970,65 @@
             "procesoJud": false
           },
           {
+            "entidad": "BANCO SUPERVIELLE S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
             "entidad": "BANCO BBVA ARGENTINA S.A.",
             "situacion": 1,
             "monto": 12749.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SANTANDER ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 42134.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ARGENPYMES SGR",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE GALICIA Y BUENOS AIRES S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BMA S.A.U.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ACINDAR PYMES SGR",
+            "situacion": 2,
+            "monto": 11911.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO MACRO S.A.",
+            "situacion": 1,
+            "monto": 34000.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE COMERCIO S.A.",
+            "situacion": 1,
+            "monto": 30.0,
             "enRevision": false,
             "procesoJud": false
           }
@@ -268,7 +1038,28 @@
         "periodo": "202410",
         "entidades": [
           {
+            "entidad": "Banco GGAL SA",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
             "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA NACION ARGENTINA",
+            "situacion": 1,
+            "monto": 372322.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "GARANTIZAR SGR",
             "situacion": 0,
             "monto": 0.0,
             "enRevision": false,
@@ -282,9 +1073,1404 @@
             "procesoJud": false
           },
           {
+            "entidad": "BANCO SUPERVIELLE S.A.",
+            "situacion": 1,
+            "monto": 1772.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
             "entidad": "BANCO BBVA ARGENTINA S.A.",
             "situacion": 1,
             "monto": 13410.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SANTANDER ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 41083.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ARGENPYMES SGR",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE GALICIA Y BUENOS AIRES S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BMA S.A.U.",
+            "situacion": 1,
+            "monto": 35699.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ACINDAR PYMES SGR",
+            "situacion": 2,
+            "monto": 14152.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO MACRO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE COMERCIO S.A.",
+            "situacion": 1,
+            "monto": 37.0,
+            "enRevision": false,
+            "procesoJud": false
+          }
+        ]
+      },
+      {
+        "periodo": "202409",
+        "entidades": [
+          {
+            "entidad": "Banco GGAL SA",
+            "situacion": 1,
+            "monto": 318.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA NACION ARGENTINA",
+            "situacion": 1,
+            "monto": 30.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "GARANTIZAR SGR",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "AMERICAN EXPRESS ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 524.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SUPERVIELLE S.A.",
+            "situacion": 2,
+            "monto": 7403.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BBVA ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 14229.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SANTANDER ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 43120.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ARGENPYMES SGR",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE GALICIA Y BUENOS AIRES S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BMA S.A.U.",
+            "situacion": 1,
+            "monto": 37326.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ACINDAR PYMES SGR",
+            "situacion": 1,
+            "monto": 12154.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO MACRO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE COMERCIO S.A.",
+            "situacion": 1,
+            "monto": 49.0,
+            "enRevision": false,
+            "procesoJud": false
+          }
+        ]
+      },
+      {
+        "periodo": "202408",
+        "entidades": [
+          {
+            "entidad": "Banco GGAL SA",
+            "situacion": 1,
+            "monto": 105.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA NACION ARGENTINA",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "GARANTIZAR SGR",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "AMERICAN EXPRESS ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 815.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SUPERVIELLE S.A.",
+            "situacion": 1,
+            "monto": 7109.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BBVA ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 14894.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SANTANDER ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 42098.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ARGENPYMES SGR",
+            "situacion": 3,
+            "monto": 3046.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE GALICIA Y BUENOS AIRES S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BMA S.A.U.",
+            "situacion": 1,
+            "monto": 39099.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ACINDAR PYMES SGR",
+            "situacion": 1,
+            "monto": 7770.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO MACRO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE COMERCIO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          }
+        ]
+      },
+      {
+        "periodo": "202407",
+        "entidades": [
+          {
+            "entidad": "Banco GGAL SA",
+            "situacion": 1,
+            "monto": 105.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA NACION ARGENTINA",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "GARANTIZAR SGR",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "AMERICAN EXPRESS ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 182.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SUPERVIELLE S.A.",
+            "situacion": 1,
+            "monto": 9052.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BBVA ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 15570.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SANTANDER ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 45382.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ARGENPYMES SGR",
+            "situacion": 3,
+            "monto": 3986.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE GALICIA Y BUENOS AIRES S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BMA S.A.U.",
+            "situacion": 1,
+            "monto": 40719.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ACINDAR PYMES SGR",
+            "situacion": 1,
+            "monto": 9474.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO MACRO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE COMERCIO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          }
+        ]
+      },
+      {
+        "periodo": "202406",
+        "entidades": [
+          {
+            "entidad": "Banco GGAL SA",
+            "situacion": 1,
+            "monto": 88.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA NACION ARGENTINA",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "GARANTIZAR SGR",
+            "situacion": 1,
+            "monto": 5349.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "AMERICAN EXPRESS ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 159.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SUPERVIELLE S.A.",
+            "situacion": 1,
+            "monto": 10593.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BBVA ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 18536.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SANTANDER ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 45721.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ARGENPYMES SGR",
+            "situacion": 3,
+            "monto": 3547.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE GALICIA Y BUENOS AIRES S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BMA S.A.U.",
+            "situacion": 1,
+            "monto": 42332.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ACINDAR PYMES SGR",
+            "situacion": 1,
+            "monto": 6919.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO MACRO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE COMERCIO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          }
+        ]
+      },
+      {
+        "periodo": "202405",
+        "entidades": [
+          {
+            "entidad": "Banco GGAL SA",
+            "situacion": 1,
+            "monto": 81.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA NACION ARGENTINA",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "GARANTIZAR SGR",
+            "situacion": 1,
+            "monto": 3671.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "AMERICAN EXPRESS ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 1830.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SUPERVIELLE S.A.",
+            "situacion": 1,
+            "monto": 12039.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BBVA ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 20189.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SANTANDER ARGENTINA S.A.",
+            "situacion": 2,
+            "monto": 48766.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ARGENPYMES SGR",
+            "situacion": 2,
+            "monto": 4003.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE GALICIA Y BUENOS AIRES S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BMA S.A.U.",
+            "situacion": 1,
+            "monto": 45242.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ACINDAR PYMES SGR",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO MACRO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE COMERCIO S.A.",
+            "situacion": 1,
+            "monto": 27.0,
+            "enRevision": false,
+            "procesoJud": false
+          }
+        ]
+      },
+      {
+        "periodo": "202404",
+        "entidades": [
+          {
+            "entidad": "Banco GGAL SA",
+            "situacion": 1,
+            "monto": 2699.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA NACION ARGENTINA",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "GARANTIZAR SGR",
+            "situacion": 1,
+            "monto": 5514.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "AMERICAN EXPRESS ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 2748.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SUPERVIELLE S.A.",
+            "situacion": 1,
+            "monto": 13350.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BBVA ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 23138.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SANTANDER ARGENTINA S.A.",
+            "situacion": 3,
+            "monto": 53019.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ARGENPYMES SGR",
+            "situacion": 2,
+            "monto": 2652.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE GALICIA Y BUENOS AIRES S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BMA S.A.U.",
+            "situacion": 1,
+            "monto": 45149.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ACINDAR PYMES SGR",
+            "situacion": 1,
+            "monto": 1141.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO MACRO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE COMERCIO S.A.",
+            "situacion": 2,
+            "monto": 41.0,
+            "enRevision": false,
+            "procesoJud": false
+          }
+        ]
+      },
+      {
+        "periodo": "202403",
+        "entidades": [
+          {
+            "entidad": "Banco GGAL SA",
+            "situacion": 1,
+            "monto": 3372.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA NACION ARGENTINA",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "GARANTIZAR SGR",
+            "situacion": 1,
+            "monto": 4282.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "AMERICAN EXPRESS ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 1561.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SUPERVIELLE S.A.",
+            "situacion": 1,
+            "monto": 14835.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BBVA ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 24782.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SANTANDER ARGENTINA S.A.",
+            "situacion": 2,
+            "monto": 51916.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ARGENPYMES SGR",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE GALICIA Y BUENOS AIRES S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BMA S.A.U.",
+            "situacion": 1,
+            "monto": 45782.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ACINDAR PYMES SGR",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO MACRO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE COMERCIO S.A.",
+            "situacion": 1,
+            "monto": 16.0,
+            "enRevision": false,
+            "procesoJud": false
+          }
+        ]
+      },
+      {
+        "periodo": "202402",
+        "entidades": [
+          {
+            "entidad": "Banco GGAL SA",
+            "situacion": 1,
+            "monto": 2638.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA NACION ARGENTINA",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "GARANTIZAR SGR",
+            "situacion": 1,
+            "monto": 4422.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "AMERICAN EXPRESS ARGENTINA S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SUPERVIELLE S.A.",
+            "situacion": 1,
+            "monto": 13951.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BBVA ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 26286.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SANTANDER ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 53033.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ARGENPYMES SGR",
+            "situacion": 1,
+            "monto": 1351.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE GALICIA Y BUENOS AIRES S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BMA S.A.U.",
+            "situacion": 1,
+            "monto": 44139.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ACINDAR PYMES SGR",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO MACRO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE COMERCIO S.A.",
+            "situacion": 1,
+            "monto": 10.0,
+            "enRevision": false,
+            "procesoJud": false
+          }
+        ]
+      },
+      {
+        "periodo": "202401",
+        "entidades": [
+          {
+            "entidad": "Banco GGAL SA",
+            "situacion": 1,
+            "monto": 4804.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA NACION ARGENTINA",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "GARANTIZAR SGR",
+            "situacion": 2,
+            "monto": 3368.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "AMERICAN EXPRESS ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 686.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SUPERVIELLE S.A.",
+            "situacion": 1,
+            "monto": 18731.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BBVA ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 27445.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SANTANDER ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 52642.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ARGENPYMES SGR",
+            "situacion": 1,
+            "monto": 1351.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE GALICIA Y BUENOS AIRES S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BMA S.A.U.",
+            "situacion": 1,
+            "monto": 47347.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ACINDAR PYMES SGR",
+            "situacion": 1,
+            "monto": 3255.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO MACRO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE COMERCIO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          }
+        ]
+      },
+      {
+        "periodo": "202312",
+        "entidades": [
+          {
+            "entidad": "Banco GGAL SA",
+            "situacion": 1,
+            "monto": 4397.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA NACION ARGENTINA",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "GARANTIZAR SGR",
+            "situacion": 1,
+            "monto": 1684.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "AMERICAN EXPRESS ARGENTINA S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SUPERVIELLE S.A.",
+            "situacion": 2,
+            "monto": 19091.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BBVA ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 28786.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SANTANDER ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 53911.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ARGENPYMES SGR",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE GALICIA Y BUENOS AIRES S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BMA S.A.U.",
+            "situacion": 1,
+            "monto": 44420.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ACINDAR PYMES SGR",
+            "situacion": 1,
+            "monto": 1654.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO MACRO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE COMERCIO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          }
+        ]
+      },
+      {
+        "periodo": "202311",
+        "entidades": [
+          {
+            "entidad": "Banco GGAL SA",
+            "situacion": 1,
+            "monto": 6372.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA NACION ARGENTINA",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "GARANTIZAR SGR",
+            "situacion": 2,
+            "monto": 3387.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "AMERICAN EXPRESS ARGENTINA S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SUPERVIELLE S.A.",
+            "situacion": 2,
+            "monto": 22032.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BBVA ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 32604.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SANTANDER ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 55020.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ARGENPYMES SGR",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE GALICIA Y BUENOS AIRES S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BMA S.A.U.",
+            "situacion": 1,
+            "monto": 47347.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ACINDAR PYMES SGR",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO MACRO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE COMERCIO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          }
+        ]
+      },
+      {
+        "periodo": "202310",
+        "entidades": [
+          {
+            "entidad": "Banco GGAL SA",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA NACION ARGENTINA",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "GARANTIZAR SGR",
+            "situacion": 2,
+            "monto": 3387.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "AMERICAN EXPRESS ARGENTINA S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SUPERVIELLE S.A.",
+            "situacion": 2,
+            "monto": 23159.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BBVA ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 39124.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SANTANDER ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 57729.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ARGENPYMES SGR",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE GALICIA Y BUENOS AIRES S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BMA S.A.U.",
+            "situacion": 1,
+            "monto": 44497.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ACINDAR PYMES SGR",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO MACRO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE COMERCIO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          }
+        ]
+      },
+      {
+        "periodo": "202309",
+        "entidades": [
+          {
+            "entidad": "Banco GGAL SA",
+            "situacion": 1,
+            "monto": 19058.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE LA NACION ARGENTINA",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "GARANTIZAR SGR",
+            "situacion": 1,
+            "monto": 1694.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "AMERICAN EXPRESS ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 183.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SUPERVIELLE S.A.",
+            "situacion": 2,
+            "monto": 38821.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BBVA ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 43150.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO SANTANDER ARGENTINA S.A.",
+            "situacion": 1,
+            "monto": 75823.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ARGENPYMES SGR",
+            "situacion": 1,
+            "monto": 1351.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE GALICIA Y BUENOS AIRES S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO BMA S.A.U.",
+            "situacion": 1,
+            "monto": 50366.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "ACINDAR PYMES SGR",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO MACRO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
+            "enRevision": false,
+            "procesoJud": false
+          },
+          {
+            "entidad": "BANCO DE COMERCIO S.A.",
+            "situacion": 0,
+            "monto": 0.0,
             "enRevision": false,
             "procesoJud": false
           }

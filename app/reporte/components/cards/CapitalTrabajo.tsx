@@ -1,11 +1,15 @@
 import { Card, CardBody } from "@heroui/card";
 import { Chip } from "@heroui/chip";
 import { Tooltip } from "@heroui/tooltip";
-import { TrendingUp, TrendingDown, Wallet } from "lucide-react";
-import { PiWalletDuotone } from "react-icons/pi";
+import { TrendingUp, TrendingDown } from "lucide-react";
 import { LiaWalletSolid } from "react-icons/lia";
+
 import { CapitalTrabajo as CapitalTrabajoType } from "../../types";
-import { formatCurrency, formatNumber, formatPercentage } from "../../utils/formatting";
+import {
+  formatCurrency,
+  formatNumber,
+  formatPercentage,
+} from "../../utils/formatting";
 
 interface CapitalTrabajoProps {
   data: CapitalTrabajoType;
@@ -28,11 +32,13 @@ const formatCapitalValue = (value: number): string => {
 
   if (absValue >= 1_000_000) {
     const decimals = absValue >= 10_000_000 ? 0 : 1;
+
     return `${sign}${currencySymbol}${formatNumber(absValue / 1_000_000, decimals)}M`;
   }
 
   if (absValue >= 1_000) {
     const decimals = absValue >= 100_000 ? 0 : 1;
+
     return `${sign}${currencySymbol}${formatNumber(absValue / 1_000, decimals)}k`;
   }
 
@@ -44,7 +50,12 @@ export default function CapitalTrabajo({ data }: CapitalTrabajoProps) {
   const isPositiveVariation = variation >= 0;
   const variationLabel = `${isPositiveVariation ? "+" : ""}${formatPercentage(variation, 1)}`;
 
-  const status = ctnVentas >= 20 ? "excelente" : ctnVentas >= 10 ? "admisible" : "deficiente";
+  const status =
+    ctnVentas >= 20
+      ? "excelente"
+      : ctnVentas >= 10
+        ? "admisible"
+        : "deficiente";
   const statusConfig: Record<
     typeof status,
     {
@@ -75,7 +86,11 @@ export default function CapitalTrabajo({ data }: CapitalTrabajoProps) {
   };
 
   return (
-    <Card radius="sm" shadow="none" className="bg-slate-50  border border-slate-200 shadow-sm">
+    <Card
+      className="bg-slate-50  border border-slate-200 shadow-sm"
+      radius="sm"
+      shadow="none"
+    >
       <CardBody className="relative p-6">
         <div>
           <div className="flex items-start justify-between font-light text-lg text-slate-500">
@@ -84,15 +99,29 @@ export default function CapitalTrabajo({ data }: CapitalTrabajoProps) {
           </div>
 
           <div className="mt-2 flex flex-wrap items-end">
-            <span className="text-4xl font-medium text-slate-900">{formatCapitalValue(value)}</span>
-            <Tooltip placement="bottom" content={<div className="text-xs max-w-[200px]">vs. período anterior</div>}>
+            <span className="text-4xl font-medium text-slate-900">
+              {formatCapitalValue(value)}
+            </span>
+            <Tooltip
+              content={
+                <div className="text-xs max-w-[200px]">
+                  vs. período anterior
+                </div>
+              }
+              placement="bottom"
+            >
               <Chip
-                variant="light"
+                className="px-3 py-1 font-semibold"
                 color={isPositiveVariation ? "success" : "danger"}
                 size="sm"
-                className="px-3 py-1 font-semibold">
+                variant="light"
+              >
                 <span className="inline-flex items-center gap-1">
-                  {isPositiveVariation ? <TrendingUp className="h-3.5 w-3.5" /> : <TrendingDown className="h-3.5 w-3.5" />}
+                  {isPositiveVariation ? (
+                    <TrendingUp className="h-3.5 w-3.5" />
+                  ) : (
+                    <TrendingDown className="h-3.5 w-3.5" />
+                  )}
                   {variationLabel}
                 </span>
               </Chip>
@@ -101,37 +130,48 @@ export default function CapitalTrabajo({ data }: CapitalTrabajoProps) {
 
           <div className="mt-3 flex flex-wrap items-center gap-2">
             <Tooltip
+              content={
+                <div>
+                  Participación del capital de trabajo sobre el activo total
+                  informado en los estados contables.
+                </div>
+              }
               placement="bottom"
               size="md"
-              content={<div>Participación del capital de trabajo sobre el activo total informado en los estados contables.</div>}>
+            >
               <Chip
+                className="border border-slate-300 bg-white text-slate-700"
+                color="success"
+                radius="sm"
                 size="sm"
                 variant="dot"
-                radius="sm"
-                color="success"
-                className="border border-slate-300 bg-white text-slate-700">
+              >
                 CT = {formatPercentage(shareOfAssets, 0)} del Activo total
               </Chip>
             </Tooltip>
 
             <Tooltip
-              placement="bottom"
-              radius="sm"
-              shadow="sm"
               content={
                 <div>
                   <p>
                     <strong>Capital de trabajo neto sobre ventas.</strong>
                   </p>
-                  <p>Relación entre el capital de trabajo y la facturación anual.</p>
+                  <p>
+                    Relación entre el capital de trabajo y la facturación anual.
+                  </p>
                 </div>
-              }>
+              }
+              placement="bottom"
+              radius="sm"
+              shadow="sm"
+            >
               <Chip
+                className="border border-slate-300 bg-white text-slate-700"
+                color="success"
+                radius="sm"
                 size="sm"
                 variant="dot"
-                radius="sm"
-                color="success"
-                className="border border-slate-300 bg-white text-slate-700">
+              >
                 CTN/ventas = {formatPercentage(ctnVentas, 1)}
               </Chip>
             </Tooltip>

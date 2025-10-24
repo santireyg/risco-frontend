@@ -4,8 +4,15 @@ import CapitalTrabajo from "../cards/CapitalTrabajo";
 import KPIsFinancieros from "../cards/KPIsFinancieros";
 import EstadoDeudor from "../cards/EstadoDeudor";
 import ChequesRechazados from "../cards/ChequesRechazados";
-import { EstadosContables, DebtHistory, ChequesRechazados as ChequesRechazadosType } from "../../types";
-import { calculateCapitalTrabajo, calculateAllKPIs } from "../../utils/calculations";
+import {
+  EstadosContables,
+  DebtHistory,
+  ChequesRechazados as ChequesRechazadosType,
+} from "../../types";
+import {
+  calculateCapitalTrabajo,
+  calculateAllKPIs,
+} from "../../utils/calculations";
 import { formatDate } from "../../utils/formatting";
 
 interface ResumenEjecutivoProps {
@@ -15,7 +22,12 @@ interface ResumenEjecutivoProps {
   reportDate: string;
 }
 
-export default function ResumenEjecutivo({ estadosContables, deudasHistoria, chequesRechazados, reportDate }: ResumenEjecutivoProps) {
+export default function ResumenEjecutivo({
+  estadosContables,
+  deudasHistoria,
+  chequesRechazados,
+  reportDate,
+}: ResumenEjecutivoProps) {
   const capitalTrabajo = calculateCapitalTrabajo(estadosContables);
   const kpis = calculateAllKPIs(estadosContables);
 
@@ -25,8 +37,10 @@ export default function ResumenEjecutivo({ estadosContables, deudasHistoria, che
       <div className="lg:col-span-7 space-y-6">
         <AnalisisRiesgoIA
           companyName={estadosContables.company_info.company_name}
+          periodoAnterior={formatDate(
+            estadosContables.balance_date_previous.$date,
+          )}
           periodoCurrent={formatDate(estadosContables.balance_date.$date)}
-          periodoAnterior={formatDate(estadosContables.balance_date_previous.$date)}
           reportDate={reportDate}
         />
         <KeyInsights />

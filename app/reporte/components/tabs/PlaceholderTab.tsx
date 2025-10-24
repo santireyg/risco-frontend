@@ -6,9 +6,12 @@ interface PlaceholderTabProps {
   description: string;
 }
 
-export default function PlaceholderTab({ title, description }: PlaceholderTabProps) {
+export default function PlaceholderTab({
+  title,
+  description,
+}: PlaceholderTabProps) {
   return (
-    <Card shadow="md" className="max-w-2xl mx-auto border border-gray-200">
+    <Card className="max-w-2xl mx-auto border border-gray-200" shadow="md">
       <CardBody className="flex flex-col items-center justify-center py-20 px-4">
         <div className="bg-gray-50 rounded-full p-6 mb-6">
           <Construction className="w-16 h-16 text-gray-400" />
