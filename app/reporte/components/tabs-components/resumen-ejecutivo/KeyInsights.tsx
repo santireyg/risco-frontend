@@ -5,43 +5,74 @@ import { KeyInsight as KeyInsightType } from "../../../types";
 
 const mockInsights: KeyInsightType[] = [
   {
-    type: "critico",
-    title: "7 cheques sin fondos por $4.8M en 2023",
+    type: "positivo",
+    title: "Liquidez excepcional",
     description:
-      "Regularizados en 2024, pero evidencian problemas históricos de flujo de caja",
+      "Cash ratio de 1.61x permite cubrir el pasivo corriente con efectivo disponible.",
   },
   {
-    type: "critico",
-    title: "Caída de ingresos operativos -24.2% interanual",
+    type: "positivo",
+    title: "Normalización crediticia sostenida",
+    description: "4 meses consecutivos en situación 1 (BCRA).",
+  },
+  {
+    type: "positivo",
+    title: "Sin cheques rechazados recientes",
+    description: "No se registran cheques rechazados en los últimos 24 meses.",
+  },
+  {
+    type: "positivo",
+    title: "Margen operativo saludable",
     description:
-      "Reducción de $475M en ventas requiere análisis de causas y perspectivas",
+      "Margen operativo del 23% demuestra rentabilidad del core business.",
   },
   {
     type: "alerta",
-    title: "Incremento significativo de deuda BAPRO",
-    description: "Nueva deuda de $942K en contexto de caída de ingresos",
+    title: "Caída de ventas netas",
+    description:
+      "Disminución del 24% en ventas netas ($1,965M → $1,490M) sin explicación operativa clara.",
   },
   {
     type: "alerta",
-    title: "Endeudamiento en 33% del activo total",
-    description: "Ratio admisible pero con incremento de pasivo no corriente",
-  },
-  {
-    type: "positivo",
-    title: "Excelente posición de liquidez corriente 4.5x",
+    title: "Endeudamiento bancario explosivo",
     description:
-      "Disponibilidades de $1.034M permiten cubrir ampliamente obligaciones",
+      "La deuda bancaria se multiplicó por 438 veces en un año; podría responder a reestructuración o cambio de modelo.",
   },
   {
-    type: "positivo",
-    title: "Capital de trabajo sólido de $2.283M",
+    type: "alerta",
+    title: "Baja rotación del capital de trabajo",
     description:
-      "Representa 153% de ventas anuales, muy por encima del estándar",
+      "Rotación del capital de trabajo de 0,7x (<1,0x) señala recursos ociosos frente a las ventas.",
   },
   {
-    type: "positivo",
-    title: "Deudas BCRA en situación 1 (normal)",
-    description: "Sin atrasos ni refinanciaciones en último período reportado",
+    type: "alerta",
+    title: "Inventarios en fuerte descenso",
+    description:
+      "Reducción del 57% en inventarios sugiere posible descalce entre compras y ventas.",
+  },
+  {
+    type: "critico",
+    title: "Historial reciente de situación 3",
+    description:
+      "Se registraron seis meses en situación 3 (atrasos 91-180 días) durante 2024-2025.",
+  },
+  {
+    type: "critico",
+    title: "Incidentes de cheques rechazados",
+    description:
+      "31 cheques rechazados entre agosto y octubre 2023, todos regularizados pero relevantes para el riesgo.",
+  },
+  {
+    type: "critico",
+    title: "Pasivo no corriente emergente",
+    description:
+      "Apareció un pasivo no corriente de $892M en 2024; se deben revisar términos y covenants.",
+  },
+  {
+    type: "critico",
+    title: "Desconexión entre activos y ventas",
+    description:
+      "Los activos crecieron 44% mientras las ventas cayeron 24%; podría reflejar un cambio de giro no documentado.",
   },
 ];
 

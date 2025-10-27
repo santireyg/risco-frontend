@@ -1,10 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Card, CardBody } from "@heroui/card";
 import { Chip } from "@heroui/chip";
-import { AlertCircle, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { HiSparkles } from "react-icons/hi2";
-
-import { formatCurrency } from "../../../utils/formatting";
 
 interface AnalisisRiesgoIAProps {
   companyName: string;
@@ -23,31 +21,15 @@ export default function AnalisisRiesgoIA({
 }: AnalisisRiesgoIAProps) {
   // Texto generado por IA (mock - en producción vendría de un servicio de IA)
   const analisisTexto = {
-    introduccion: `${companyName} es una empresa argentina dedicada a la venta de artículos para el hogar, con sede en Ciudad Autónoma de Buenos Aires. Con un activo total de ${formatCurrency(
-      4617318752,
-    )} al cierre del período ${periodoCurrent}, la compañía se posiciona como un operador de tamaño mediano-grande en su sector.`,
+    introduccion: `${companyName}, dedicada a la venta de artículos para el hogar, presenta un perfil financiero contradictorio que requiere seguimiento especial. La empresa mantiene indicadores de liquidez sobresalientes con un capital de trabajo de $2,283 millones y una liquidez corriente de 4.54 veces, respaldada por disponibilidades líquidas que se incrementaron 75% interanual. Sin embargo, esta fortaleza aparente convive con señales preocupantes en su desempeño operativo y estructura de financiamiento.`,
 
-    situacionFinanciera: `Desde la perspectiva financiera, la empresa presenta una situación mixta que requiere análisis detallado. Los ingresos operativos experimentaron una contracción significativa de 24.2%, pasando de ${formatCurrency(
-      1965901234,
-    )} a ${formatCurrency(
-      1490489830,
-    )}, lo que representa una señal de alerta importante. Sin embargo, la empresa mantiene una posición de liquidez robusta con un ratio corriente de 4.5x y disponibilidades por ${formatCurrency(
-      1034356934,
-    )}, lo que indica una fuerte capacidad para hacer frente a sus obligaciones de corto plazo. El capital de trabajo neto se sitúa en ${formatCurrency(
-      2283388476,
-    )}, representando un saludable 153% de las ventas anuales.`,
+    situacionFinanciera: `El aspecto más crítico es la caída del 24% en ventas netas (de $1,965M a $1,490M), combinada con una explosión en el endeudamiento bancario que pasó de prácticamente nulo ($2.6M en 2023) a $1,162M en 2024, incluyendo $892M de pasivo no corriente. Esta transformación radical de la estructura financiera sugiere una estrategia de financiamiento agresiva que no se tradujo en crecimiento de ventas. La rotación del capital de trabajo se hundió a 0,7x (1,4x en 2023), por debajo del mínimo deseable de 1,0x, evidenciando recursos inmovilizados y baja eficiencia operativa.`,
 
-    comportamientoDeudor: `En cuanto al comportamiento crediticio reportado al BCRA, la empresa mantiene deudas con tres entidades financieras por un total de ${formatCurrency(
-      944627,
-    )} al período agosto 2025. Todas las deudas se encuentran en Situación 1 (normal), sin atrasos en pagos ni refinanciaciones. Se observa un incremento sustancial en la deuda con Banco Provincia (de situación 0 a ${formatCurrency(
-      942123,
-    )}), lo que sugiere nueva toma de financiamiento. Este movimiento debe monitorearse en contexto con la caída de ingresos observada.`,
+    comportamientoDeudor: `La trayectoria crediticia en el sistema financiero muestra volatilidad significativa: la empresa estuvo clasificada en situación 3 (con problemas) durante seis meses no consecutivos en 2024 y principios de 2025, evidenciando atrasos de 91-180 días. No obstante, desde mayo 2025 recuperó la situación 1 (normal) que mantiene actualmente, alineándose con el crecimiento de deuda bancaria de $599M a $1,724M en el último trimestre, lo que indica posible refinanciamiento o nueva línea de crédito que permitió normalizar pagos.`,
 
-    chequesRechazados: `Un aspecto crítico del análisis es la identificación de 7 cheques rechazados por falta de fondos durante 2023, totalizando ${formatCurrency(
-      4800000,
-    )}. Todos estos cheques fueron posteriormente regularizados en abril 2024, lo que demuestra voluntad de pago. Sin embargo, este comportamiento evidencia problemas de gestión de flujo de caja en el período analizado y constituye un antecedente negativo relevante para cualquier análisis de riesgo crediticio.`,
+    chequesRechazados: `El historial de 31 cheques rechazados concentrados en agosto-octubre 2023 constituye un antecedente negativo, aunque todos fueron posteriormente regularizados y no se registran incidentes recientes.`,
 
-    conclusion: `Evaluación de Riesgo: MEDIO-ALTO. Si bien la empresa cuenta con indicadores de liquidez sólidos y ha regularizado sus incumplimientos pasados, la combinación de caída significativa en ventas (-24%), el historial reciente de cheques rechazados, y el incremento de endeudamiento sugieren cautela. Se recomienda: (1) solicitar información adicional sobre las causas de la caída de ingresos y perspectivas de recuperación, (2) monitorear estrechamente el comportamiento de pagos en los próximos períodos, (3) considerar límites de crédito conservadores hasta evidenciar estabilización de la operación. La garantía de caución debería contemplar estos factores de riesgo incrementado.`,
+    conclusion: `La rentabilidad operativa se mantiene saludable con margen del 23%, pero en descenso. El patrimonio neto creció moderadamente 8.5%, insuficiente para compensar el apalancamiento, elevando el endeudamiento de 11% a 33%, aunque dentro de niveles manejables.`,
   };
 
   const contentRef = useRef<HTMLDivElement | null>(null);
@@ -103,7 +85,7 @@ export default function AnalisisRiesgoIA({
         </div>
         <div className="flex items-center gap-3">
           <h2 className="text-2xl font-lights text-black">
-            Análisis de riesgo cualitativo
+            Análisis de riesgo ejecutivo
           </h2>
         </div>
       </div>
@@ -137,45 +119,17 @@ export default function AnalisisRiesgoIA({
               showGradient ? { maxHeight: `${COLLAPSE_HEIGHT}px` } : undefined
             }
           >
-            <section>
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-900 mb-2">
-                Contexto General
-              </h3>
-              <p className="text-[15px]">{analisisTexto.introduccion}</p>
-            </section>
+            <p className="text-[15px]">{analisisTexto.introduccion}</p>
 
-            <section>
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-900 mb-2">
-                Situación Financiera
-              </h3>
-              <p className="text-[15px]">{analisisTexto.situacionFinanciera}</p>
-            </section>
+            <p className="text-[15px]">{analisisTexto.situacionFinanciera}</p>
 
-            <section>
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-900 mb-2">
-                Comportamiento Crediticio (BCRA)
-              </h3>
-              <p className="text-[15px]">
-                {analisisTexto.comportamientoDeudor}
-              </p>
-            </section>
+            <p className="text-[15px]">{analisisTexto.comportamientoDeudor}</p>
 
-            <section>
-              <h3 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-danger mb-2">
-                <AlertCircle className="h-4 w-4" />
-                Cheques Rechazados
-              </h3>
-              <p className="text-[15px]">{analisisTexto.chequesRechazados}</p>
-            </section>
+            <p className="text-[15px]">{analisisTexto.chequesRechazados}</p>
 
-            <section className="border-t border-gray-200 pt-4">
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-900 mb-2">
-                Conclusión y Recomendación
-              </h3>
-              <p className="text-[15px] font-medium">
-                {analisisTexto.conclusion}
-              </p>
-            </section>
+            <p className="text-[15px] font-medium">
+              {analisisTexto.conclusion}
+            </p>
           </div>
 
           {showGradient && (

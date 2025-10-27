@@ -59,12 +59,13 @@ export const calculateCapitalTrabajo = (
     capitalAnterior !== 0
       ? round(((capitalActual - capitalAnterior) / capitalAnterior) * 100, 1)
       : 0;
-  const ctnVentas = ingresos.ingresos_operativos_empresa_actual
-    ? round(
-        (capitalActual / ingresos.ingresos_operativos_empresa_actual) * 100,
-        1,
-      )
-    : 0;
+  const workingCapitalTurnover =
+    capitalActual !== 0
+      ? round(
+          ingresos.ingresos_operativos_empresa_actual / capitalActual,
+          1,
+        )
+      : 0;
   const shareOfAssets = balance.activo_total_actual
     ? round((capitalActual / balance.activo_total_actual) * 100, 1)
     : 0;
@@ -72,7 +73,7 @@ export const calculateCapitalTrabajo = (
   return {
     value: capitalActual,
     variation,
-    ctnVentas,
+    workingCapitalTurnover,
     shareOfAssets,
   };
 };

@@ -4,7 +4,10 @@ import { Tooltip } from "@heroui/tooltip";
 import { TrendingUp, TrendingDown } from "lucide-react";
 import { LiaWalletSolid } from "react-icons/lia";
 
-import { CapitalTrabajo as CapitalTrabajoType } from "../../../types";
+import {
+  CapitalTrabajo as CapitalTrabajoType,
+  KPIStatus,
+} from "../../../types";
 import {
   formatCurrency,
   formatNumber,
@@ -45,45 +48,166 @@ const formatCapitalValue = (value: number): string => {
   return formatCurrency(value);
 };
 
+const formatTurnover = (value: number, decimals = 1): string => {
+  if (!Number.isFinite(value)) return "-";
+
+  return `${formatNumber(value, decimals)}x`;
+};
+
+type StatusColor = "success" | "warning" | "danger";
+
+const STATUS_CONFIG: Record<
+  KPIStatus,
+  {
+    label: string;
+    color: StatusColor;
+    textClass: string;
+  }
+> = {
+  excelente: {
+    label: "Excelente",
+    color: "success",
+    textClass: "text-green-600",
+  },
+  admisible: {
+    label: "Admisible",
+    color: "warning",
+    textClass: "text-amber-600",
+  },
+  deficiente: {
+    label: "Deficiente",
+    color: "danger",
+    textClass: "text-red-600",
+  },
+};
+
+const STATUS_ORDER: KPIStatus[] = [
+  "excelente",
+  "admisible",
+  "deficiente",
+];
+
+const SHARE_OF_ASSETS_THRESHOLDS: [number, number] = [5, 25];
+const WORKING_CAPITAL_TURNOVER_THRESHOLDS: [number, number] = [1, 1.5];
+
+const getMetricStatus = (
+  value: number,
+  thresholds: [number, number],
+  inverse = false,
+): KPIStatus => {
+  if (!Number.isFinite(value)) return "deficiente";
+  const [low, high] = thresholds;
+
+  if (inverse) {
+    if (value <= low) return "excelente";
+    if (value <= high) return "admisible";
+
+    return "deficiente";
+  }
+
+  if (value >= high) return "excelente";
+  if (value >= low) return "admisible";
+
+  return "deficiente";
+};
+
+const buildCriteriaLabels = (
+  thresholds: [number, number],
+  {
+    inverse = false,
+    formatter = (value: number) => formatPercentage(value, 0),
+  }: {
+    inverse?: boolean;
+    formatter?: (value: number) => string;
+  } = {},
+): Record<KPIStatus, string> => {
+  const [low, high] = thresholds;
+  const formattedLow = formatter(low);
+  const formattedHigh = formatter(high);
+
+  if (inverse) {
+    return {
+      excelente: `<= ${formattedLow}`,
+      admisible: `${formattedLow} - ${formattedHigh}`,
+      deficiente: `> ${formattedHigh}`,
+    };
+  }
+
+  return {
+    excelente: `>= ${formattedHigh}`,
+    admisible: `${formattedLow} - ${formattedHigh}`,
+    deficiente: `< ${formattedLow}`,
+  };
+};
+
+interface MetricTooltipContentProps {
+  title: string;
+  description: string;
+  criteria: Record<KPIStatus, string>;
+  status: KPIStatus;
+}
+
+const MetricTooltipContent = ({
+  title,
+  description,
+  criteria,
+  status,
+}: MetricTooltipContentProps) => {
+  return (
+    <div className="max-w-[240px] text-xs text-slate-600">
+      <p className="text-sm font-semibold text-slate-900">{title}</p>
+      <p className="mt-1">{description}</p>
+      <div className="mt-2 rounded-md bg-slate-100 px-2 py-1 text-[11px] font-medium text-slate-700">
+        Estado actual:
+        <span
+          className={`ml-1 font-semibold ${STATUS_CONFIG[status].textClass}`}
+        >
+          {STATUS_CONFIG[status].label}
+        </span>
+      </div>
+      <div className="mt-2">
+        <p className="font-semibold text-slate-800">Criterios:</p>
+        <ul className="mt-1 space-y-1 text-[11px]">
+          {STATUS_ORDER.map((statusKey) => (
+            <li
+              key={statusKey}
+              className="flex items-center justify-between gap-2"
+            >
+              <span
+                className={`font-medium ${STATUS_CONFIG[statusKey].textClass}`}
+              >
+                {STATUS_CONFIG[statusKey].label}
+              </span>
+              <span>{criteria[statusKey]}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+};
+
 export default function CapitalTrabajo({ data }: CapitalTrabajoProps) {
-  const { value, variation, ctnVentas, shareOfAssets } = data;
+  const { value, variation, workingCapitalTurnover, shareOfAssets } = data;
   const isPositiveVariation = variation >= 0;
   const variationLabel = `${isPositiveVariation ? "+" : ""}${formatPercentage(variation, 1)}`;
-
-  const status =
-    ctnVentas >= 20
-      ? "excelente"
-      : ctnVentas >= 10
-        ? "admisible"
-        : "deficiente";
-  const statusConfig: Record<
-    typeof status,
+  const shareOfAssetsStatus = getMetricStatus(
+    shareOfAssets,
+    SHARE_OF_ASSETS_THRESHOLDS,
+  );
+  const workingCapitalTurnoverStatus = getMetricStatus(
+    workingCapitalTurnover,
+    WORKING_CAPITAL_TURNOVER_THRESHOLDS,
+  );
+  const shareOfAssetsCriteria = buildCriteriaLabels(
+    SHARE_OF_ASSETS_THRESHOLDS,
+  );
+  const workingCapitalTurnoverCriteria = buildCriteriaLabels(
+    WORKING_CAPITAL_TURNOVER_THRESHOLDS,
     {
-      label: string;
-      color: "success" | "warning" | "danger";
-      description: string;
-      dotClass: string;
-    }
-  > = {
-    excelente: {
-      label: "Excelente",
-      color: "success",
-      description: "Situación sólida",
-      dotClass: "bg-green-500",
+      formatter: (value) => formatTurnover(value, 1),
     },
-    admisible: {
-      label: "Admisible",
-      color: "warning",
-      description: "Posición aceptable",
-      dotClass: "bg-amber-500",
-    },
-    deficiente: {
-      label: "Deficiente",
-      color: "danger",
-      description: "Necesita atención",
-      dotClass: "bg-red-500",
-    },
-  };
+  );
 
   return (
     <Card
@@ -131,35 +255,12 @@ export default function CapitalTrabajo({ data }: CapitalTrabajoProps) {
           <div className="mt-3 flex flex-wrap items-center gap-2">
             <Tooltip
               content={
-                <div>
-                  Participación del capital de trabajo sobre el activo total
-                  informado en los estados contables.
-                </div>
-              }
-              placement="bottom"
-              size="md"
-            >
-              <Chip
-                className="border border-slate-300 bg-white text-slate-700"
-                color="success"
-                radius="sm"
-                size="sm"
-                variant="dot"
-              >
-                CT = {formatPercentage(shareOfAssets, 0)} del Activo total
-              </Chip>
-            </Tooltip>
-
-            <Tooltip
-              content={
-                <div>
-                  <p>
-                    <strong>Capital de trabajo neto sobre ventas.</strong>
-                  </p>
-                  <p>
-                    Relación entre el capital de trabajo y la facturación anual.
-                  </p>
-                </div>
+                <MetricTooltipContent
+                  criteria={shareOfAssetsCriteria}
+                  description="Porcentaje del activo total financiado con capital de trabajo."
+                  status={shareOfAssetsStatus}
+                  title="Capital de trabajo sobre activo total"
+                />
               }
               placement="bottom"
               radius="sm"
@@ -167,12 +268,54 @@ export default function CapitalTrabajo({ data }: CapitalTrabajoProps) {
             >
               <Chip
                 className="border border-slate-300 bg-white text-slate-700"
-                color="success"
+                color={STATUS_CONFIG[shareOfAssetsStatus].color}
                 radius="sm"
                 size="sm"
                 variant="dot"
               >
-                CTN/ventas = {formatPercentage(ctnVentas, 1)}
+                <span className="flex items-center gap-1">
+                  <span>
+                    CT = {formatPercentage(shareOfAssets, 0)} del Activo total
+                  </span>
+                  <span
+                    className={`text-xs font-semibold ${STATUS_CONFIG[shareOfAssetsStatus].textClass}`}
+                  >
+                    ({STATUS_CONFIG[shareOfAssetsStatus].label})
+                  </span>
+                </span>
+              </Chip>
+            </Tooltip>
+
+            <Tooltip
+              content={
+                <MetricTooltipContent
+                  criteria={workingCapitalTurnoverCriteria}
+                  description="Mide cuántas veces las ventas netas cubren el capital de trabajo neto durante el último ejercicio."
+                  status={workingCapitalTurnoverStatus}
+                  title="Rotación del capital de trabajo"
+                />
+              }
+              placement="bottom"
+              radius="sm"
+              shadow="sm"
+            >
+              <Chip
+                className="border border-slate-300 bg-white text-slate-700"
+                color={STATUS_CONFIG[workingCapitalTurnoverStatus].color}
+                radius="sm"
+                size="sm"
+                variant="dot"
+              >
+                <span className="flex items-center gap-1">
+                  <span>
+                    Rotación CT = {formatTurnover(workingCapitalTurnover, 1)}
+                  </span>
+                  <span
+                    className={`text-xs font-semibold ${STATUS_CONFIG[workingCapitalTurnoverStatus].textClass}`}
+                  >
+                    ({STATUS_CONFIG[workingCapitalTurnoverStatus].label})
+                  </span>
+                </span>
               </Chip>
             </Tooltip>
           </div>

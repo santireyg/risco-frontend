@@ -90,7 +90,7 @@ export interface KeyInsight {
 export interface CapitalTrabajo {
   value: number;
   variation: number;
-  ctnVentas: number;
+  workingCapitalTurnover: number;
   shareOfAssets: number;
 }
 
