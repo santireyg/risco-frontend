@@ -13,12 +13,7 @@ interface AnalisisRiesgoIAProps {
 
 const COLLAPSE_HEIGHT = 555;
 
-export default function AnalisisRiesgoIA({
-  companyName,
-  periodoCurrent,
-  periodoAnterior,
-  reportDate,
-}: AnalisisRiesgoIAProps) {
+export default function AnalisisRiesgoIA({ companyName, periodoCurrent, periodoAnterior, reportDate }: AnalisisRiesgoIAProps) {
   // Texto generado por IA (mock - en producción vendría de un servicio de IA)
   const analisisTexto = {
     introduccion: `${companyName}, dedicada a la venta de artículos para el hogar, presenta un perfil financiero contradictorio que requiere seguimiento especial. La empresa mantiene indicadores de liquidez sobresalientes con un capital de trabajo de $2,283 millones y una liquidez corriente de 4.54 veces, respaldada por disponibilidades líquidas que se incrementaron 75% interanual. Sin embargo, esta fortaleza aparente convive con señales preocupantes en su desempeño operativo y estructura de financiamiento.`,
@@ -74,39 +69,23 @@ export default function AnalisisRiesgoIA({
   const showGradient = isCollapsible && !isExpanded;
 
   return (
-    <Card
-      className="overflow-hidden border border-slate-200 shadow-sm"
-      radius="sm"
-      shadow="none"
-    >
+    <Card className="overflow-hidden border border-slate-200 shadow-sm" radius="sm" shadow="none">
       <div className="flex items-center  gap-3 px-6 py-4 border-b border-gray-200/80 bg-white">
         <div className="rounded-xl bg-slate-100 p-3">
           <HiSparkles className="h-6 w-6 text-slate-500" />
         </div>
         <div className="flex items-center gap-3">
-          <h2 className="text-2xl font-lights text-black">
-            Análisis de riesgo ejecutivo
-          </h2>
+          <h2 className="text-2xl font-lights text-black">Análisis de riesgo | Resumen ejecutivo</h2>
         </div>
       </div>
 
       <CardBody className="p-6">
         <div className="mb-4 flex flex-wrap items-center gap-2 text-sm text-gray-500">
           <span>Fuente:</span>
-          <Chip
-            className="border border-slate-300 text-slate-500"
-            radius="sm"
-            size="sm"
-            variant="bordered"
-          >
+          <Chip className="border border-slate-300 text-slate-500" radius="sm" size="sm" variant="bordered">
             Estados Contables del {periodoCurrent}
           </Chip>
-          <Chip
-            className="border border-slate-300 text-slate-500"
-            radius="sm"
-            size="sm"
-            variant="bordered"
-          >
+          <Chip className="border border-slate-300 text-slate-500" radius="sm" size="sm" variant="bordered">
             Datos del BCRA al {reportDate}
           </Chip>
         </div>
@@ -115,10 +94,7 @@ export default function AnalisisRiesgoIA({
           <div
             ref={contentRef}
             className={`space-y-4 text-gray-700 leading-relaxed transition-[max-height] duration-300 ease-in-out ${showGradient ? "overflow-hidden" : ""}`}
-            style={
-              showGradient ? { maxHeight: `${COLLAPSE_HEIGHT}px` } : undefined
-            }
-          >
+            style={showGradient ? { maxHeight: `${COLLAPSE_HEIGHT}px` } : undefined}>
             <p className="text-[15px]">{analisisTexto.introduccion}</p>
 
             <p className="text-[15px]">{analisisTexto.situacionFinanciera}</p>
@@ -127,9 +103,7 @@ export default function AnalisisRiesgoIA({
 
             <p className="text-[15px]">{analisisTexto.chequesRechazados}</p>
 
-            <p className="text-[15px] font-medium">
-              {analisisTexto.conclusion}
-            </p>
+            <p className="text-[15px] font-medium">{analisisTexto.conclusion}</p>
           </div>
 
           {showGradient && (
@@ -140,16 +114,11 @@ export default function AnalisisRiesgoIA({
         {isCollapsible && (
           <div className="flex justify-center pt-4">
             <button
-              aria-label={
-                isExpanded ? "Colapsar análisis" : "Expandir análisis"
-              }
+              aria-label={isExpanded ? "Colapsar análisis" : "Expandir análisis"}
               className="flex h-5 w-10 items-center justify-center rounded-full border border-gray-300 bg-white text-gray-300 shadow-sm transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-3"
               type="button"
-              onClick={() => setIsExpanded((prev) => !prev)}
-            >
-              <ChevronDown
-                className={`h-4 w-4 transition-transform ${isExpanded ? "rotate-180" : ""}`}
-              />
+              onClick={() => setIsExpanded((prev) => !prev)}>
+              <ChevronDown className={`h-4 w-4 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
             </button>
           </div>
         )}
