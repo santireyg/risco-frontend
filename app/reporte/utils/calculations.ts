@@ -61,10 +61,7 @@ export const calculateCapitalTrabajo = (
       : 0;
   const workingCapitalTurnover =
     capitalActual !== 0
-      ? round(
-          ingresos.ingresos_operativos_empresa_actual / capitalActual,
-          1,
-        )
+      ? round(ingresos.ingresos_operativos_empresa_actual / capitalActual, 1)
       : 0;
   const shareOfAssets = balance.activo_total_actual
     ? round((capitalActual / balance.activo_total_actual) * 100, 1)

@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 
 import { api, ApiError } from "../../lib/apiClient";
+import { logger } from "../../lib/logger";
 import { UserProfile } from "../../context/AuthContext";
 
 export interface UsersResponse {
@@ -92,8 +93,6 @@ export const useUserManagement = () => {
       );
     } catch (apiError) {
       if (apiError instanceof ApiError) {
-        const _detail = apiError.responseBody?.detail || "";
-
         switch (apiError.status) {
           case 403:
             setError("No tienes permisos para ver los usuarios registrados.");
@@ -130,16 +129,24 @@ export const useUserManagement = () => {
       if (apiError instanceof ApiError) {
         switch (apiError.status) {
           case 403:
-            console.error("No tienes permisos para ver usuarios pendientes");
+            setError("No tienes permisos para ver usuarios pendientes.");
+            logger.error("No tienes permisos para ver usuarios pendientes.");
             break;
           case 500:
-            console.error("Error del servidor al cargar usuarios pendientes");
+            setError("Error del servidor al cargar usuarios pendientes.");
+            logger.error("Error del servidor al cargar usuarios pendientes.");
             break;
           default:
-            console.error("Error cargando usuarios pendientes:", apiError);
+            setError(
+              `Error cargando usuarios pendientes (${apiError.status}). Intenta nuevamente.`,
+            );
+            logger.error("Error cargando usuarios pendientes:", apiError);
         }
       } else {
-        console.error(
+        setError(
+          "Error de conexión al cargar usuarios pendientes. Verifica tu internet e intenta nuevamente.",
+        );
+        logger.error(
           "Error de conexión al cargar usuarios pendientes:",
           apiError,
         );
@@ -287,7 +294,10 @@ export const useUserManagement = () => {
             },
           );
         } catch (error) {
-          console.error("Error refrescando usuarios:", error);
+          setError(
+            "No se pudo refrescar la lista de usuarios. Intenta nuevamente.",
+          );
+          logger.error("Error refrescando usuarios:", error);
         }
       };
 
@@ -297,7 +307,10 @@ export const useUserManagement = () => {
 
           setPendingUsers(response || []);
         } catch (error) {
-          console.error("Error refrescando usuarios pendientes:", error);
+          setError(
+            "No se pudo refrescar la lista de usuarios pendientes. Intenta nuevamente.",
+          );
+          logger.error("Error refrescando usuarios pendientes:", error);
         }
       };
 

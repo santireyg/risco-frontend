@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { api, ApiError } from "../../lib/apiClient"; // Importa tu apiClient
+import { logger } from "../../lib/logger";
 
 /**
  * Hook para manejar la subida y el procesamiento de archivos PDF utilizando apiClient.
@@ -66,7 +67,7 @@ const useUploadFiles = (setFileList: (files: UploadFile[]) => void) => {
           return;
         }
       }
-      console.error("Error uploading files:", error);
+      logger.error("Error uploading files:", error);
       setErrorMessage(`Error: ${error.message}`);
     } finally {
       setIsUploading(null);

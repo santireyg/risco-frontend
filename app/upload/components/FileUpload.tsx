@@ -14,6 +14,7 @@ import { InboxOutlined } from "@ant-design/icons";
 import { Button } from "@heroui/button";
 
 import useUploadFiles from "../hooks/useUploadFiles";
+import { logger } from "../../lib/logger";
 
 import SuccessMessage from "./SuccessMessage";
 
@@ -26,7 +27,6 @@ const FileUpload: React.FC = () => {
     isUploading,
     uploadedFileNames,
     showSuccessMessage,
-    setShowSuccessMessage: _setShowSuccessMessage,
     errorMessage,
     setErrorMessage,
   } = useUploadFiles(setFileList);
@@ -73,7 +73,7 @@ const FileUpload: React.FC = () => {
       setFileList(newFileList);
     },
     onDrop(e) {
-      console.log("Archivos arrastrados", e.dataTransfer.files);
+      logger.debug("Archivos arrastrados", e.dataTransfer.files);
     },
   };
 

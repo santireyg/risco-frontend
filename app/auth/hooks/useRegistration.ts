@@ -3,6 +3,7 @@
 import { useState, useCallback } from "react";
 
 import { api, ApiError } from "../../lib/apiClient";
+import { logger } from "../../lib/logger";
 import {
   validateField,
   validateEmailField,
@@ -186,7 +187,7 @@ export const useRegistration = () => {
 
       // Log para debugging del email
       if (response?.email_sent === false) {
-        console.warn(
+        logger.warn(
           "Usuario registrado pero no se pudo enviar email de verificación",
         );
       }

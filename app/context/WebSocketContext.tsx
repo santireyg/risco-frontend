@@ -106,7 +106,7 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({
         } else {
           // console.warn("[WS] Mensaje JSON recibido pero sin ID válido:", data);
         }
-      } catch (_e) {
+      } catch {
         // console.warn("[WS] Mensaje no JSON recibido:", event.data, e);
       }
     };

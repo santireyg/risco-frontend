@@ -1,9 +1,24 @@
 "use client";
 
+import type {
+  ChequesRechazados,
+  DebtEntity,
+  DebtHistory,
+  DebtPeriod,
+} from "../../types";
+import type { SortState } from "../tabs-components/estado-deudor/SortHeader";
+import type { ChipColor } from "../tabs-components/estado-deudor/helpers";
+import type { BarChartEntry } from "../tabs-components/estado-deudor/types";
+
 import React, { useMemo, useState } from "react";
+import { Button } from "@heroui/button";
 import { Card, CardBody } from "@heroui/card";
 import { Chip } from "@heroui/chip";
-import { Button } from "@heroui/button";
+import { Tooltip as HeroTooltip } from "@heroui/tooltip";
+import {
+  CheckCircleIcon,
+  ExclamationTriangleIcon,
+} from "@heroicons/react/24/solid";
 import {
   ResponsiveContainer,
   LineChart,
@@ -18,12 +33,14 @@ import {
   Pie,
   Cell,
 } from "recharts";
-import { CheckCircleIcon, ExclamationTriangleIcon } from "@heroicons/react/24/solid";
-import { Tooltip as HeroTooltip } from "@heroui/tooltip";
 
-import { ChequesRechazados, DebtHistory, DebtPeriod, DebtEntity } from "../../types";
-import { formatCurrency, formatPeriod, formatShortDate, formatSituacionLabel } from "../../utils/formatting";
-import SortHeader, { type SortState } from "../tabs-components/estado-deudor/SortHeader";
+import {
+  formatCurrency,
+  formatPeriod,
+  formatShortDate,
+  formatSituacionLabel,
+} from "../../utils/formatting";
+import SortHeader from "../tabs-components/estado-deudor/SortHeader";
 import BarTooltip from "../tabs-components/estado-deudor/BarTooltip";
 import ClassificationTooltip from "../tabs-components/estado-deudor/ClassificationTooltip";
 import BankConcentrationTooltip from "../tabs-components/estado-deudor/BankConcentrationTooltip";
@@ -34,8 +51,6 @@ import {
   getEstadoMultaChipColor,
   getSituacionChipColor,
 } from "../tabs-components/estado-deudor/helpers";
-import type { ChipColor } from "../tabs-components/estado-deudor/helpers";
-import type { BarChartEntry } from "../tabs-components/estado-deudor/types";
 
 type DebtSortKey = "entidad" | "situacion" | "monto" | "diasAtraso";
 
@@ -78,9 +93,25 @@ interface ChequeRow {
 }
 
 const stackedPalette = ["#2563EB", "#0EA5E9", "#10B981", "#F59E0B", "#F472B6"];
-const donutPalette = ["#2563EB", "#F97316", "#10B981", "#A855F7", "#F43F5E", "#14B8A6"];
+const donutPalette = [
+  "#2563EB",
+  "#F97316",
+  "#10B981",
+  "#A855F7",
+  "#F43F5E",
+  "#14B8A6",
+];
 
-const bankPalette = ["#2563EB", "#7C3AED", "#0EA5E9", "#22C55E", "#F97316", "#F43F5E", "#14B8A6", "#6366F1"];
+const bankPalette = [
+  "#2563EB",
+  "#7C3AED",
+  "#0EA5E9",
+  "#22C55E",
+  "#F97316",
+  "#F43F5E",
+  "#14B8A6",
+  "#6366F1",
+];
 
 const observationConfig = [
   {
@@ -186,7 +217,10 @@ const buildChequeRows = (cheques: ChequesRechazados): ChequeRow[] => {
   return rows;
 };
 
-const sortDebtRows = (rows: DebtRow[], sort: SortState<DebtSortKey>): DebtRow[] => {
+const sortDebtRows = (
+  rows: DebtRow[],
+  sort: SortState<DebtSortKey>,
+): DebtRow[] => {
   const sorted = [...rows].sort((a, b) => {
     const factor = sort.direction === "asc" ? 1 : -1;
 
@@ -204,7 +238,9 @@ const sortDebtRows = (rows: DebtRow[], sort: SortState<DebtSortKey>): DebtRow[] 
 
     const getDias = (value: number | null | undefined) => {
       if (value === null || value === undefined)
-        return sort.direction === "asc" ? Number.POSITIVE_INFINITY : Number.NEGATIVE_INFINITY;
+        return sort.direction === "asc"
+          ? Number.POSITIVE_INFINITY
+          : Number.NEGATIVE_INFINITY;
 
       return value;
     };
@@ -215,16 +251,25 @@ const sortDebtRows = (rows: DebtRow[], sort: SortState<DebtSortKey>): DebtRow[] 
   return sorted;
 };
 
-const sortChequeRows = (rows: ChequeRow[], sort: SortState<ChequeSortKey>): ChequeRow[] => {
+const sortChequeRows = (
+  rows: ChequeRow[],
+  sort: SortState<ChequeSortKey>,
+): ChequeRow[] => {
   const sorted = [...rows].sort((a, b) => {
     const factor = sort.direction === "asc" ? 1 : -1;
 
     switch (sort.column) {
       case "fechaRechazo":
-        return (new Date(a.fechaRechazo).getTime() - new Date(b.fechaRechazo).getTime()) * factor;
+        return (
+          (new Date(a.fechaRechazo).getTime() -
+            new Date(b.fechaRechazo).getTime()) *
+          factor
+        );
       case "fechaPago":
         return (
-          ((a.fechaPago ? new Date(a.fechaPago).getTime() : 0) - (b.fechaPago ? new Date(b.fechaPago).getTime() : 0)) * factor
+          ((a.fechaPago ? new Date(a.fechaPago).getTime() : 0) -
+            (b.fechaPago ? new Date(b.fechaPago).getTime() : 0)) *
+          factor
         );
       case "fechaPagoMulta":
         return (
@@ -266,7 +311,9 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
   });
   const [historyRange, setHistoryRange] = useState<12 | 24>(12);
   const [barMode, setBarMode] = useState<"total" | "detalle">("detalle");
-  const [chequesDonutMode, setChequesDonutMode] = useState<"cantidad" | "monto">("cantidad");
+  const [chequesDonutMode, setChequesDonutMode] = useState<
+    "cantidad" | "monto"
+  >("cantidad");
 
   const latestPeriod = useMemo(() => {
     const periods = deudasUltimoPeriodo?.results?.periodos ?? [];
@@ -276,11 +323,14 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
     return [...periods].sort((a, b) => b.periodo.localeCompare(a.periodo))[0];
   }, [deudasUltimoPeriodo]);
 
-  const debtRows = useMemo(() => sortDebtRows(buildDebtRows(latestPeriod), debtSort), [latestPeriod, debtSort]);
+  const debtRows = useMemo(
+    () => sortDebtRows(buildDebtRows(latestPeriod), debtSort),
+    [latestPeriod, debtSort],
+  );
 
   const chequeRows = useMemo(
     () => sortChequeRows(buildChequeRows(chequesRechazados), chequeSort),
-    [chequesRechazados, chequeSort]
+    [chequesRechazados, chequeSort],
   );
 
   const allDebtPeriods = useMemo(() => {
@@ -308,21 +358,29 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
 
           return currentMax;
         },
-        entidades.length ? 0 : null
+        entidades.length ? 0 : null,
       );
 
       return {
         period: period.periodo,
         label: formatPeriod(period.periodo),
-        classification: worstSituacion !== null && Number.isFinite(worstSituacion) ? worstSituacion : null,
+        classification:
+          worstSituacion !== null && Number.isFinite(worstSituacion)
+            ? worstSituacion
+            : null,
       };
     });
   }, [selectedDebtPeriods]);
 
-  const hasRiskData = useMemo(() => riskTrendData.some((entry) => entry.classification !== null), [riskTrendData]);
+  const hasRiskData = useMemo(
+    () => riskTrendData.some((entry) => entry.classification !== null),
+    [riskTrendData],
+  );
 
   const riskAverage = useMemo(() => {
-    const values = riskTrendData.map((entry) => entry.classification).filter((value): value is number => value !== null);
+    const values = riskTrendData
+      .map((entry) => entry.classification)
+      .filter((value): value is number => value !== null);
 
     if (!values.length) return null;
 
@@ -342,7 +400,9 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
       });
     });
 
-    const sortedEntities = Array.from(totalsByEntity.entries()).sort((a, b) => b[1] - a[1]);
+    const sortedEntities = Array.from(totalsByEntity.entries()).sort(
+      (a, b) => b[1] - a[1],
+    );
     const topEntities = sortedEntities.slice(0, 4).map(([entity]) => entity);
     const hasOther = sortedEntities.length > 4;
     const entityKeys = hasOther ? [...topEntities, "Otras"] : topEntities;
@@ -351,7 +411,9 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
       const entry: BarChartEntry = {
         period: period.periodo,
         label: formatPeriod(period.periodo),
-        total: period.entidades?.reduce((sum, ent) => sum + (ent.monto ?? 0), 0) ?? 0,
+        total:
+          period.entidades?.reduce((sum, ent) => sum + (ent.monto ?? 0), 0) ??
+          0,
         breakdown: {},
       };
 
@@ -360,7 +422,8 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
 
       period.entidades?.forEach((ent) => {
         if (topEntities.includes(ent.entidad)) {
-          breakdown[ent.entidad] = (breakdown[ent.entidad] ?? 0) + (ent.monto ?? 0);
+          breakdown[ent.entidad] =
+            (breakdown[ent.entidad] ?? 0) + (ent.monto ?? 0);
         } else {
           otherAccumulator += ent.monto ?? 0;
         }
@@ -382,18 +445,31 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
     return { chartData, entityKeys };
   }, [selectedDebtPeriods]);
 
-  const { chartData: barChartEntries, entityKeys: barEntityKeys } = barChartData;
+  const { chartData: barChartEntries, entityKeys: barEntityKeys } =
+    barChartData;
 
-  const hasBarData = useMemo(() => barChartEntries.some((entry) => entry.total > 0), [barChartEntries]);
+  const hasBarData = useMemo(
+    () => barChartEntries.some((entry) => entry.total > 0),
+    [barChartEntries],
+  );
 
   const chequesDonutData = useMemo(() => {
     const causales = chequesRechazados?.results?.causales ?? [];
 
     return causales.map((causal, index) => {
       const amount = causal.entidades.reduce((sum, entidad) => {
-        return sum + entidad.detalle.reduce((acc, detalle) => acc + (detalle.monto ?? 0), 0);
+        return (
+          sum +
+          entidad.detalle.reduce(
+            (acc, detalle) => acc + (detalle.monto ?? 0),
+            0,
+          )
+        );
       }, 0);
-      const count = causal.entidades.reduce((sum, entidad) => sum + entidad.detalle.length, 0);
+      const count = causal.entidades.reduce(
+        (sum, entidad) => sum + entidad.detalle.length,
+        0,
+      );
 
       return {
         causal: titleCase(causal.causal),
@@ -405,18 +481,28 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
   }, [chequesRechazados]);
 
   const donutTotals = useMemo(() => {
-    const totalAmount = chequesDonutData.reduce((sum, entry) => sum + entry.amount, 0);
-    const totalCount = chequesDonutData.reduce((sum, entry) => sum + entry.count, 0);
+    const totalAmount = chequesDonutData.reduce(
+      (sum, entry) => sum + entry.amount,
+      0,
+    );
+    const totalCount = chequesDonutData.reduce(
+      (sum, entry) => sum + entry.count,
+      0,
+    );
 
     return { totalAmount, totalCount };
   }, [chequesDonutData]);
 
   const donutChartData = useMemo(() => {
-    const baseTotal = chequesDonutMode === "monto" ? donutTotals.totalAmount : donutTotals.totalCount;
+    const baseTotal =
+      chequesDonutMode === "monto"
+        ? donutTotals.totalAmount
+        : donutTotals.totalCount;
 
     return chequesDonutData.map((entry) => {
       const value = chequesDonutMode === "monto" ? entry.amount : entry.count;
-      const percentage = baseTotal > 0 ? Math.round((value / baseTotal) * 100) : 0;
+      const percentage =
+        baseTotal > 0 ? Math.round((value / baseTotal) * 100) : 0;
 
       return {
         ...entry,
@@ -426,7 +512,10 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
     });
   }, [chequesDonutData, chequesDonutMode, donutTotals]);
 
-  const hasDonutData = useMemo(() => donutChartData.some((entry) => entry.value > 0), [donutChartData]);
+  const hasDonutData = useMemo(
+    () => donutChartData.some((entry) => entry.value > 0),
+    [donutChartData],
+  );
 
   const chequeSummary = useMemo(() => {
     const rows = chequeRows;
@@ -445,18 +534,24 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
   const totalDeudaActual = useMemo(() => {
     if (!latestPeriod) return 0;
 
-    return latestPeriod.entidades?.reduce((sum, ent) => sum + (ent.monto ?? 0), 0) ?? 0;
+    return (
+      latestPeriod.entidades?.reduce((sum, ent) => sum + (ent.monto ?? 0), 0) ??
+      0
+    );
   }, [latestPeriod]);
 
   const entidadesInformantes = useMemo(() => {
     if (!latestPeriod) return 0;
 
-    return latestPeriod.entidades?.filter((ent) => (ent.monto ?? 0) > 0).length ?? 0;
+    return (
+      latestPeriod.entidades?.filter((ent) => (ent.monto ?? 0) > 0).length ?? 0
+    );
   }, [latestPeriod]);
 
   const situacionGeneral = useMemo(() => {
     if (!latestPeriod) return undefined;
-    const situaciones = latestPeriod.entidades?.map((ent) => ent.situacion ?? 0) ?? [];
+    const situaciones =
+      latestPeriod.entidades?.map((ent) => ent.situacion ?? 0) ?? [];
 
     if (!situaciones.length) return undefined;
 
@@ -513,12 +608,21 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
     return result;
   }, [latestPeriod]);
 
-  const hasBankConcentrationData = useMemo(() => bankConcentrationData.some((entry) => entry.value > 0), [bankConcentrationData]);
+  const hasBankConcentrationData = useMemo(
+    () => bankConcentrationData.some((entry) => entry.value > 0),
+    [bankConcentrationData],
+  );
 
   const handleDebtSortChange = (column: DebtSortKey) => {
     setDebtSort((prev) => {
       const nextDirection =
-        prev.column === column ? (prev.direction === "asc" ? "desc" : "asc") : column === "entidad" ? "asc" : "desc";
+        prev.column === column
+          ? prev.direction === "asc"
+            ? "desc"
+            : "asc"
+          : column === "entidad"
+            ? "asc"
+            : "desc";
 
       return { column, direction: nextDirection };
     });
@@ -545,54 +649,101 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
     <div className="space-y-10">
       <section>
         <div className="mb-6">
-          <h2 className="text-2xl font-semibold text-gray-900">Situación actual general</h2>
-          <p className="text-sm text-gray-600">Información consolidada al {reportDate}.</p>
+          <h2 className="text-2xl font-semibold text-gray-900">
+            Situación actual general
+          </h2>
+          <p className="text-sm text-gray-600">
+            Información consolidada al {reportDate}.
+          </p>
         </div>
         <div className="grid gap-6 lg:grid-cols-5">
-          <Card className="border border-slate-200 shadow-sm lg:col-span-3" radius="lg" shadow="none">
+          <Card
+            className="border border-slate-200 shadow-sm lg:col-span-3"
+            radius="lg"
+            shadow="none"
+          >
             <CardBody className="p-6 space-y-6">
               <div>
-                <h3 className="text-lg font-semibold text-gray-900">Estado actual</h3>
-                <p className="text-sm text-gray-500">Informado por las entidades al BCRA a la fecha de creación del reporte</p>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Estado actual
+                </h3>
+                <p className="text-sm text-gray-500">
+                  Informado por las entidades al BCRA a la fecha de creación del
+                  reporte
+                </p>
                 <p className="text-xs text-gray-500 mt-1">
-                  Último período: {latestPeriod ? formatPeriod(latestPeriod.periodo) : "—"}
+                  Último período:{" "}
+                  {latestPeriod ? formatPeriod(latestPeriod.periodo) : "—"}
                 </p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="border border-slate-200 rounded-lg p-4">
-                  <div className="text-xs uppercase tracking-wide text-gray-500 mb-2">Clasificación</div>
-                  <Chip className="font-medium" color={getSituacionChipColor(situacionGeneral)} size="md" variant="flat">
+                  <div className="text-xs uppercase tracking-wide text-gray-500 mb-2">
+                    Clasificación
+                  </div>
+                  <Chip
+                    className="font-medium"
+                    color={getSituacionChipColor(situacionGeneral)}
+                    size="md"
+                    variant="flat"
+                  >
                     {formatSituacionForChip(situacionGeneral)}
                   </Chip>
                 </div>
                 <div className="border border-slate-200 rounded-lg p-4">
-                  <div className="text-xs uppercase tracking-wide text-gray-500 mb-1">Deuda actual total</div>
-                  <div className="text-2xl font-semibold text-gray-900">{formatCurrencyWithThreshold(totalDeudaActual)}</div>
-                  <p className="text-xs text-gray-500 mt-1">ARS reportados por el sistema financiero</p>
+                  <div className="text-xs uppercase tracking-wide text-gray-500 mb-1">
+                    Deuda actual total
+                  </div>
+                  <div className="text-2xl font-semibold text-gray-900">
+                    {formatCurrencyWithThreshold(totalDeudaActual)}
+                  </div>
+                  <p className="text-xs text-gray-500 mt-1">
+                    ARS reportados por el sistema financiero
+                  </p>
                 </div>
                 <div className="border border-slate-200 rounded-lg p-4">
-                  <div className="text-xs uppercase tracking-wide text-gray-500 mb-1">Entidades informantes</div>
-                  <div className="text-2xl font-semibold text-gray-900">{entidadesInformantes}</div>
-                  <p className="text-xs text-gray-500 mt-1">Con montos registrados en el último período</p>
+                  <div className="text-xs uppercase tracking-wide text-gray-500 mb-1">
+                    Entidades informantes
+                  </div>
+                  <div className="text-2xl font-semibold text-gray-900">
+                    {entidadesInformantes}
+                  </div>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Con montos registrados en el último período
+                  </p>
                 </div>
               </div>
             </CardBody>
           </Card>
 
-          <Card className="border border-slate-200 shadow-sm lg:col-span-2" radius="lg" shadow="none">
+          <Card
+            className="border border-slate-200 shadow-sm lg:col-span-2"
+            radius="lg"
+            shadow="none"
+          >
             <CardBody className="p-6 space-y-4">
               <div>
-                <h3 className="text-lg font-semibold text-gray-900">Cheques rechazados</h3>
-                <p className="text-sm text-gray-500">Datos acumulados informados por el BCRA</p>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Cheques rechazados
+                </h3>
+                <p className="text-sm text-gray-500">
+                  Datos acumulados informados por el BCRA
+                </p>
               </div>
               <div className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <div className="text-xs uppercase tracking-wide text-gray-500">Cantidad total</div>
-                    <div className="text-xl font-semibold text-gray-900">{chequeSummary.totalCheques}</div>
+                    <div className="text-xs uppercase tracking-wide text-gray-500">
+                      Cantidad total
+                    </div>
+                    <div className="text-xl font-semibold text-gray-900">
+                      {chequeSummary.totalCheques}
+                    </div>
                   </div>
                   <div>
-                    <div className="text-xs uppercase tracking-wide text-gray-500">Monto total rechazado</div>
+                    <div className="text-xs uppercase tracking-wide text-gray-500">
+                      Monto total rechazado
+                    </div>
                     <div className="text-xl font-semibold text-gray-900">
                       {formatCurrencyWithThreshold(chequeSummary.totalMonto)}
                     </div>
@@ -600,15 +751,20 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <div className="text-xs uppercase tracking-wide text-gray-500">Sin levantar</div>
+                    <div className="text-xs uppercase tracking-wide text-gray-500">
+                      Sin levantar
+                    </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-xl font-semibold text-gray-900">{chequeSummary.sinLevantar}</span>
+                      <span className="text-xl font-semibold text-gray-900">
+                        {chequeSummary.sinLevantar}
+                      </span>
                       <HeroTooltip
                         content={
                           chequeSummary.sinLevantar === 0
                             ? "No hay cheques pendientes de levantamiento"
                             : "Existen cheques pendientes de levantamiento"
-                        }>
+                        }
+                      >
                         <span>
                           {chequeSummary.sinLevantar === 0 ? (
                             <CheckCircleIcon className="h-5 w-5 text-success-500" />
@@ -620,9 +776,13 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
                     </div>
                   </div>
                   <div>
-                    <div className="text-xs uppercase tracking-wide text-gray-500">Monto pendiente</div>
+                    <div className="text-xs uppercase tracking-wide text-gray-500">
+                      Monto pendiente
+                    </div>
                     <div className="text-xl font-semibold text-gray-900">
-                      {formatCurrencyWithThreshold(chequeSummary.montoPendiente)}
+                      {formatCurrencyWithThreshold(
+                        chequeSummary.montoPendiente,
+                      )}
                     </div>
                   </div>
                 </div>
@@ -634,38 +794,63 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
 
       <section>
         <div className="mb-6">
-          <h2 className="text-2xl font-semibold text-gray-900">Evolución de Situación crediticia y Deuda</h2>
+          <h2 className="text-2xl font-semibold text-gray-900">
+            Evolución de Situación crediticia y Deuda
+          </h2>
           <div className="mt-3 inline-flex gap-2 rounded-lg bg-slate-100 p-1">
             <Button
               color="primary"
               size="sm"
               variant={historyRange === 12 ? "solid" : "light"}
-              onPress={() => setHistoryRange(12)}>
+              onPress={() => setHistoryRange(12)}
+            >
               Historia 12m
             </Button>
             <Button
               color="primary"
               size="sm"
               variant={historyRange === 24 ? "solid" : "light"}
-              onPress={() => setHistoryRange(24)}>
+              onPress={() => setHistoryRange(24)}
+            >
               Historia 24m
             </Button>
           </div>
         </div>
         <div className="grid gap-6 lg:grid-cols-2">
-          <Card className="border border-slate-200 shadow-sm" radius="lg" shadow="none">
+          <Card
+            className="border border-slate-200 shadow-sm"
+            radius="lg"
+            shadow="none"
+          >
             <CardBody className="p-6 space-y-4">
               <div>
-                <h3 className="text-lg font-semibold text-gray-900">Tendencia de clasificación</h3>
-                <p className="text-xs text-gray-500">Peor situación informada por las entidades cada mes</p>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Tendencia de clasificación
+                </h3>
+                <p className="text-xs text-gray-500">
+                  Peor situación informada por las entidades cada mes
+                </p>
               </div>
               {hasRiskData ? (
                 <div className="h-72">
                   <ResponsiveContainer>
                     <LineChart data={riskTrendData}>
-                      <CartesianGrid stroke="#E2E8F0" strokeDasharray="3 3" vertical={false} />
-                      <XAxis dataKey="label" stroke="#94A3B8" tick={{ fontSize: 11 }} />
-                      <YAxis domain={[0, 5]} stroke="#94A3B8" tick={{ fontSize: 11 }} ticks={[0, 1, 2, 3, 4, 5]} />
+                      <CartesianGrid
+                        stroke="#E2E8F0"
+                        strokeDasharray="3 3"
+                        vertical={false}
+                      />
+                      <XAxis
+                        dataKey="label"
+                        stroke="#94A3B8"
+                        tick={{ fontSize: 11 }}
+                      />
+                      <YAxis
+                        domain={[0, 5]}
+                        stroke="#94A3B8"
+                        tick={{ fontSize: 11 }}
+                        ticks={[0, 1, 2, 3, 4, 5]}
+                      />
                       <RechartsTooltip content={ClassificationTooltip as any} />
                       <Line
                         activeDot={{ r: 5 }}
@@ -679,31 +864,43 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
                   </ResponsiveContainer>
                 </div>
               ) : (
-                <div className="flex h-72 items-center justify-center text-sm text-gray-500">Sin datos disponibles.</div>
+                <div className="flex h-72 items-center justify-center text-sm text-gray-500">
+                  Sin datos disponibles.
+                </div>
               )}
             </CardBody>
           </Card>
 
-          <Card className="border border-slate-200 shadow-sm" radius="lg" shadow="none">
+          <Card
+            className="border border-slate-200 shadow-sm"
+            radius="lg"
+            shadow="none"
+          >
             <CardBody className="p-6 space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900">Evolución del monto total</h3>
-                  <p className="text-xs text-gray-500">Suma de montos informados por las entidades (ARS)</p>
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    Evolución del monto total
+                  </h3>
+                  <p className="text-xs text-gray-500">
+                    Suma de montos informados por las entidades (ARS)
+                  </p>
                 </div>
                 <div className="flex gap-2 bg-slate-100 rounded-lg p-1">
                   <Button
                     color="primary"
                     size="sm"
                     variant={barMode === "detalle" ? "solid" : "light"}
-                    onPress={() => setBarMode("detalle")}>
+                    onPress={() => setBarMode("detalle")}
+                  >
                     Por entidad
                   </Button>
                   <Button
                     color="primary"
                     size="sm"
                     variant={barMode === "total" ? "solid" : "light"}
-                    onPress={() => setBarMode("total")}>
+                    onPress={() => setBarMode("total")}
+                  >
                     Total
                   </Button>
                 </div>
@@ -712,23 +909,46 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
                 <div className="h-72">
                   <ResponsiveContainer>
                     <BarChart data={barChartEntries}>
-                      <CartesianGrid stroke="#E2E8F0" strokeDasharray="3 3" vertical={false} />
-                      <XAxis dataKey="label" stroke="#94A3B8" tick={{ fontSize: 11 }} />
+                      <CartesianGrid
+                        stroke="#E2E8F0"
+                        strokeDasharray="3 3"
+                        vertical={false}
+                      />
+                      <XAxis
+                        dataKey="label"
+                        stroke="#94A3B8"
+                        tick={{ fontSize: 11 }}
+                      />
                       <YAxis
                         stroke="#94A3B8"
                         tick={{ fontSize: 11 }}
-                        tickFormatter={(value: number) => `$${(value / 1000).toFixed(0)}K`}
+                        tickFormatter={(value: number) =>
+                          `$${(value / 1000).toFixed(0)}K`
+                        }
                       />
-                      <RechartsTooltip content={(props: any) => <BarTooltip {...props} mode={barMode} />} cursor={false} />
+                      <RechartsTooltip
+                        content={(props: any) => (
+                          <BarTooltip {...props} mode={barMode} />
+                        )}
+                        cursor={false}
+                      />
                       {barMode === "total" ? (
-                        <Bar dataKey="total" fill="#2563EB" radius={[6, 6, 0, 0]} />
+                        <Bar
+                          dataKey="total"
+                          fill="#2563EB"
+                          radius={[6, 6, 0, 0]}
+                        />
                       ) : (
                         barEntityKeys.map((key, index) => (
                           <Bar
                             key={key}
                             dataKey={key}
                             fill={stackedPalette[index % stackedPalette.length]}
-                            radius={index === barEntityKeys.length - 1 ? [6, 6, 0, 0] : undefined}
+                            radius={
+                              index === barEntityKeys.length - 1
+                                ? [6, 6, 0, 0]
+                                : undefined
+                            }
                             stackId="entidades"
                           />
                         ))
@@ -737,7 +957,9 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
                   </ResponsiveContainer>
                 </div>
               ) : (
-                <div className="flex h-72 items-center justify-center text-sm text-gray-500">Sin movimientos registrados.</div>
+                <div className="flex h-72 items-center justify-center text-sm text-gray-500">
+                  Sin movimientos registrados.
+                </div>
               )}
             </CardBody>
           </Card>
@@ -746,16 +968,28 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
 
       <section>
         <div className="mb-4">
-          <h2 className="text-2xl font-semibold text-gray-900">Detalle por entidad — último período</h2>
-          <p className="text-sm text-gray-600">Clasificación, días de atraso y observaciones</p>
+          <h2 className="text-2xl font-semibold text-gray-900">
+            Detalle por entidad — último período
+          </h2>
+          <p className="text-sm text-gray-600">
+            Clasificación, días de atraso y observaciones
+          </p>
         </div>
 
         <div className="grid gap-6 lg:grid-cols-4 items-stretch">
-          <Card className="border border-slate-200 shadow-sm lg:col-span-1 flex flex-col" radius="lg" shadow="none">
+          <Card
+            className="border border-slate-200 shadow-sm lg:col-span-1 flex flex-col"
+            radius="lg"
+            shadow="none"
+          >
             <CardBody className="p-6 space-y-4 flex-1 flex flex-col">
               <div>
-                <h3 className="text-lg font-semibold text-gray-900">Concentración bancaria</h3>
-                <p className="text-xs text-gray-500">Participación por entidad (último período)</p>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Concentración bancaria
+                </h3>
+                <p className="text-xs text-gray-500">
+                  Participación por entidad (último período)
+                </p>
               </div>
               {hasBankConcentrationData ? (
                 <>
@@ -768,23 +1002,37 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
                           innerRadius={60}
                           nameKey="entidad"
                           outerRadius={90}
-                          paddingAngle={4}>
+                          paddingAngle={4}
+                        >
                           {bankConcentrationData.map((entry) => (
-                            <Cell key={entry.entidad} fill={entry.color} stroke="white" strokeWidth={1} />
+                            <Cell
+                              key={entry.entidad}
+                              fill={entry.color}
+                              stroke="white"
+                              strokeWidth={1}
+                            />
                           ))}
                         </Pie>
-                        <RechartsTooltip content={BankConcentrationTooltip as any} />
+                        <RechartsTooltip
+                          content={BankConcentrationTooltip as any}
+                        />
                       </PieChart>
                     </ResponsiveContainer>
                   </div>
                   <div className="space-y-2">
                     {bankConcentrationData.map((entry) => (
-                      <div key={entry.entidad} className="flex items-center gap-2 text-xs text-gray-600">
+                      <div
+                        key={entry.entidad}
+                        className="flex items-center gap-2 text-xs text-gray-600"
+                      >
                         <span
                           className="inline-block h-2.5 w-2.5 flex-shrink-0 rounded-full"
                           style={{ backgroundColor: entry.color }}
                         />
-                        <span className="max-w-[12rem] truncate" title={entry.entidad}>
+                        <span
+                          className="max-w-[12rem] truncate"
+                          title={entry.entidad}
+                        >
                           {entry.entidad}
                         </span>
                       </div>
@@ -799,7 +1047,11 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
             </CardBody>
           </Card>
 
-          <Card className="border border-slate-200 shadow-sm lg:col-span-3 flex flex-col" radius="lg" shadow="none">
+          <Card
+            className="border border-slate-200 shadow-sm lg:col-span-3 flex flex-col"
+            radius="lg"
+            shadow="none"
+          >
             <CardBody className="p-0 flex-1 flex flex-col">
               <div className="overflow-x-auto flex-1">
                 <div className="max-h-full overflow-y-auto">
@@ -807,16 +1059,31 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
                     <thead className="bg-slate-50">
                       <tr>
                         <th className="px-4 py-3 text-left">
-                          <SortHeader column="entidad" current={debtSort} label="Entidad" onChange={handleDebtSortChange} />
+                          <SortHeader
+                            column="entidad"
+                            current={debtSort}
+                            label="Entidad"
+                            onChange={handleDebtSortChange}
+                          />
                         </th>
                         <th className="px-4 py-3 text-left">
-                          <SortHeader column="situacion" current={debtSort} label="Situación" onChange={handleDebtSortChange} />
+                          <SortHeader
+                            column="situacion"
+                            current={debtSort}
+                            label="Situación"
+                            onChange={handleDebtSortChange}
+                          />
                         </th>
                         <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-slate-500">
                           Situación 1 desde
                         </th>
                         <th className="px-4 py-3 text-left">
-                          <SortHeader column="monto" current={debtSort} label="Monto (ARS)" onChange={handleDebtSortChange} />
+                          <SortHeader
+                            column="monto"
+                            current={debtSort}
+                            label="Monto (ARS)"
+                            onChange={handleDebtSortChange}
+                          />
                         </th>
                         <th className="px-4 py-3 text-left">
                           <SortHeader
@@ -834,31 +1101,55 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
                     <tbody className="divide-y divide-slate-100">
                       {debtRows.length === 0 ? (
                         <tr>
-                          <td className="px-4 py-6 text-center text-sm text-gray-500" colSpan={6}>
-                            Sin movimientos registrados para el período seleccionado.
+                          <td
+                            className="px-4 py-6 text-center text-sm text-gray-500"
+                            colSpan={6}
+                          >
+                            Sin movimientos registrados para el período
+                            seleccionado.
                           </td>
                         </tr>
                       ) : (
                         debtRows.map((row) => (
-                          <tr key={row.entidad} className="hover:bg-slate-50 transition-colors">
-                            <td className="px-4 py-3 text-sm text-gray-900">{row.entidad}</td>
+                          <tr
+                            key={row.entidad}
+                            className="hover:bg-slate-50 transition-colors"
+                          >
+                            <td className="px-4 py-3 text-sm text-gray-900">
+                              {row.entidad}
+                            </td>
                             <td className="px-4 py-3">
-                              <Chip color={getSituacionChipColor(row.situacion)} size="sm" variant="flat">
+                              <Chip
+                                color={getSituacionChipColor(row.situacion)}
+                                size="sm"
+                                variant="flat"
+                              >
                                 {formatSituacionLabel(row.situacion)}
                               </Chip>
                             </td>
                             <td className="px-4 py-3 text-sm text-gray-600">
-                              {row.fechaSit1 ? formatShortDate(row.fechaSit1) : "—"}
+                              {row.fechaSit1
+                                ? formatShortDate(row.fechaSit1)
+                                : "—"}
                             </td>
-                            <td className="px-4 py-3 text-sm text-gray-900">{formatCurrency(row.monto)}</td>
-                            <td className="px-4 py-3 text-sm text-gray-600">{row.diasAtraso ?? "—"}</td>
+                            <td className="px-4 py-3 text-sm text-gray-900">
+                              {formatCurrency(row.monto)}
+                            </td>
+                            <td className="px-4 py-3 text-sm text-gray-600">
+                              {row.diasAtraso ?? "—"}
+                            </td>
                             <td className="px-4 py-3">
                               {row.observaciones.length === 0 ? (
                                 <span className="text-sm text-gray-500">—</span>
                               ) : (
                                 <div className="flex flex-wrap gap-2">
                                   {row.observaciones.map((obs) => (
-                                    <Chip key={`${row.entidad}-${obs.label}`} color={obs.color} size="sm" variant="flat">
+                                    <Chip
+                                      key={`${row.entidad}-${obs.label}`}
+                                      color={obs.color}
+                                      size="sm"
+                                      variant="flat"
+                                    >
                                       {obs.label}
                                     </Chip>
                                   ))}
@@ -879,16 +1170,29 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
 
       <section>
         <div className="mb-4">
-          <h2 className="text-2xl font-semibold text-gray-900">Detalle de cheques rechazados</h2>
-          <p className="text-sm text-gray-600">Incluye estado de multa y levantamiento</p>
+          <h2 className="text-2xl font-semibold text-gray-900">
+            Detalle de cheques rechazados
+          </h2>
+          <p className="text-sm text-gray-600">
+            Incluye estado de multa y levantamiento
+          </p>
           <div className="mt-3 flex">
-            <Chip color={unpaidCount === 0 ? "success" : "danger"} variant="flat">
-              {unpaidCount === 0 ? "Todos los cheques rechazados ya han sido pagados" : `${unpaidCount} cheques sin pagar`}
+            <Chip
+              color={unpaidCount === 0 ? "success" : "danger"}
+              variant="flat"
+            >
+              {unpaidCount === 0
+                ? "Todos los cheques rechazados ya han sido pagados"
+                : `${unpaidCount} cheques sin pagar`}
             </Chip>
           </div>
         </div>
         <div className="grid gap-6 lg:grid-cols-4 items-stretch">
-          <Card className="border border-slate-200 shadow-sm lg:col-span-3 flex flex-col" radius="lg" shadow="none">
+          <Card
+            className="border border-slate-200 shadow-sm lg:col-span-3 flex flex-col"
+            radius="lg"
+            shadow="none"
+          >
             <CardBody className="p-0 flex-1 flex flex-col">
               <div className="overflow-x-auto flex-1 max-h-[500px]">
                 <div className="max-h-full overflow-y-auto">
@@ -912,13 +1216,28 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
                           />
                         </th>
                         <th className="px-4 py-3 text-left">
-                          <SortHeader column="causal" current={chequeSort} label="Causal" onChange={handleChequeSortChange} />
+                          <SortHeader
+                            column="causal"
+                            current={chequeSort}
+                            label="Causal"
+                            onChange={handleChequeSortChange}
+                          />
                         </th>
                         <th className="px-4 py-3 text-left">
-                          <SortHeader column="entidad" current={chequeSort} label="Entidad" onChange={handleChequeSortChange} />
+                          <SortHeader
+                            column="entidad"
+                            current={chequeSort}
+                            label="Entidad"
+                            onChange={handleChequeSortChange}
+                          />
                         </th>
                         <th className="px-4 py-3 text-left">
-                          <SortHeader column="monto" current={chequeSort} label="Monto (ARS)" onChange={handleChequeSortChange} />
+                          <SortHeader
+                            column="monto"
+                            current={chequeSort}
+                            label="Monto (ARS)"
+                            onChange={handleChequeSortChange}
+                          />
                         </th>
                         <th className="px-4 py-3 text-left">
                           <SortHeader
@@ -949,26 +1268,50 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
                     <tbody className="divide-y divide-slate-100">
                       {chequeRows.length === 0 ? (
                         <tr>
-                          <td className="px-4 py-6 text-center text-sm text-gray-500" colSpan={8}>
+                          <td
+                            className="px-4 py-6 text-center text-sm text-gray-500"
+                            colSpan={8}
+                          >
                             No se registran cheques rechazados.
                           </td>
                         </tr>
                       ) : (
                         chequeRows.map((row) => (
-                          <tr key={row.id} className="hover:bg-slate-50 transition-colors">
-                            <td className="px-4 py-3 text-sm text-gray-600">{formatShortDate(row.fechaRechazo)}</td>
-                            <td className="px-4 py-3 text-sm text-gray-900">{row.nroCheque}</td>
-                            <td className="px-4 py-3 text-sm text-gray-600">{row.causal}</td>
-                            <td className="px-4 py-3 text-sm text-gray-600">{row.entidad}</td>
-                            <td className="px-4 py-3 text-sm text-gray-900">{formatCurrency(row.monto)}</td>
+                          <tr
+                            key={row.id}
+                            className="hover:bg-slate-50 transition-colors"
+                          >
                             <td className="px-4 py-3 text-sm text-gray-600">
-                              {row.fechaPago ? formatShortDate(row.fechaPago) : "—"}
+                              {formatShortDate(row.fechaRechazo)}
+                            </td>
+                            <td className="px-4 py-3 text-sm text-gray-900">
+                              {row.nroCheque}
                             </td>
                             <td className="px-4 py-3 text-sm text-gray-600">
-                              {row.fechaPagoMulta ? formatShortDate(row.fechaPagoMulta) : "—"}
+                              {row.causal}
+                            </td>
+                            <td className="px-4 py-3 text-sm text-gray-600">
+                              {row.entidad}
+                            </td>
+                            <td className="px-4 py-3 text-sm text-gray-900">
+                              {formatCurrency(row.monto)}
+                            </td>
+                            <td className="px-4 py-3 text-sm text-gray-600">
+                              {row.fechaPago
+                                ? formatShortDate(row.fechaPago)
+                                : "—"}
+                            </td>
+                            <td className="px-4 py-3 text-sm text-gray-600">
+                              {row.fechaPagoMulta
+                                ? formatShortDate(row.fechaPagoMulta)
+                                : "—"}
                             </td>
                             <td className="px-4 py-3">
-                              <Chip color={getEstadoMultaChipColor(row.estadoMulta)} size="sm" variant="flat">
+                              <Chip
+                                color={getEstadoMultaChipColor(row.estadoMulta)}
+                                size="sm"
+                                variant="flat"
+                              >
                                 {row.estadoMulta}
                               </Chip>
                             </td>
@@ -982,25 +1325,35 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
             </CardBody>
           </Card>
 
-          <Card className="border border-slate-200 shadow-sm lg:col-span-1 flex flex-col" radius="lg" shadow="none">
+          <Card
+            className="border border-slate-200 shadow-sm lg:col-span-1 flex flex-col"
+            radius="lg"
+            shadow="none"
+          >
             <CardBody className="p-6 space-y-4 flex-1 flex flex-col max-h-[500px]">
               <div>
-                <h3 className="text-lg font-semibold text-gray-900">Distribución por causal</h3>
-                <p className="text-xs text-gray-500">Participación por cantidad o monto</p>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Distribución por causal
+                </h3>
+                <p className="text-xs text-gray-500">
+                  Participación por cantidad o monto
+                </p>
               </div>
               <div className="inline-flex w-fit gap-2 rounded-lg bg-slate-100 p-1">
                 <Button
                   color="primary"
                   size="sm"
                   variant={chequesDonutMode === "cantidad" ? "solid" : "light"}
-                  onPress={() => setChequesDonutMode("cantidad")}>
+                  onPress={() => setChequesDonutMode("cantidad")}
+                >
                   Cantidad
                 </Button>
                 <Button
                   color="primary"
                   size="sm"
                   variant={chequesDonutMode === "monto" ? "solid" : "light"}
-                  onPress={() => setChequesDonutMode("monto")}>
+                  onPress={() => setChequesDonutMode("monto")}
+                >
                   Monto
                 </Button>
               </div>
@@ -1015,9 +1368,15 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
                           innerRadius={60}
                           nameKey="causal"
                           outerRadius={90}
-                          paddingAngle={4}>
+                          paddingAngle={4}
+                        >
                           {donutChartData.map((entry) => (
-                            <Cell key={entry.causal} fill={entry.color} stroke="white" strokeWidth={1} />
+                            <Cell
+                              key={entry.causal}
+                              fill={entry.color}
+                              stroke="white"
+                              strokeWidth={1}
+                            />
                           ))}
                         </Pie>
                         <RechartsTooltip content={ChequesDonutTooltip as any} />
@@ -1026,13 +1385,21 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
                   </div>
                   <div className="space-y-2">
                     {donutChartData.map((entry) => (
-                      <div key={entry.causal} className="flex items-center justify-between text-sm">
+                      <div
+                        key={entry.causal}
+                        className="flex items-center justify-between text-sm"
+                      >
                         <div className="flex items-center gap-2 text-gray-600">
-                          <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: entry.color }} />
+                          <span
+                            className="inline-block h-2.5 w-2.5 rounded-full"
+                            style={{ backgroundColor: entry.color }}
+                          />
                           <span>{entry.causal}</span>
                         </div>
                         <div className="text-right">
-                          <div className="font-medium text-gray-900">{entry.percentage}%</div>
+                          <div className="font-medium text-gray-900">
+                            {entry.percentage}%
+                          </div>
                           <div className="text-xs text-gray-500">
                             {chequesDonutMode === "monto"
                               ? formatCurrencyWithThreshold(entry.amount)

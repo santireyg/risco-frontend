@@ -56,7 +56,7 @@ const ImageViewer: React.FC<ImageViewerProps> = ({
         );
 
         setPreloadedImages(loadedImages);
-      } catch (_error) {
+      } catch {
         // Manejar el error si es necesario.
       }
     };

@@ -283,27 +283,6 @@ const InformationCard: React.FC<InformationCardProps> = ({
     return `${d.day.toString().padStart(2, "0")}/${d.month.toString().padStart(2, "0")}/${d.year}`;
   };
 
-  // Helper para formatear moneda
-  const formatCurrency = (value: number | string) => {
-    if (value === undefined || value === null || value === "-") return "-";
-    const num = typeof value === "string" ? parseFloat(value) : value;
-
-    if (isNaN(num)) return "-";
-    const isNegative = num < 0;
-    const formattedValue = Math.abs(num)
-      .toLocaleString("es-AR", {
-        style: "currency",
-        currency: "ARS",
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 2,
-      })
-      .replace(/\./g, "X")
-      .replace(/,/g, ".")
-      .replace(/X/g, ",");
-
-    return isNegative ? `( ${formattedValue} ) ` : formattedValue;
-  };
-
   // Helper para formatear CUIT con guiones
   const formatCuit = (cuit: string) => {
     if (!cuit || cuit.length !== 11) return cuit || "-";
@@ -312,108 +291,6 @@ const InformationCard: React.FC<InformationCardProps> = ({
   };
 
   // Datos a exportar para el modal (con valores actual y anterior)
-  const resultadosPrincipalesBalance =
-    editableDocument?.balance_data?.resultados_principales || {};
-  const resultadosPrincipalesResultados =
-    editableDocument?.income_statement_data?.resultados_principales || {};
-  const exportData = [
-    {
-      concepto: "Disponibilidades",
-      actual: formatCurrency(
-        resultadosPrincipalesBalance.disponibilidades_caja_banco_o_equivalentes_actual,
-      ),
-      anterior: formatCurrency(
-        resultadosPrincipalesBalance.disponibilidades_caja_banco_o_equivalentes_anterior,
-      ),
-    },
-    {
-      concepto: "Bienes de cambio o equivalentes",
-      actual: formatCurrency(
-        resultadosPrincipalesBalance.bienes_de_cambio_o_equivalentes_actual,
-      ),
-      anterior: formatCurrency(
-        resultadosPrincipalesBalance.bienes_de_cambio_o_equivalentes_anterior,
-      ),
-    },
-    {
-      concepto: "Activo corriente",
-      actual: formatCurrency(
-        resultadosPrincipalesBalance.activo_corriente_actual,
-      ),
-      anterior: formatCurrency(
-        resultadosPrincipalesBalance.activo_corriente_anterior,
-      ),
-    },
-    {
-      concepto: "Activo no corriente",
-      actual: formatCurrency(
-        resultadosPrincipalesBalance.activo_no_corriente_actual,
-      ),
-      anterior: formatCurrency(
-        resultadosPrincipalesBalance.activo_no_corriente_anterior,
-      ),
-    },
-    {
-      concepto: "Activo total",
-      actual: formatCurrency(resultadosPrincipalesBalance.activo_total_actual),
-      anterior: formatCurrency(
-        resultadosPrincipalesBalance.activo_total_anterior,
-      ),
-    },
-    {
-      concepto: "Pasivo corriente",
-      actual: formatCurrency(
-        resultadosPrincipalesBalance.pasivo_corriente_actual,
-      ),
-      anterior: formatCurrency(
-        resultadosPrincipalesBalance.pasivo_corriente_anterior,
-      ),
-    },
-    {
-      concepto: "Pasivo no corriente",
-      actual: formatCurrency(
-        resultadosPrincipalesBalance.pasivo_no_corriente_actual,
-      ),
-      anterior: formatCurrency(
-        resultadosPrincipalesBalance.pasivo_no_corriente_anterior,
-      ),
-    },
-    {
-      concepto: "Pasivo total",
-      actual: formatCurrency(resultadosPrincipalesBalance.pasivo_total_actual),
-      anterior: formatCurrency(
-        resultadosPrincipalesBalance.pasivo_total_anterior,
-      ),
-    },
-    {
-      concepto: "Patrimonio neto",
-      actual: formatCurrency(
-        resultadosPrincipalesBalance.patrimonio_neto_actual,
-      ),
-      anterior: formatCurrency(
-        resultadosPrincipalesBalance.patrimonio_neto_anterior,
-      ),
-    },
-    {
-      concepto: "Ingresos operativos",
-      actual: formatCurrency(
-        resultadosPrincipalesResultados.ingresos_operativos_empresa_actual,
-      ),
-      anterior: formatCurrency(
-        resultadosPrincipalesResultados.ingresos_operativos_empresa_anterior,
-      ),
-    },
-    {
-      concepto: "Resultados del ejercicio",
-      actual: formatCurrency(
-        resultadosPrincipalesResultados.resultados_del_ejercicio_actual,
-      ),
-      anterior: formatCurrency(
-        resultadosPrincipalesResultados.resultados_del_ejercicio_anterior,
-      ),
-    },
-  ];
-
   return (
     <Card isFooterBlurred className="max-w bg-slate-100 border" shadow="none">
       <CardHeader className="pt-5 px-5 border-b-1 border-slate-200 relative">

@@ -18,7 +18,6 @@ import ResumenEjecutivo from "./components/tabs/ResumenEjecutivo";
 import PlaceholderTab from "./components/tabs/PlaceholderTab";
 import EstadoDeudorBCRATab from "./components/tabs/EstadoDeudorBCRATab";
 import { formatDate } from "./utils/formatting";
-
 // Importar datos mock
 import estadosContablesData from "./mock-data/datos_estados_contables.json";
 import deudasHistoriaData from "./mock-data/deudas_historia.json";

@@ -11,6 +11,7 @@ import React, {
 import { useRouter } from "next/navigation"; // Importa desde 'next/navigation' en App Router
 
 import { api, ApiError } from "../lib/apiClient";
+import { logger } from "../lib/logger";
 
 // Define la estructura esperada de los datos del usuario desde /api/me
 export interface UserProfile {
@@ -67,10 +68,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       setUser(null); // Asegura que el usuario sea null si la sesión no es válida
       if (error instanceof ApiError && error.status === 401) {
         // Es normal no tener sesión, no necesariamente un error a mostrar al usuario
-        console.log("No active session found via /me.");
+        logger.info("No active session found via /me.");
       } else {
         // Otro tipo de error (red, API caída, etc.) sí podría ser loggeado
-        console.error("Error checking session:", error);
+        logger.error("Error checking session:", error);
       }
       // No redirigir automáticamente aquí, podría causar bucles si la página
       // a la que redirige también llama a checkSession. La redirección
@@ -91,17 +92,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // Función de Logout
   const logout = useCallback(async () => {
-    console.log("Attempting logout...");
+    logger.info("Attempting logout...");
     try {
       // Llama al endpoint de logout usando el apiClient
       await api.post("logout", {}); // No necesita cuerpo
       setUser(null); // Limpia el estado del usuario localmente
-      console.log("Logout successful, redirecting to login.");
+      logger.info("Logout successful, redirecting to login.");
       router.push("/login"); // Redirige a la página de login
     } catch (error) {
       // Aunque falle la llamada API, limpia el estado local y redirige
       setUser(null);
-      console.error(
+      logger.error(
         "Error during API logout, but proceeding with local logout:",
         error,
       );

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation"; // <-- Agregado para redirección
 
 import { api, ApiError } from "../../lib/apiClient";
+import { logger } from "../../lib/logger";
 
 // Interfaces para los datos de documentos (puedes ajustarlas según tu modelo)
 export interface ValidationData {
@@ -83,7 +84,7 @@ export function useDocuments(params: {
     } catch (err) {
       // Manejo de errores específico del apiClient
       if (err instanceof ApiError) {
-        console.error(
+        logger.error(
           "API Error fetching documents:",
           err.status,
           err.message,
@@ -105,7 +106,7 @@ export function useDocuments(params: {
         }
       } else {
         // Error de red u otro error inesperado
-        console.error("Error fetching documents:", err);
+        logger.error("Error fetching documents:", err);
         setError(
           err instanceof Error ? err.message : "Ocurrió un error desconocido.",
         );

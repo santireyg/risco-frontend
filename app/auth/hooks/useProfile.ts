@@ -132,7 +132,10 @@ export const useProfile = () => {
       );
 
       // Actualizar el usuario en el contexto sin current_password
-      const { current_password: _current_password, ...updateData } = data;
+      const updateData = (({
+        current_password: _unusedCurrentPassword,
+        ...rest
+      }: ProfileUpdateData) => rest)(data);
 
       updateUserProfile(updateData);
 

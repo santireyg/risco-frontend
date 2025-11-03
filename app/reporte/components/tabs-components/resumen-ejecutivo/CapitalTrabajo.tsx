@@ -81,11 +81,7 @@ const STATUS_CONFIG: Record<
   },
 };
 
-const STATUS_ORDER: KPIStatus[] = [
-  "excelente",
-  "admisible",
-  "deficiente",
-];
+const STATUS_ORDER: KPIStatus[] = ["excelente", "admisible", "deficiente"];
 
 const SHARE_OF_ASSETS_THRESHOLDS: [number, number] = [5, 25];
 const WORKING_CAPITAL_TURNOVER_THRESHOLDS: [number, number] = [1, 1.5];
@@ -199,9 +195,7 @@ export default function CapitalTrabajo({ data }: CapitalTrabajoProps) {
     workingCapitalTurnover,
     WORKING_CAPITAL_TURNOVER_THRESHOLDS,
   );
-  const shareOfAssetsCriteria = buildCriteriaLabels(
-    SHARE_OF_ASSETS_THRESHOLDS,
-  );
+  const shareOfAssetsCriteria = buildCriteriaLabels(SHARE_OF_ASSETS_THRESHOLDS);
   const workingCapitalTurnoverCriteria = buildCriteriaLabels(
     WORKING_CAPITAL_TURNOVER_THRESHOLDS,
     {

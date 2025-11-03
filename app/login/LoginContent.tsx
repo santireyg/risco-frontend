@@ -9,6 +9,7 @@ import { Alert } from "@heroui/alert";
 import { Button } from "@heroui/button";
 
 import { api, ApiError } from "../lib/apiClient";
+import { logger } from "../lib/logger";
 import { useAuth } from "../context/AuthContext";
 
 const LoginContent: React.FC = () => {
@@ -44,11 +45,11 @@ const LoginContent: React.FC = () => {
       //    Ahora, verifica la sesión y actualiza el estado global llamando a checkSession.
       await checkSession(); // checkSession llama a /api/me y actualiza el contexto
 
-      console.log("Login successful, redirecting to home...");
+      logger.info("Login successful, redirecting to home...");
       // 4. Redirige a la página principal
       router.push("/home");
     } catch (error) {
-      console.error("Login failed:", error);
+      logger.error("Login failed:", error);
       setIsLoggingIn(false); // Habilita el botón de nuevo
 
       // Manejo de errores específico

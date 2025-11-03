@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 
 import { api, ApiError } from "../../lib/apiClient";
+import { logger } from "../../lib/logger";
 import {
   validateField,
   validationRules,
@@ -96,7 +97,7 @@ export const useResetPassword = () => {
 
       // Log para debugging del email
       if (response?.email_sent === false) {
-        console.warn(
+        logger.warn(
           "Contraseña restablecida pero no se pudo enviar email de confirmación",
         );
       }
@@ -119,8 +120,8 @@ export const useResetPassword = () => {
     } catch (apiError) {
       if (apiError instanceof ApiError) {
         // Debug para entender la estructura del error
-        console.log("Full API Error:", apiError);
-        console.log("Response Body:", apiError.responseBody);
+        logger.debug("Full API Error:", apiError);
+        logger.debug("Response Body:", apiError.responseBody);
 
         // Extraer el mensaje de error del backend
         let detail = "";

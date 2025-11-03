@@ -2,6 +2,8 @@
 
 import Cookies from "js-cookie";
 
+import { logger } from "./logger";
+
 /* ------------------------------------------------------------------ */
 /*                         TIPOS Y UTILIDADES                         */
 /* ------------------------------------------------------------------ */
@@ -35,7 +37,7 @@ export class ApiError extends Error {
 const backendBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 if (!backendBaseUrl) {
-  console.error("NEXT_PUBLIC_API_BASE_URL is not defined!");
+  logger.error("NEXT_PUBLIC_API_BASE_URL is not defined!");
 }
 
 /* Lee la cookie CSRF y la devuelve como encabezado (si existe) */
@@ -125,14 +127,14 @@ async function apiClient<T>(
     if (error instanceof ApiError) {
       // Solo loggear si no está en modo silencioso o si no es un 401
       if (!silent || error.status !== 401) {
-        console.error(
+        logger.error(
           `API Error (${error.status}): ${error.message}`,
           error.responseBody,
         );
       }
       throw error;
     }
-    console.error("Network or unexpected error:", error);
+    logger.error("Network or unexpected error:", error);
     throw new Error("Error de red o inesperado al conectar con la API.");
   }
 }

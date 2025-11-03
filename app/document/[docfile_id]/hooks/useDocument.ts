@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 
 import { useWebSocket } from "../../../context/WebSocketContext";
 import { api, ApiError } from "../../../lib/apiClient"; // Importa tu apiClient
+import { logger } from "../../../lib/logger";
 
 function useDocument(docfile_id: string) {
   const [document, setDocument] = useState<any>(null);
@@ -90,7 +91,7 @@ function useDocument(docfile_id: string) {
       setEditableDocument(JSON.parse(JSON.stringify(updatedData)));
       setIsEditing(false);
     } catch (err: any) {
-      console.error("Error al guardar cambios:", err);
+      logger.error("Error al guardar cambios:", err);
       alert(`Error al guardar los cambios: ${err.message}`);
     } finally {
       setIsSaving(false);

@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import { api, ApiError } from "../../lib/apiClient";
+import { logger } from "../../lib/logger";
 import { validateField, validationRules } from "../utils/validations";
 import { setRateLimitAttempt } from "../utils/authHelpers";
 import { SUCCESS_MESSAGES, RATE_LIMIT_KEYS } from "../utils/constants";
@@ -39,7 +40,7 @@ export const useForgotPassword = () => {
 
       // Nota: El backend siempre retorna el mismo mensaje por seguridad
       // No debemos mostrar si el email existe o no
-      console.log("Reset password response:", response.message);
+      logger.info("Reset password response:", response.message);
 
       return true;
     } catch (apiError) {
