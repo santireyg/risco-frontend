@@ -3,10 +3,10 @@
     "$oid": "68cda783af250ff413462213"
   },
   "balance_date": {
-    "$date": "2024-12-31T00:00:00.000Z"
+    "$date": "2024-12-31"
   },
   "balance_date_previous": {
-    "$date": "2023-12-31T00:00:00.000Z"
+    "$date": "2023-12-31"
   },
   "income_statement_data": {
     "resultados_principales": {
@@ -16,7 +16,59 @@
       "resultados_antes_de_impuestos_anterior": 474485746,
       "resultados_del_ejercicio_actual": 240611099,
       "resultados_del_ejercicio_anterior": 308415735
-    }
+    },
+    "detalles_estado_resultados": [
+        {
+        "concepto": "Ventas Netas",
+        "monto_periodo_actual": 1490489830,
+        "monto_periodo_anterior": 1965901234
+        },
+        {
+        "concepto": "Costo de Ventas",
+        "monto_periodo_actual": -683449250,
+        "monto_periodo_anterior": -926303962
+        },
+        {
+        "concepto": "GANANCIA BRUTA",
+        "monto_periodo_actual": 807040580,
+        "monto_periodo_anterior": 1039597272
+        },
+        {
+        "concepto": "Gastos de Comercialización",
+        "monto_periodo_actual": -135073036,
+        "monto_periodo_anterior": -121919573
+        },
+        {
+        "concepto": "Gastos de Administración",
+        "monto_periodo_actual": -117237695,
+        "monto_periodo_anterior": -90969162
+        },
+        {
+        "concepto": "Gastos de Financiación",
+        "monto_periodo_actual": -82897051,
+        "monto_periodo_anterior": -69944898
+        },
+        {
+        "concepto": "Resultados financieros y por tenencia incluido el RECPAM",
+        "monto_periodo_actual": -128102656,
+        "monto_periodo_anterior": -282277893
+        },
+        {
+        "concepto": "Resultado por operaciones ordinarias",
+        "monto_periodo_actual": 343730142,
+        "monto_periodo_anterior": 474485746
+        },
+        {
+        "concepto": "Impuesto a las Ganancias",
+        "monto_periodo_actual": -103119043,
+        "monto_periodo_anterior": -166070011
+        },
+        {
+        "concepto": "RESULTADO DEL EJERCICIO",
+        "monto_periodo_actual": 240611099,
+        "monto_periodo_anterior": 308415735
+        }
+    ]
   },
   "balance_data": {
     "resultados_principales": {
@@ -38,10 +90,96 @@
       "pasivo_total_anterior": 366780919,
       "patrimonio_neto_actual": 3080981768,
       "patrimonio_neto_anterior": 2840370667
-    }
+    },
+    "detalles_activo": [
+        {
+        "concepto": "Caja y Bancos (Nota 4a)",
+        "monto_periodo_actual": 1034356934,
+        "monto_periodo_anterior": 591105363
+        },
+        {
+        "concepto": "Créditos por Ventas (Nota 4b)",
+        "monto_periodo_actual": 1078608931,
+        "monto_periodo_anterior": 631477015
+        },
+        {
+        "concepto": "Otros Créditos (Nota 4 c)",
+        "monto_periodo_actual": 609290804,
+        "monto_periodo_anterior": 65701067
+        },
+        {
+        "concepto": "Bienes de Cambio (Nota 4 d)",
+        "monto_periodo_actual": 205254430,
+        "monto_periodo_anterior": 476794091
+        },
+        {
+        "concepto": "TOTAL DEL ACTIVO CORRIENTE",
+        "monto_periodo_actual": 2927511099,
+        "monto_periodo_anterior": 1765077536
+        },
+        {
+        "concepto": "Bienes de uso- Según anexo A",
+        "monto_periodo_actual": 1689807653,
+        "monto_periodo_anterior": 1442074051
+        },
+        {
+        "concepto": "TOTAL DEL ACTIVO NO CORRIENTE",
+        "monto_periodo_actual": 1689807653,
+        "monto_periodo_anterior": 1442074051
+        },
+        {
+        "concepto": "TOTAL DEL ACTIVO",
+        "monto_periodo_actual": 4617318752,
+        "monto_periodo_anterior": 3207151586
+        }
+    ],
+    "detalles_pasivo": [
+        {
+        "concepto": "Deudas Comerciales (Nota 5.1)",
+        "monto_periodo_actual": 227420464,
+        "monto_periodo_anterior": 195972152
+        },
+        {
+        "concepto": "Deudas Sociales-Fiscales (Nota 5.2)",
+        "monto_periodo_actual": 146985854,
+        "monto_periodo_anterior": 168157853
+        },
+        {
+        "concepto": "Deudas Bancarias (Nota 5.3)",
+        "monto_periodo_actual": 269716305,
+        "monto_periodo_anterior": 2650915
+        },
+        {
+        "concepto": "TOTAL DEL PASIVO CORRIENTE",
+        "monto_periodo_actual": 644122623,
+        "monto_periodo_anterior": 366780919
+        },
+        {
+        "concepto": "Deudas Bancarias (Nota 5.3)",
+        "monto_periodo_actual": 892214361,
+        "monto_periodo_anterior": 0
+        },
+        {
+        "concepto": "TOTAL DEL PASIVO NO CORRIENTE",
+        "monto_periodo_actual": 892214361,
+        "monto_periodo_anterior": 0
+        },
+        {
+        "concepto": "TOTAL DEL PASIVO",
+        "monto_periodo_actual": 1536336984,
+        "monto_periodo_anterior": 366780919
+        }
+    ],
+    "detalles_patrimonio_neto": [
+        {
+        "concepto": "PATRIMONIO NETO (Según estado respectivo)",
+        "monto_periodo_actual": 3080981768,
+        "monto_periodo_anterior": 2840370667
+        }
+    ]
   },
   "company_info": {
-    "company_cuit": "33714963339",
+    "company_cuit": "337602459",
     "company_name": "Grupo Río Bravo S.A.",
     "company_activity": "Venta de artículos para el hogar",
     "company_address": "Viamonte 1653 PB Ciudad Autónoma de Buenos Aires"

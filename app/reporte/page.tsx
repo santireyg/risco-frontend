@@ -17,6 +17,7 @@ import CompanyHeader from "./components/header/CompanyHeader";
 import ResumenEjecutivo from "./components/tabs/ResumenEjecutivo";
 import PlaceholderTab from "./components/tabs/PlaceholderTab";
 import EstadoDeudorBCRATab from "./components/tabs/EstadoDeudorBCRATab";
+import SituacionFinancieraTab from "./components/tabs/SituacionFinancieraTab";
 import { formatDate } from "./utils/formatting";
 // Importar datos mock
 import estadosContablesData from "./mock-data/datos_estados_contables.json";
@@ -117,10 +118,7 @@ export default function ReportePage() {
                   </div>
                 }
               >
-                <PlaceholderTab
-                  description="Esta sección contendrá gráficos detallados de evolución financiera, análisis de estados de resultados, ratios adicionales y comparativas temporales."
-                  title="Situación Financiera"
-                />
+                <SituacionFinancieraTab estadosContables={estadosContables} />
               </Tab>
               <Tab
                 key="deudor"

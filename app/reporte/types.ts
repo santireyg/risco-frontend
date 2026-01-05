@@ -43,15 +43,25 @@ export interface BalanceMainResults {
   patrimonio_neto_anterior: number;
 }
 
+export interface FinancialDetailItem {
+  concepto: string;
+  monto_periodo_actual: number;
+  monto_periodo_anterior: number;
+}
+
 export interface EstadosContables {
   _id?: MongoId;
   balance_date: MongoDate;
   balance_date_previous: MongoDate;
   income_statement_data: {
     resultados_principales: IncomeStatementMainResults;
+    detalles_estado_resultados?: FinancialDetailItem[];
   };
   balance_data: {
     resultados_principales: BalanceMainResults;
+    detalles_activo?: FinancialDetailItem[];
+    detalles_pasivo?: FinancialDetailItem[];
+    detalles_patrimonio_neto?: FinancialDetailItem[];
   };
   company_info: CompanyInfo;
 }
