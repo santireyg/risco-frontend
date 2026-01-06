@@ -88,8 +88,7 @@ export const formatShortDate = (value?: string | Date | null): string => {
 };
 
 export const formatSituacionLabel = (situacion?: number): string => {
-  if (situacion === undefined || situacion === null)
-    return "Situación desconocida";
+  if (situacion === undefined || situacion === null) return "Situación desconocida";
   const labels: Record<number, string> = {
     0: "Sin deuda",
     1: "Normal",
@@ -101,6 +100,25 @@ export const formatSituacionLabel = (situacion?: number): string => {
   const label = labels[situacion];
 
   return label ? `Situación ${situacion} — ${label}` : `Situación ${situacion}`;
+};
+
+export const formatSituacionChip = (situacion?: number): string => {
+  if (situacion === undefined || situacion === null) return "Sin registro";
+  return `Situación ${situacion}`;
+};
+
+export const formatSituacionDescription = (situacion?: number): string => {
+  if (situacion === undefined || situacion === null) return "Situación desconocida";
+  const descriptions: Record<number, string> = {
+    0: "Sin deuda",
+    1: "En situación normal",
+    2: "Con seguimiento especial",
+    3: "Con problemas",
+    4: "Con alto riesgo de insolvencia",
+    5: "Irrecuperable",
+    6: "Irrecuperable por disposición técnica",
+  };
+  return descriptions[situacion] || "Situación desconocida";
 };
 
 export const getKPIStatusColor = (status: KPIStatus): string => {

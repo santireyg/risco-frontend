@@ -9,7 +9,7 @@ export interface MongoDate {
 export interface CompanyInfo {
   company_cuit: string;
   company_name: string;
-  company_activity: string;
+  company_activity: string | null;
   company_address: string;
 }
 
@@ -166,4 +166,139 @@ export interface ChequesRechazadosResults {
 export interface ChequesRechazados {
   status: number;
   results: ChequesRechazadosResults;
+}
+
+// New types for mock_data_v2.json structure
+
+export interface AIKeyInsights {
+  strengths: string[];
+  watchouts: string[];
+  red_flags: string[];
+}
+
+export interface AIReport {
+  reasoned_analysis: string;
+  executive_summary: string;
+  key_insights: AIKeyInsights;
+}
+
+export interface BalanceDataV2Item {
+  concepto_code?: string;
+  concepto: string;
+  monto_actual: number;
+  monto_anterior: number;
+}
+
+export interface IncomeStatementDataV2Item {
+  concepto_code?: string;
+  concepto: string;
+  monto_actual: number;
+  monto_anterior: number;
+}
+
+export interface StatementDataV2 {
+  statement_date: MongoDate;
+  statement_date_previous: MongoDate;
+  balance_data: {
+    resultados_principales: BalanceDataV2Item[];
+    detalles_activo?: BalanceDataV2Item[];
+    detalles_pasivo?: BalanceDataV2Item[];
+    detalles_patrimonio_neto?: BalanceDataV2Item[];
+  };
+  income_statement_data: {
+    resultados_principales: IncomeStatementDataV2Item[];
+    detalles_estado_resultados?: IncomeStatementDataV2Item[];
+  };
+}
+
+export interface BCRADebtEntityV2 {
+  entidad: string;
+  situacion: number;
+  fechaSit1?: string | null;
+  monto: number;
+  diasAtrasoPago?: number | null;
+  refinanciaciones?: boolean;
+  recategorizacionOblig?: boolean;
+  situacionJuridica?: boolean;
+  irrecDisposicionTecnica?: boolean;
+  enRevision: boolean;
+  procesoJud: boolean;
+}
+
+export interface BCRADebtPeriodV2 {
+  periodo: string;
+  entidades: BCRADebtEntityV2[];
+}
+
+export interface BCRAChequeDetalleV2 {
+  nroCheque: number;
+  fechaRechazo: string;
+  monto: number;
+  fechaPago: string | null;
+  fechaPagoMulta: string | null;
+  estadoMulta: string | null;
+  ctaPersonal: boolean;
+  denomJuridica: string | null;
+  enRevision: boolean;
+  procesoJud: boolean;
+}
+
+export interface BCRAChequeEntidadV2 {
+  entidad: number | string;
+  detalle: BCRAChequeDetalleV2[];
+}
+
+export interface BCRAChequeCausalV2 {
+  causal: string;
+  entidades: BCRAChequeEntidadV2[];
+}
+
+export interface BCRADataV2 {
+  identificacion: string;
+  denominacion: string;
+  fecha_consulta: string;
+  deudas_ultimo_periodo: {
+    periodo: string;
+    entidades: BCRADebtEntityV2[];
+  };
+  deudas_historia: BCRADebtPeriodV2[];
+  cheques_rechazados: BCRAChequeCausalV2[];
+}
+
+export interface IndicatorV2 {
+  code: string;
+  name: string;
+  description: string;
+  formula: string;
+  criteria: {
+    deficiente: string;
+    admisible: string;
+    excelente: string;
+  };
+  value_current: number;
+  value_previous: number;
+  variation: number;
+  classification_current: string;
+  classification_previous: string;
+}
+
+export interface ReporteDataV2 {
+  _id: MongoId;
+  tenant_id: string;
+  docfile_id: string;
+  status: string;
+  company_name: string;
+  company_cuit: string;
+  company_info: CompanyInfo;
+  created_at: MongoDate;
+  created_by: {
+    user_id: string;
+    name: string;
+    tenant_id: string;
+  };
+  statement_data: StatementDataV2;
+  indicators: IndicatorV2[];
+  bcra_data: BCRADataV2;
+  ai_report: AIReport;
+  error_message: string | null;
 }
