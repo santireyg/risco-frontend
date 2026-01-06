@@ -88,7 +88,8 @@ export const formatShortDate = (value?: string | Date | null): string => {
 };
 
 export const formatSituacionLabel = (situacion?: number): string => {
-  if (situacion === undefined || situacion === null) return "Situación desconocida";
+  if (situacion === undefined || situacion === null)
+    return "Situación desconocida";
   const labels: Record<number, string> = {
     0: "Sin deuda",
     1: "Normal",
@@ -104,11 +105,13 @@ export const formatSituacionLabel = (situacion?: number): string => {
 
 export const formatSituacionChip = (situacion?: number): string => {
   if (situacion === undefined || situacion === null) return "Sin registro";
+
   return `Situación ${situacion}`;
 };
 
 export const formatSituacionDescription = (situacion?: number): string => {
-  if (situacion === undefined || situacion === null) return "Situación desconocida";
+  if (situacion === undefined || situacion === null)
+    return "Situación desconocida";
   const descriptions: Record<number, string> = {
     0: "Sin deuda",
     1: "En situación normal",
@@ -118,6 +121,7 @@ export const formatSituacionDescription = (situacion?: number): string => {
     5: "Irrecuperable",
     6: "Irrecuperable por disposición técnica",
   };
+
   return descriptions[situacion] || "Situación desconocida";
 };
 

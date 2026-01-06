@@ -63,7 +63,11 @@ export default function KeyInsights({ insights }: KeyInsightsProps) {
   ];
 
   return (
-    <Card className="border border-slate-200 shadow-sm" radius="sm" shadow="none">
+    <Card
+      className="border border-slate-200 shadow-sm"
+      radius="sm"
+      shadow="none"
+    >
       <CardBody className="p-6">
         <h2 className="text-xl font-bold text-gray-900 mb-4">Key Insights</h2>
         <div className="space-y-2.5">
@@ -71,12 +75,18 @@ export default function KeyInsights({ insights }: KeyInsightsProps) {
             <div
               key={index}
               className={`flex gap-2.5 p-3 border-l-3 rounded-r transition-colors ${getInsightBorderColor(
-                insight.type
-              )} ${getInsightBgColor(insight.type)} border border-gray-100`}>
-              <div className="flex-shrink-0 mt-0.5">{getInsightIcon(insight.type)}</div>
+                insight.type,
+              )} ${getInsightBgColor(insight.type)} border border-gray-100`}
+            >
+              <div className="flex-shrink-0 mt-0.5">
+                {getInsightIcon(insight.type)}
+              </div>
               <div className="flex-1 min-w-0">
                 <div className="prose prose-sm max-w-none text-gray-700 [&_p]:text-xs [&_p]:leading-relaxed [&_p]:mb-2 [&_p:last-child]:mb-0 [&_strong]:font-semibold [&_ul]:list-disc [&_ul]:ml-4 [&_ul]:text-xs [&_ol]:list-decimal [&_ol]:ml-4 [&_ol]:text-xs [&_li]:mb-1 [&_li]:pl-1">
-                  <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeSanitize]}>
+                  <ReactMarkdown
+                    rehypePlugins={[rehypeSanitize]}
+                    remarkPlugins={[remarkGfm]}
+                  >
                     {insight.content}
                   </ReactMarkdown>
                 </div>

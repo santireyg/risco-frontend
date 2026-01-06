@@ -17,12 +17,7 @@ export class ApiError extends Error {
   statusText: string;
   responseBody?: any;
 
-  constructor(
-    message: string,
-    status: number,
-    statusText: string,
-    responseBody?: any,
-  ) {
+  constructor(message: string, status: number, statusText: string, responseBody?: any) {
     super(message);
     this.name = "ApiError";
     this.status = status;
@@ -51,10 +46,7 @@ function getCsrfHeader(): Record<string, string> {
 /*                       FUNCIÓN BASE DE LLAMADAS                     */
 /* ------------------------------------------------------------------ */
 
-async function apiClient<T>(
-  endpoint: string,
-  options: CustomRequestInit = {},
-): Promise<T> {
+async function apiClient<T>(endpoint: string, options: CustomRequestInit = {}): Promise<T> {
   if (!backendBaseUrl) throw new Error("API Base URL is not configured.");
 
   const url = `${backendBaseUrl}/${endpoint.replace(/^\//, "")}`;
@@ -107,18 +99,10 @@ async function apiClient<T>(
           responseBody = "No se pudo leer el cuerpo de la respuesta de error.";
         }
       }
-      throw new ApiError(
-        `API request failed: ${response.statusText}`,
-        response.status,
-        response.statusText,
-        responseBody,
-      );
+      throw new ApiError(`API request failed: ${response.statusText}`, response.status, response.statusText, responseBody);
     }
 
-    if (
-      response.status === 204 ||
-      response.headers.get("Content-Length") === "0"
-    ) {
+    if (response.status === 204 || response.headers.get("Content-Length") === "0") {
       return undefined as T;
     }
 
@@ -127,15 +111,15 @@ async function apiClient<T>(
     if (error instanceof ApiError) {
       // Solo loggear si no está en modo silencioso o si no es un 401
       if (!silent || error.status !== 401) {
-        logger.error(
-          `API Error (${error.status}): ${error.message}`,
-          error.responseBody,
-        );
+        logger.error(`API Error (${error.status}): ${error.message}`, error.responseBody);
       }
       throw error;
     }
-    logger.error("Network or unexpected error:", error);
-    throw new Error("Error de red o inesperado al conectar con la API.");
+    // Error de red (backend caído, CORS, etc.)
+    if (!silent) {
+      logger.error("Network error:", error);
+    }
+    throw new Error("No se pudo conectar con el servidor. Verifica que el backend esté ejecutándose.");
   }
 }
 
@@ -144,8 +128,7 @@ async function apiClient<T>(
 /* ------------------------------------------------------------------ */
 
 export const api = {
-  get: <T>(endpoint: string, options?: CustomRequestInit) =>
-    apiClient<T>(endpoint, { ...options, method: "GET" }),
+  get: <T>(endpoint: string, options?: CustomRequestInit) => apiClient<T>(endpoint, { ...options, method: "GET" }),
 
   post: <T>(endpoint: string, body?: any, options?: CustomRequestInit) => {
     let bodyToSend: BodyInit | null = null;
@@ -198,6 +181,5 @@ export const api = {
     });
   },
 
-  delete: <T>(endpoint: string, options?: CustomRequestInit) =>
-    apiClient<T>(endpoint, { ...options, method: "DELETE" }),
+  delete: <T>(endpoint: string, options?: CustomRequestInit) => apiClient<T>(endpoint, { ...options, method: "DELETE" }),
 };

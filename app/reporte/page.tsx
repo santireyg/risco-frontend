@@ -26,89 +26,60 @@ const formatCuit = (cuit?: string | null) => {
   return `${digits.slice(0, 2)}-${digits.slice(2, 10)}-${digits.slice(10)}`;
 };
 
+// Helper function to find balance item by code
+const findBalanceItem = (items: any[], code: string) => {
+  const item = items.find((item) => item.concepto_code === code);
+
+  return {
+    actual: item?.monto_actual || 0,
+    anterior: item?.monto_anterior || 0,
+  };
+};
+
+// Helper function to map detail items from V2 to legacy format
+const mapDetailItems = (items?: any[]) => {
+  if (!items) return undefined;
+
+  return items.map((item) => ({
+    concepto: item.concepto,
+    monto_periodo_actual: item.monto_actual,
+    monto_periodo_anterior: item.monto_anterior,
+  }));
+};
+
 export default function ReportePage() {
   const router = useRouter();
 
   const reporteData = reporteDataV2 as unknown as ReporteDataV2;
 
-  // Build deudasHistoria from reporteData.bcra_data
+  // Build data structures from reporteData.bcra_data
   const deudasHistoria = {
     status: 200,
     results: {
       identificacion: parseInt(reporteData.bcra_data.identificacion),
       denominacion: reporteData.bcra_data.denominacion,
-      periodos: [reporteData.bcra_data.deudas_ultimo_periodo, ...reporteData.bcra_data.deudas_historia].map((periodo) => ({
-        periodo: periodo.periodo,
-        entidades: periodo.entidades.map((entidad) => ({
-          entidad: entidad.entidad,
-          situacion: entidad.situacion,
-          monto: entidad.monto,
-          enRevision: entidad.enRevision,
-          procesoJud: entidad.procesoJud,
-          fechaSit1: entidad.fechaSit1,
-          diasAtrasoPago: entidad.diasAtrasoPago,
-          refinanciaciones: entidad.refinanciaciones,
-          recategorizacionOblig: entidad.recategorizacionOblig,
-          situacionJuridica: entidad.situacionJuridica,
-          irrecDisposicionTecnica: entidad.irrecDisposicionTecnica,
-        })),
-      })),
+      periodos: [reporteData.bcra_data.deudas_ultimo_periodo, ...reporteData.bcra_data.deudas_historia],
     },
   };
 
-  // Build deudasUltimoPeriodo from reporteData.bcra_data
   const deudasUltimoPeriodo = {
     status: 200,
     results: {
       identificacion: parseInt(reporteData.bcra_data.identificacion),
       denominacion: reporteData.bcra_data.denominacion,
-      periodos: [
-        {
-          periodo: reporteData.bcra_data.deudas_ultimo_periodo.periodo,
-          entidades: reporteData.bcra_data.deudas_ultimo_periodo.entidades.map((entidad) => ({
-            entidad: entidad.entidad,
-            situacion: entidad.situacion,
-            monto: entidad.monto,
-            enRevision: entidad.enRevision,
-            procesoJud: entidad.procesoJud,
-            fechaSit1: entidad.fechaSit1,
-            diasAtrasoPago: entidad.diasAtrasoPago,
-            refinanciaciones: entidad.refinanciaciones,
-            recategorizacionOblig: entidad.recategorizacionOblig,
-            situacionJuridica: entidad.situacionJuridica,
-            irrecDisposicionTecnica: entidad.irrecDisposicionTecnica,
-          })),
-        },
-      ],
+      periodos: [reporteData.bcra_data.deudas_ultimo_periodo],
     },
   };
 
-  // Build chequesRechazados from reporteData.bcra_data
   const chequesRechazados = {
     status: 200,
     results: {
       identificacion: parseInt(reporteData.bcra_data.identificacion),
       denominacion: reporteData.bcra_data.denominacion,
-      causales: reporteData.bcra_data.cheques_rechazados.map((cheque) => ({
-        causal: cheque.causal,
-        entidades: cheque.entidades.map((ent) => ({
-          entidad: ent.entidad,
-          detalle: ent.detalle.map((det) => ({
-            nroCheque: det.nroCheque,
-            fechaRechazo: det.fechaRechazo,
-            monto: det.monto,
-            fechaPago: det.fechaPago,
-            fechaPagoMulta: det.fechaPagoMulta,
-            estadoMulta: det.estadoMulta,
-            ctaPersonal: det.ctaPersonal,
-            denomJuridica: det.denomJuridica,
-            enRevision: det.enRevision,
-            procesoJud: det.procesoJud,
-          })),
-        })),
-      })),
+      causales: reporteData.bcra_data.cheques_rechazados,
     },
   };
+
   const formattedCuit = formatCuit(reporteData?.company_info?.company_cuit);
 
   return (
@@ -172,137 +143,70 @@ export default function ReportePage() {
                   </div>
                 }>
                 <SituacionFinancieraTab
-                  indicators={reporteData.indicators}
                   estadosContables={{
                     balance_date: reporteData.statement_data.statement_date,
                     balance_date_previous: reporteData.statement_data.statement_date_previous,
                     company_info: reporteData.company_info,
                     balance_data: {
-                      resultados_principales: {
-                        disponibilidades_caja_banco_o_equivalentes_actual:
-                          reporteData.statement_data.balance_data.resultados_principales.find(
-                            (item) => item.concepto_code === "disponibilidades"
-                          )?.monto_actual || 0,
-                        disponibilidades_caja_banco_o_equivalentes_anterior:
-                          reporteData.statement_data.balance_data.resultados_principales.find(
-                            (item) => item.concepto_code === "disponibilidades"
-                          )?.monto_anterior || 0,
-                        bienes_de_cambio_o_equivalentes_actual:
-                          reporteData.statement_data.balance_data.resultados_principales.find(
-                            (item) => item.concepto_code === "bienes_de_cambio"
-                          )?.monto_actual || 0,
-                        bienes_de_cambio_o_equivalentes_anterior:
-                          reporteData.statement_data.balance_data.resultados_principales.find(
-                            (item) => item.concepto_code === "bienes_de_cambio"
-                          )?.monto_anterior || 0,
-                        activo_corriente_actual:
-                          reporteData.statement_data.balance_data.resultados_principales.find(
-                            (item) => item.concepto_code === "activo_corriente"
-                          )?.monto_actual || 0,
-                        activo_corriente_anterior:
-                          reporteData.statement_data.balance_data.resultados_principales.find(
-                            (item) => item.concepto_code === "activo_corriente"
-                          )?.monto_anterior || 0,
-                        activo_no_corriente_actual:
-                          reporteData.statement_data.balance_data.resultados_principales.find(
-                            (item) => item.concepto_code === "activo_no_corriente"
-                          )?.monto_actual || 0,
-                        activo_no_corriente_anterior:
-                          reporteData.statement_data.balance_data.resultados_principales.find(
-                            (item) => item.concepto_code === "activo_no_corriente"
-                          )?.monto_anterior || 0,
-                        activo_total_actual:
-                          reporteData.statement_data.balance_data.resultados_principales.find(
-                            (item) => item.concepto_code === "activo_total"
-                          )?.monto_actual || 0,
-                        activo_total_anterior:
-                          reporteData.statement_data.balance_data.resultados_principales.find(
-                            (item) => item.concepto_code === "activo_total"
-                          )?.monto_anterior || 0,
-                        pasivo_corriente_actual:
-                          reporteData.statement_data.balance_data.resultados_principales.find(
-                            (item) => item.concepto_code === "pasivo_corriente"
-                          )?.monto_actual || 0,
-                        pasivo_corriente_anterior:
-                          reporteData.statement_data.balance_data.resultados_principales.find(
-                            (item) => item.concepto_code === "pasivo_corriente"
-                          )?.monto_anterior || 0,
-                        pasivo_no_corriente_actual:
-                          reporteData.statement_data.balance_data.resultados_principales.find(
-                            (item) => item.concepto_code === "pasivo_no_corriente"
-                          )?.monto_actual || 0,
-                        pasivo_no_corriente_anterior:
-                          reporteData.statement_data.balance_data.resultados_principales.find(
-                            (item) => item.concepto_code === "pasivo_no_corriente"
-                          )?.monto_anterior || 0,
-                        pasivo_total_actual:
-                          reporteData.statement_data.balance_data.resultados_principales.find(
-                            (item) => item.concepto_code === "pasivo_total"
-                          )?.monto_actual || 0,
-                        pasivo_total_anterior:
-                          reporteData.statement_data.balance_data.resultados_principales.find(
-                            (item) => item.concepto_code === "pasivo_total"
-                          )?.monto_anterior || 0,
-                        patrimonio_neto_actual:
-                          reporteData.statement_data.balance_data.resultados_principales.find(
-                            (item) => item.concepto_code === "patrimonio_neto"
-                          )?.monto_actual || 0,
-                        patrimonio_neto_anterior:
-                          reporteData.statement_data.balance_data.resultados_principales.find(
-                            (item) => item.concepto_code === "patrimonio_neto"
-                          )?.monto_anterior || 0,
-                      },
-                      detalles_activo: reporteData.statement_data.balance_data.detalles_activo?.map((item) => ({
-                        concepto: item.concepto,
-                        monto_periodo_actual: item.monto_actual,
-                        monto_periodo_anterior: item.monto_anterior,
-                      })),
-                      detalles_pasivo: reporteData.statement_data.balance_data.detalles_pasivo?.map((item) => ({
-                        concepto: item.concepto,
-                        monto_periodo_actual: item.monto_actual,
-                        monto_periodo_anterior: item.monto_anterior,
-                      })),
-                      detalles_patrimonio_neto: reporteData.statement_data.balance_data.detalles_patrimonio_neto?.map((item) => ({
-                        concepto: item.concepto,
-                        monto_periodo_actual: item.monto_actual,
-                        monto_periodo_anterior: item.monto_anterior,
-                      })),
+                      resultados_principales: (() => {
+                        const balanceItems = reporteData.statement_data.balance_data.resultados_principales;
+                        const disponibilidades = findBalanceItem(balanceItems, "disponibilidades");
+                        const bienesCambio = findBalanceItem(balanceItems, "bienes_de_cambio");
+                        const activoCorriente = findBalanceItem(balanceItems, "activo_corriente");
+                        const activoNoCorriente = findBalanceItem(balanceItems, "activo_no_corriente");
+                        const activoTotal = findBalanceItem(balanceItems, "activo_total");
+                        const pasivoCorriente = findBalanceItem(balanceItems, "pasivo_corriente");
+                        const pasivoNoCorriente = findBalanceItem(balanceItems, "pasivo_no_corriente");
+                        const pasivoTotal = findBalanceItem(balanceItems, "pasivo_total");
+                        const patrimonioNeto = findBalanceItem(balanceItems, "patrimonio_neto");
+
+                        return {
+                          disponibilidades_caja_banco_o_equivalentes_actual: disponibilidades.actual,
+                          disponibilidades_caja_banco_o_equivalentes_anterior: disponibilidades.anterior,
+                          bienes_de_cambio_o_equivalentes_actual: bienesCambio.actual,
+                          bienes_de_cambio_o_equivalentes_anterior: bienesCambio.anterior,
+                          activo_corriente_actual: activoCorriente.actual,
+                          activo_corriente_anterior: activoCorriente.anterior,
+                          activo_no_corriente_actual: activoNoCorriente.actual,
+                          activo_no_corriente_anterior: activoNoCorriente.anterior,
+                          activo_total_actual: activoTotal.actual,
+                          activo_total_anterior: activoTotal.anterior,
+                          pasivo_corriente_actual: pasivoCorriente.actual,
+                          pasivo_corriente_anterior: pasivoCorriente.anterior,
+                          pasivo_no_corriente_actual: pasivoNoCorriente.actual,
+                          pasivo_no_corriente_anterior: pasivoNoCorriente.anterior,
+                          pasivo_total_actual: pasivoTotal.actual,
+                          pasivo_total_anterior: pasivoTotal.anterior,
+                          patrimonio_neto_actual: patrimonioNeto.actual,
+                          patrimonio_neto_anterior: patrimonioNeto.anterior,
+                        };
+                      })(),
+                      detalles_activo: mapDetailItems(reporteData.statement_data.balance_data.detalles_activo),
+                      detalles_pasivo: mapDetailItems(reporteData.statement_data.balance_data.detalles_pasivo),
+                      detalles_patrimonio_neto: mapDetailItems(reporteData.statement_data.balance_data.detalles_patrimonio_neto),
                     },
                     income_statement_data: {
-                      resultados_principales: {
-                        ingresos_operativos_empresa_actual:
-                          reporteData.statement_data.income_statement_data.resultados_principales.find(
-                            (item) => item.concepto_code === "ingresos_por_venta"
-                          )?.monto_actual || 0,
-                        ingresos_operativos_empresa_anterior:
-                          reporteData.statement_data.income_statement_data.resultados_principales.find(
-                            (item) => item.concepto_code === "ingresos_por_venta"
-                          )?.monto_anterior || 0,
-                        resultados_antes_de_impuestos_actual:
-                          reporteData.statement_data.income_statement_data.resultados_principales.find(
-                            (item) => item.concepto_code === "resultados_antes_de_impuestos"
-                          )?.monto_actual || 0,
-                        resultados_antes_de_impuestos_anterior:
-                          reporteData.statement_data.income_statement_data.resultados_principales.find(
-                            (item) => item.concepto_code === "resultados_antes_de_impuestos"
-                          )?.monto_anterior || 0,
-                        resultados_del_ejercicio_actual:
-                          reporteData.statement_data.income_statement_data.resultados_principales.find(
-                            (item) => item.concepto_code === "resultados_del_ejercicio"
-                          )?.monto_actual || 0,
-                        resultados_del_ejercicio_anterior:
-                          reporteData.statement_data.income_statement_data.resultados_principales.find(
-                            (item) => item.concepto_code === "resultados_del_ejercicio"
-                          )?.monto_anterior || 0,
-                      },
-                      detalles_estado_resultados:
-                        reporteData.statement_data.income_statement_data.detalles_estado_resultados?.map((item) => ({
-                          concepto: item.concepto,
-                          monto_periodo_actual: item.monto_actual,
-                          monto_periodo_anterior: item.monto_anterior,
-                        })),
+                      resultados_principales: (() => {
+                        const incomeItems = reporteData.statement_data.income_statement_data.resultados_principales;
+                        const ingresosVenta = findBalanceItem(incomeItems, "ingresos_por_venta");
+                        const resultadosAntesImpuestos = findBalanceItem(incomeItems, "resultados_antes_de_impuestos");
+                        const resultadosEjercicio = findBalanceItem(incomeItems, "resultados_del_ejercicio");
+
+                        return {
+                          ingresos_operativos_empresa_actual: ingresosVenta.actual,
+                          ingresos_operativos_empresa_anterior: ingresosVenta.anterior,
+                          resultados_antes_de_impuestos_actual: resultadosAntesImpuestos.actual,
+                          resultados_antes_de_impuestos_anterior: resultadosAntesImpuestos.anterior,
+                          resultados_del_ejercicio_actual: resultadosEjercicio.actual,
+                          resultados_del_ejercicio_anterior: resultadosEjercicio.anterior,
+                        };
+                      })(),
+                      detalles_estado_resultados: mapDetailItems(
+                        reporteData.statement_data.income_statement_data.detalles_estado_resultados
+                      ),
                     },
                   }}
+                  indicators={reporteData.indicators}
                 />
               </Tab>
               <Tab

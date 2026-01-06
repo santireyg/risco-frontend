@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 import { Card, CardBody } from "@heroui/card";
-import { KPI } from "../../../types";
-import { formatNumber, formatPercentage, getKPIStatusColor, cn } from "../../../utils/formatting";
 import {
   Briefcase,
   Percent,
@@ -17,6 +15,9 @@ import {
   ChevronUp,
 } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
+
+import { KPI } from "../../../types";
+import { formatNumber, formatPercentage } from "../../../utils/formatting";
 import { formatCompactMoney } from "../../../utils/chart-formatting";
 
 interface FinancialKPIsGridProps {
@@ -37,6 +38,7 @@ const getIcon = (name: string) => {
     "Margen Operativo": TrendingUpDown,
   };
   const Icon = icons[name] || Activity;
+
   return <Icon className="w-5 h-5 text-gray-500" />;
 };
 
@@ -53,7 +55,7 @@ const getStatusLabel = (status: string) => {
   }
 };
 
-export default function FinancialKPIsGrid({ kpis, currentYear, previousYear }: FinancialKPIsGridProps) {
+export default function FinancialKPIsGrid({ kpis, previousYear }: FinancialKPIsGridProps) {
   const [expandedKPI, setExpandedKPI] = useState<string | null>(null);
 
   const toggleKPI = (name: string) => {
@@ -75,10 +77,10 @@ export default function FinancialKPIsGrid({ kpis, currentYear, previousYear }: F
           <Card
             key={kpi.name}
             isPressable
-            onPress={() => toggleKPI(kpi.name)}
             className={`border transition-all duration-300 bg-white group ${isExpanded ? "border-primary-500 ring-1 ring-primary-100 shadow-md" : "border-slate-200 shadow-none hover:border-primary-200"}`}
             radius="sm"
-            shadow="none">
+            shadow="none"
+            onPress={() => toggleKPI(kpi.name)}>
             <CardBody className="p-0">
               {/* Main Row */}
               <div className="p-4 flex items-center justify-between gap-4">
@@ -126,11 +128,11 @@ export default function FinancialKPIsGrid({ kpis, currentYear, previousYear }: F
               <AnimatePresence>
                 {isExpanded && (
                   <motion.div
-                    initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
+                    className="overflow-hidden"
                     exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="overflow-hidden">
+                    initial={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2 }}>
                     <div className="border-t border-gray-100 bg-gray-50/50 p-5 space-y-6">
                       {/* Values Row - Actual and Previous side by side */}
                       <div className="grid grid-cols-2 gap-4">
