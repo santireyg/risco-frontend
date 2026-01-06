@@ -1,4 +1,4 @@
-import { CapitalTrabajo, EstadosContables, KPI, KPIStatus } from "../types";
+import { CapitalTrabajo, EstadosContables, KPI, KPIStatus, IndicatorV2 } from "../types";
 
 const toPercentage = (value: number, multiplier = 100) => value * multiplier;
 
@@ -8,11 +8,7 @@ const round = (value: number, decimals = 2) => {
   return Math.round(value * factor) / factor;
 };
 
-const getTrend = (
-  current: number,
-  previous: number,
-  inverse = false,
-): KPI["comparison"]["trend"] => {
+const getTrend = (current: number, previous: number, inverse = false): KPI["comparison"]["trend"] => {
   if (!Number.isFinite(current) || !Number.isFinite(previous)) return "neutral";
   const diff = current - previous;
 
@@ -24,11 +20,7 @@ const getTrend = (
   return diff > 0 ? "up" : "down";
 };
 
-const getStatus = (
-  value: number,
-  thresholds: [number, number],
-  inverse = false,
-): KPIStatus => {
+const getStatus = (value: number, thresholds: [number, number], inverse = false): KPIStatus => {
   if (!Number.isFinite(value)) return "deficiente";
   const [low, high] = thresholds;
 
@@ -44,28 +36,15 @@ const getStatus = (
   return "deficiente";
 };
 
-export const calculateCapitalTrabajo = (
-  estadosContables: EstadosContables,
-): CapitalTrabajo => {
+export const calculateCapitalTrabajo = (estadosContables: EstadosContables): CapitalTrabajo => {
   const balance = estadosContables.balance_data.resultados_principales;
-  const ingresos =
-    estadosContables.income_statement_data.resultados_principales;
+  const ingresos = estadosContables.income_statement_data.resultados_principales;
 
-  const capitalActual =
-    balance.activo_corriente_actual - balance.pasivo_corriente_actual;
-  const capitalAnterior =
-    balance.activo_corriente_anterior - balance.pasivo_corriente_anterior;
-  const variation =
-    capitalAnterior !== 0
-      ? round(((capitalActual - capitalAnterior) / capitalAnterior) * 100, 1)
-      : 0;
-  const workingCapitalTurnover =
-    capitalActual !== 0
-      ? round(ingresos.ingresos_operativos_empresa_actual / capitalActual, 1)
-      : 0;
-  const shareOfAssets = balance.activo_total_actual
-    ? round((capitalActual / balance.activo_total_actual) * 100, 1)
-    : 0;
+  const capitalActual = balance.activo_corriente_actual - balance.pasivo_corriente_actual;
+  const capitalAnterior = balance.activo_corriente_anterior - balance.pasivo_corriente_anterior;
+  const variation = capitalAnterior !== 0 ? round(((capitalActual - capitalAnterior) / capitalAnterior) * 100, 1) : 0;
+  const workingCapitalTurnover = capitalActual !== 0 ? round(ingresos.ingresos_operativos_empresa_actual / capitalActual, 1) : 0;
+  const shareOfAssets = balance.activo_total_actual ? round((capitalActual / balance.activo_total_actual) * 100, 1) : 0;
 
   return {
     value: capitalActual,
@@ -77,8 +56,7 @@ export const calculateCapitalTrabajo = (
 
 export const calculateAllKPIs = (estadosContables: EstadosContables): KPI[] => {
   const balance = estadosContables.balance_data.resultados_principales;
-  const resultados =
-    estadosContables.income_statement_data.resultados_principales;
+  const resultados = estadosContables.income_statement_data.resultados_principales;
 
   const liquidezCorriente = balance.pasivo_corriente_actual
     ? balance.activo_corriente_actual / balance.pasivo_corriente_actual
@@ -88,41 +66,28 @@ export const calculateAllKPIs = (estadosContables: EstadosContables): KPI[] => {
     : 0;
 
   const pruebaAcida = balance.pasivo_corriente_actual
-    ? (balance.activo_corriente_actual -
-        balance.bienes_de_cambio_o_equivalentes_actual) /
-      balance.pasivo_corriente_actual
+    ? (balance.activo_corriente_actual - balance.bienes_de_cambio_o_equivalentes_actual) / balance.pasivo_corriente_actual
     : 0;
   const pruebaAcidaAnterior = balance.pasivo_corriente_anterior
-    ? (balance.activo_corriente_anterior -
-        balance.bienes_de_cambio_o_equivalentes_anterior) /
-      balance.pasivo_corriente_anterior
+    ? (balance.activo_corriente_anterior - balance.bienes_de_cambio_o_equivalentes_anterior) / balance.pasivo_corriente_anterior
     : 0;
 
   const cashRatio = balance.pasivo_corriente_actual
-    ? balance.disponibilidades_caja_banco_o_equivalentes_actual /
-      balance.pasivo_corriente_actual
+    ? balance.disponibilidades_caja_banco_o_equivalentes_actual / balance.pasivo_corriente_actual
     : 0;
   const cashRatioAnterior = balance.pasivo_corriente_anterior
-    ? balance.disponibilidades_caja_banco_o_equivalentes_anterior /
-      balance.pasivo_corriente_anterior
+    ? balance.disponibilidades_caja_banco_o_equivalentes_anterior / balance.pasivo_corriente_anterior
     : 0;
 
-  const endeudamiento = balance.activo_total_actual
-    ? balance.pasivo_total_actual / balance.activo_total_actual
-    : 0;
-  const endeudamientoAnterior = balance.activo_total_anterior
-    ? balance.pasivo_total_anterior / balance.activo_total_anterior
-    : 0;
+  const endeudamiento = balance.activo_total_actual ? balance.pasivo_total_actual / balance.activo_total_actual : 0;
+  const endeudamientoAnterior = balance.activo_total_anterior ? balance.pasivo_total_anterior / balance.activo_total_anterior : 0;
 
   const margenOperativo = resultados.ingresos_operativos_empresa_actual
-    ? resultados.resultados_antes_de_impuestos_actual /
-      resultados.ingresos_operativos_empresa_actual
+    ? resultados.resultados_antes_de_impuestos_actual / resultados.ingresos_operativos_empresa_actual
     : 0;
-  const margenOperativoAnterior =
-    resultados.ingresos_operativos_empresa_anterior
-      ? resultados.resultados_antes_de_impuestos_anterior /
-        resultados.ingresos_operativos_empresa_anterior
-      : 0;
+  const margenOperativoAnterior = resultados.ingresos_operativos_empresa_anterior
+    ? resultados.resultados_antes_de_impuestos_anterior / resultados.ingresos_operativos_empresa_anterior
+    : 0;
 
   return [
     {
@@ -138,8 +103,7 @@ export const calculateAllKPIs = (estadosContables: EstadosContables): KPI[] => {
         admisible: "1,2x - 2,0x",
         excelente: "> 2,0x",
       },
-      description:
-        "Capacidad de la empresa para cubrir sus obligaciones de corto plazo con activos corrientes.",
+      description: "Capacidad de la empresa para cubrir sus obligaciones de corto plazo con activos corrientes.",
       formula: "(Activo Corriente / Pasivo Corriente)",
     },
     {
@@ -155,8 +119,7 @@ export const calculateAllKPIs = (estadosContables: EstadosContables): KPI[] => {
         admisible: "0,8x - 1,0x",
         excelente: "> 1,0x",
       },
-      description:
-        "Liquidez estricta sin considerar inventarios. Mide resiliencia financiera inmediata.",
+      description: "Liquidez estricta sin considerar inventarios. Mide resiliencia financiera inmediata.",
       formula: "((Activo Corriente - Inventarios) / Pasivo Corriente)",
     },
     {
@@ -172,8 +135,7 @@ export const calculateAllKPIs = (estadosContables: EstadosContables): KPI[] => {
         admisible: "0,2x - 0,5x",
         excelente: "> 0,5x",
       },
-      description:
-        "Cobertura de pasivos corrientes exclusivamente con disponibilidades y equivalentes.",
+      description: "Cobertura de pasivos corrientes exclusivamente con disponibilidades y equivalentes.",
       formula: "(Disponibilidades / Pasivo Corriente)",
     },
     {
@@ -189,8 +151,7 @@ export const calculateAllKPIs = (estadosContables: EstadosContables): KPI[] => {
         admisible: "40% - 60%",
         excelente: "< 40%",
       },
-      description:
-        "Proporción del activo financiada con pasivos. Menores valores implican menor apalancamiento.",
+      description: "Proporción del activo financiada con pasivos. Menores valores implican menor apalancamiento.",
       formula: "(Pasivo Total / Activo Total)",
     },
     {
@@ -206,43 +167,30 @@ export const calculateAllKPIs = (estadosContables: EstadosContables): KPI[] => {
         admisible: "8% - 15%",
         excelente: "> 15%",
       },
-      description:
-        "Rentabilidad operativa antes de impuestos sobre las ventas.",
+      description: "Rentabilidad operativa antes de impuestos sobre las ventas.",
       formula: "(Resultado Operativo / Ingresos Operativos)",
     },
   ];
 };
 
-export const calculateFinancialTabKPIs = (
-  estadosContables: EstadosContables,
-): KPI[] => {
+export const calculateFinancialTabKPIs = (estadosContables: EstadosContables): KPI[] => {
   const balance = estadosContables.balance_data.resultados_principales;
-  const resultados =
-    estadosContables.income_statement_data.resultados_principales;
+  const resultados = estadosContables.income_statement_data.resultados_principales;
 
   // 1. Capital de Trabajo
-  const capitalTrabajo =
-    balance.activo_corriente_actual - balance.pasivo_corriente_actual;
-  const capitalTrabajoAnterior =
-    balance.activo_corriente_anterior - balance.pasivo_corriente_anterior;
+  const capitalTrabajo = balance.activo_corriente_actual - balance.pasivo_corriente_actual;
+  const capitalTrabajoAnterior = balance.activo_corriente_anterior - balance.pasivo_corriente_anterior;
 
   // 2. % CT sobre Activo Total
-  const ctSobreActivo = balance.activo_total_actual
-    ? (capitalTrabajo / balance.activo_total_actual) * 100
-    : 0;
+  const ctSobreActivo = balance.activo_total_actual ? (capitalTrabajo / balance.activo_total_actual) * 100 : 0;
   const ctSobreActivoAnterior = balance.activo_total_anterior
     ? (capitalTrabajoAnterior / balance.activo_total_anterior) * 100
     : 0;
 
   // 3. Rotación del CT
-  const rotacionCT =
-    capitalTrabajo !== 0
-      ? resultados.ingresos_operativos_empresa_actual / capitalTrabajo
-      : 0;
+  const rotacionCT = capitalTrabajo !== 0 ? resultados.ingresos_operativos_empresa_actual / capitalTrabajo : 0;
   const rotacionCTAnterior =
-    capitalTrabajoAnterior !== 0
-      ? resultados.ingresos_operativos_empresa_anterior / capitalTrabajoAnterior
-      : 0;
+    capitalTrabajoAnterior !== 0 ? resultados.ingresos_operativos_empresa_anterior / capitalTrabajoAnterior : 0;
 
   // 4. Liquidez Corriente
   const liquidezCorriente = balance.pasivo_corriente_actual
@@ -254,46 +202,33 @@ export const calculateFinancialTabKPIs = (
 
   // 5. Prueba Ácida
   const pruebaAcida = balance.pasivo_corriente_actual
-    ? (balance.activo_corriente_actual -
-        balance.bienes_de_cambio_o_equivalentes_actual) /
-      balance.pasivo_corriente_actual
+    ? (balance.activo_corriente_actual - balance.bienes_de_cambio_o_equivalentes_actual) / balance.pasivo_corriente_actual
     : 0;
   const pruebaAcidaAnterior = balance.pasivo_corriente_anterior
-    ? (balance.activo_corriente_anterior -
-        balance.bienes_de_cambio_o_equivalentes_anterior) /
-      balance.pasivo_corriente_anterior
+    ? (balance.activo_corriente_anterior - balance.bienes_de_cambio_o_equivalentes_anterior) / balance.pasivo_corriente_anterior
     : 0;
 
   // 6. Cash Ratio
   const cashRatio = balance.pasivo_corriente_actual
-    ? balance.disponibilidades_caja_banco_o_equivalentes_actual /
-      balance.pasivo_corriente_actual
+    ? balance.disponibilidades_caja_banco_o_equivalentes_actual / balance.pasivo_corriente_actual
     : 0;
   const cashRatioAnterior = balance.pasivo_corriente_anterior
-    ? balance.disponibilidades_caja_banco_o_equivalentes_anterior /
-      balance.pasivo_corriente_anterior
+    ? balance.disponibilidades_caja_banco_o_equivalentes_anterior / balance.pasivo_corriente_anterior
     : 0;
 
   // 7. Endeudamiento
-  const endeudamiento = balance.activo_total_actual
-    ? (balance.pasivo_total_actual / balance.activo_total_actual) * 100
-    : 0;
+  const endeudamiento = balance.activo_total_actual ? (balance.pasivo_total_actual / balance.activo_total_actual) * 100 : 0;
   const endeudamientoAnterior = balance.activo_total_anterior
     ? (balance.pasivo_total_anterior / balance.activo_total_anterior) * 100
     : 0;
 
   // 8. Margen Operativo
   const margenOperativo = resultados.ingresos_operativos_empresa_actual
-    ? (resultados.resultados_antes_de_impuestos_actual /
-        resultados.ingresos_operativos_empresa_actual) *
-      100
+    ? (resultados.resultados_antes_de_impuestos_actual / resultados.ingresos_operativos_empresa_actual) * 100
     : 0;
-  const margenOperativoAnterior =
-    resultados.ingresos_operativos_empresa_anterior
-      ? (resultados.resultados_antes_de_impuestos_anterior /
-          resultados.ingresos_operativos_empresa_anterior) *
-        100
-      : 0;
+  const margenOperativoAnterior = resultados.ingresos_operativos_empresa_anterior
+    ? (resultados.resultados_antes_de_impuestos_anterior / resultados.ingresos_operativos_empresa_anterior) * 100
+    : 0;
 
   return [
     {
@@ -304,7 +239,8 @@ export const calculateFinancialTabKPIs = (
         trend: getTrend(capitalTrabajo, capitalTrabajoAnterior),
       },
       status: "excelente", // Hardcoded per prompt example or need logic
-      criteria: {  // Dummy criteria for now as not strictly defined
+      criteria: {
+        // Dummy criteria for now as not strictly defined
         deficiente: "< 0",
         admisible: "> 0",
         excelente: "Alto",
@@ -425,4 +361,34 @@ export const calculateFinancialTabKPIs = (
       formula: "(Res. Operativo / Ventas) × 100",
     },
   ];
+};
+
+/**
+ * Transform indicators from API/JSON format to KPI format for display
+ */
+export const transformIndicatorsToKPIs = (indicators: IndicatorV2[]): KPI[] => {
+  const classificationToStatus = (classification: string): KPIStatus => {
+    const lower = classification.toLowerCase();
+    if (lower === "excelente") return "excelente";
+    if (lower === "admisible") return "admisible";
+    return "deficiente";
+  };
+
+  return indicators.map((indicator) => ({
+    name: indicator.name,
+    value: indicator.value_current,
+    comparison: {
+      value: indicator.value_previous,
+      trend: getTrend(
+        indicator.value_current,
+        indicator.value_previous,
+        // Inverse trend for debt ratios (lower is better)
+        indicator.code === "endeudamiento" || indicator.code === "rotacion_ct"
+      ),
+    },
+    status: classificationToStatus(indicator.classification_current),
+    criteria: indicator.criteria,
+    description: indicator.description,
+    formula: indicator.formula,
+  }));
 };

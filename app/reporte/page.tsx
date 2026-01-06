@@ -172,6 +172,7 @@ export default function ReportePage() {
                   </div>
                 }>
                 <SituacionFinancieraTab
+                  indicators={reporteData.indicators}
                   estadosContables={{
                     balance_date: reporteData.statement_data.statement_date,
                     balance_date_previous: reporteData.statement_data.statement_date_previous,
