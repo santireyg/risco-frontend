@@ -1,7 +1,13 @@
 // app/context/AuthContext.tsx
 "use client";
 
-import React, { createContext, useState, useEffect, useContext, useCallback } from "react";
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+} from "react";
 import { useRouter } from "next/navigation"; // Importa desde 'next/navigation' en App Router
 
 import { api, ApiError } from "../lib/apiClient";
@@ -40,7 +46,9 @@ const initialAuthContext: AuthContextType = {
 
 export const AuthContext = createContext<AuthContextType>(initialAuthContext);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const router = useRouter();
   const [user, setUser] = useState<UserProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true); // Empieza cargando al inicio
@@ -61,7 +69,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (error instanceof ApiError && error.status === 401) {
         // Es normal no tener sesión, no necesariamente un error a mostrar al usuario
         logger.info("No active session found via /me.");
-      } else if (error instanceof Error && error.message.includes("conectar con el servidor")) {
+      } else if (
+        error instanceof Error &&
+        error.message.includes("conectar con el servidor")
+      ) {
         // Error de conexión con el backend - silenciar en modo silent
         logger.warn("Backend connection failed during session check.");
       } else {
@@ -97,7 +108,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } catch (error) {
       // Aunque falle la llamada API, limpia el estado local y redirige
       setUser(null);
-      logger.error("Error during API logout, but proceeding with local logout:", error);
+      logger.error(
+        "Error during API logout, but proceeding with local logout:",
+        error,
+      );
       router.push("/login"); // Redirige igualmente
     }
   }, [router]);
@@ -109,7 +123,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser({ ...user, ...updatedData });
       }
     },
-    [user]
+    [user],
   );
 
   // Valor proporcionado por el contexto

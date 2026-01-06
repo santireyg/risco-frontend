@@ -11,7 +11,7 @@
 ### Routing & Organization
 
 - **App Router Structure**: Feature-based routing in `app/` directory
-  - Routes: `/home`, `/login`, `/admin`, `/profile`, `/upload`, `/document/[docfile_id]`, `/reporte`, `/auth/*`
+  - Routes: `/home`, `/login`, `/admin`, `/profile`, `/upload`, `/document/[docfile_id]`, `/report/[report_id]`, `/auth/*`
   - Root redirects permanently to `/home` (see [next.config.js](next.config.js))
   - Page components must use `"use client"` directive for interactivity
 
@@ -118,11 +118,12 @@ export function useDocuments(params: { page: number /* ... */ }) {
 **Utils** (`utils/`):
 
 - Business logic, calculations, formatting
-- Example: [calculations.ts](app/reporte/utils/calculations.ts) - KPI computations with trend analysis
+- Example: [calculations.ts](app/report/[report_id]/utils/calculations.ts) - KPI computations with trend analysis
+- Example: [transformers.ts](app/report/[report_id]/utils/transformers.ts) - API data transformation to component format
 
 ### Type Definitions
 
-**Domain types**: Co-located with features (e.g., [app/reporte/types.ts](app/reporte/types.ts))
+**Domain types**: Co-located with features (e.g., [app/report/[report_id]/types.ts](app/report/[report_id]/types.ts))
 
 **Common patterns**:
 
@@ -206,18 +207,30 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:8000  # Required, no trailing slash
 - **Accessibility**: jsx-a11y enforced (labels must have associated controls)
 - **Next.js Image**: Use `<Image>` from `next/image`, not `<img>`
 - **Import order**: React → Next → External → Internal → Styles
+  Module)
 
-## Financial Calculations (Reporte Module)
+**Location**: [app/report/[report_id]/](app/report/[report_id]/)
 
-**Location**: [app/reporte/](app/reporte/)
+**Data Flow**:
 
-**Key functions** ([utils/calculations.ts](app/reporte/utils/calculations.ts)):
+1. **API Fetch**: `useReport` hook fetches from `GET /report/{report_id}`
+2. **Transformation**: `transformReportData()` from [utils/transformers.ts](app/report/[report_id]/utils/transformers.ts) converts API V2 format to component format
+3. **Rendering**: Components receive transformed data
+
+**Key functions** ([utils/calculations.ts](app/report/[report_id]/utils/calculations.ts)):
 
 - `calculateCapitalTrabajo`: Working capital with trends (activoCorriente - pasivoCorriente)
 - `calculateAllKPIs`: Financial ratios with status thresholds
   - Liquidity: `[1, 1.5]` for "admisible" to "excelente"
   - Solvency: `[0.5, 1]`
   - Profitability: `[0.05, 0.1]` (5-10%)
+  - Inverse metrics (endeudamiento): Lower is better
+
+**Transformation functions** ([utils/transformers.ts](app/report/[report_id]/utils/transformers.ts)):
+
+- `findBalanceItem`: Extracts balance items by concepto_code from V2 arrays
+- `transformReportData`: Main orchestrator - converts full API response to component format
+- `reshapeBCRAData`: Wraps BCRA data in legacy {status: 200, results: {...}} structure
   - Inverse metrics (endeudamiento): Lower is better
 
 **KPI structure**:
@@ -233,7 +246,7 @@ interface KPI {
     difference: number; // Percentage point change
   };
   criteria: { min: number; max: number };
-}
+}/[report_id]
 ```
 
 **Trend logic**: `getTrend(current, previous, inverse)` - Some metrics improve when decreasing (debt ratios)
