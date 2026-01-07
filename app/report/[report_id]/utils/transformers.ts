@@ -46,23 +46,16 @@ export const extractBalancePrincipales = (balanceItems: any[]) => {
   const disponibilidades = findBalanceItem(balanceItems, "disponibilidades");
   const bienesCambio = findBalanceItem(balanceItems, "bienes_de_cambio");
   const activoCorriente = findBalanceItem(balanceItems, "activo_corriente");
-  const activoNoCorriente = findBalanceItem(
-    balanceItems,
-    "activo_no_corriente",
-  );
+  const activoNoCorriente = findBalanceItem(balanceItems, "activo_no_corriente");
   const activoTotal = findBalanceItem(balanceItems, "activo_total");
   const pasivoCorriente = findBalanceItem(balanceItems, "pasivo_corriente");
-  const pasivoNoCorriente = findBalanceItem(
-    balanceItems,
-    "pasivo_no_corriente",
-  );
+  const pasivoNoCorriente = findBalanceItem(balanceItems, "pasivo_no_corriente");
   const pasivoTotal = findBalanceItem(balanceItems, "pasivo_total");
   const patrimonioNeto = findBalanceItem(balanceItems, "patrimonio_neto");
 
   return {
     disponibilidades_caja_banco_o_equivalentes_actual: disponibilidades.actual,
-    disponibilidades_caja_banco_o_equivalentes_anterior:
-      disponibilidades.anterior,
+    disponibilidades_caja_banco_o_equivalentes_anterior: disponibilidades.anterior,
     bienes_de_cambio_o_equivalentes_actual: bienesCambio.actual,
     bienes_de_cambio_o_equivalentes_anterior: bienesCambio.anterior,
     activo_corriente_actual: activoCorriente.actual,
@@ -91,14 +84,8 @@ export const extractBalancePrincipales = (balanceItems: any[]) => {
  */
 export const extractIncomePrincipales = (incomeItems: any[]) => {
   const ingresosVenta = findBalanceItem(incomeItems, "ingresos_por_venta");
-  const resultadosAntesImpuestos = findBalanceItem(
-    incomeItems,
-    "resultados_antes_de_impuestos",
-  );
-  const resultadosEjercicio = findBalanceItem(
-    incomeItems,
-    "resultados_del_ejercicio",
-  );
+  const resultadosAntesImpuestos = findBalanceItem(incomeItems, "resultados_antes_de_impuestos");
+  const resultadosEjercicio = findBalanceItem(incomeItems, "resultados_del_ejercicio");
 
   return {
     ingresos_operativos_empresa_actual: ingresosVenta.actual,
@@ -185,10 +172,8 @@ export const formatCuit = (cuit?: string | null) => {
  * @returns Objeto con todas las estructuras de datos transformadas
  */
 export const transformReportData = (reporteData: ReporteDataV2) => {
-  const balanceItems =
-    reporteData.statement_data.balance_data.resultados_principales;
-  const incomeItems =
-    reporteData.statement_data.income_statement_data.resultados_principales;
+  const balanceItems = reporteData.statement_data.balance_data.resultados_principales;
+  const incomeItems = reporteData.statement_data.income_statement_data.resultados_principales;
 
   return {
     // Datos BCRA reshapeados
@@ -198,27 +183,18 @@ export const transformReportData = (reporteData: ReporteDataV2) => {
 
     // Estados contables transformados para SituacionFinancieraTab
     estadosContables: {
-      balance_date: reporteData.statement_data.statement_date,
-      balance_date_previous: reporteData.statement_data.statement_date_previous,
+      balance_date: { $date: reporteData.statement_data.statement_date },
+      balance_date_previous: { $date: reporteData.statement_data.statement_date_previous },
       company_info: reporteData.company_info,
       balance_data: {
         resultados_principales: extractBalancePrincipales(balanceItems),
-        detalles_activo: mapDetailItems(
-          reporteData.statement_data.balance_data.detalles_activo,
-        ),
-        detalles_pasivo: mapDetailItems(
-          reporteData.statement_data.balance_data.detalles_pasivo,
-        ),
-        detalles_patrimonio_neto: mapDetailItems(
-          reporteData.statement_data.balance_data.detalles_patrimonio_neto,
-        ),
+        detalles_activo: mapDetailItems(reporteData.statement_data.balance_data.detalles_activo),
+        detalles_pasivo: mapDetailItems(reporteData.statement_data.balance_data.detalles_pasivo),
+        detalles_patrimonio_neto: mapDetailItems(reporteData.statement_data.balance_data.detalles_patrimonio_neto),
       },
       income_statement_data: {
         resultados_principales: extractIncomePrincipales(incomeItems),
-        detalles_estado_resultados: mapDetailItems(
-          reporteData.statement_data.income_statement_data
-            .detalles_estado_resultados,
-        ),
+        detalles_estado_resultados: mapDetailItems(reporteData.statement_data.income_statement_data.detalles_estado_resultados),
       },
     },
 
