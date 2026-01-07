@@ -290,7 +290,7 @@ export interface ReporteDataV2 {
   company_name: string;
   company_cuit: string;
   company_info: CompanyInfo;
-  created_at: MongoDate;
+  created_at: string;
   created_by: {
     user_id: string;
     name: string;

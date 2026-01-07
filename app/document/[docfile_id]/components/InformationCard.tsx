@@ -250,11 +250,12 @@ const InformationCard: React.FC<InformationCardProps> = ({
   // Función para generar/abrir el reporte de IA
   const handleReporteIA = async () => {
     const reportStatus = document.report_status;
+    const documentId = document.id;
     const reportId = document.report_id;
 
     // Si el reporte está finalizado, navegar a la página del reporte
     if (reportStatus === "Finalizado" && reportId) {
-      router.push(`/report/${reportId}`);
+      router.push(`/report/${documentId}`);
 
       return;
     }
