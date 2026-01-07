@@ -41,7 +41,10 @@ export default function ReportPage() {
   // Función para regenerar el reporte
   const handleRegenerateReport = async () => {
     if (!report?.docfile_id) {
-      setRegenerateError("No se puede regenerar el reporte: documento no encontrado.");
+      setRegenerateError(
+        "No se puede regenerar el reporte: documento no encontrado.",
+      );
+
       return;
     }
     try {
@@ -52,6 +55,7 @@ export default function ReportPage() {
       router.push(`/document/${report.docfile_id}`);
     } catch (error: any) {
       let msg = "Error al regenerar el reporte.";
+
       if (error?.responseBody?.detail) msg = error.responseBody.detail;
       else if (error?.message) msg = error.message;
       setRegenerateError(msg);
@@ -78,7 +82,9 @@ export default function ReportPage() {
   if (!user) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen gap-4">
-        <p className="text-lg text-gray-600">No estás autenticado. Por favor, inicia sesión.</p>
+        <p className="text-lg text-gray-600">
+          No estás autenticado. Por favor, inicia sesión.
+        </p>
         <Button color="primary" onPress={() => router.push("/login")}>
           Ir a Login
         </Button>
@@ -100,7 +106,9 @@ export default function ReportPage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen gap-4 px-4">
         <div className="max-w-2xl w-full">
-          <h2 className="text-xl font-semibold mb-4 text-center">Error al cargar el reporte</h2>
+          <h2 className="text-xl font-semibold mb-4 text-center">
+            Error al cargar el reporte
+          </h2>
           <StatusMessage message={error} type="error" />
         </div>
         <div className="flex gap-2">
@@ -119,7 +127,9 @@ export default function ReportPage() {
   if (!report) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen gap-4">
-        <p className="text-lg text-gray-600">No se encontraron datos del reporte.</p>
+        <p className="text-lg text-gray-600">
+          No se encontraron datos del reporte.
+        </p>
         <Button color="default" onPress={() => router.push("/home")}>
           Volver al inicio
         </Button>
@@ -128,7 +138,13 @@ export default function ReportPage() {
   }
 
   // Transform API data to component format
-  const { deudasHistoria, deudasUltimoPeriodo, chequesRechazados, estadosContables, formattedCuit } = transformReportData(report);
+  const {
+    deudasHistoria,
+    deudasUltimoPeriodo,
+    chequesRechazados,
+    estadosContables,
+    formattedCuit,
+  } = transformReportData(report);
 
   return (
     <div>
@@ -139,13 +155,18 @@ export default function ReportPage() {
             radius="md"
             size="sm"
             startContent={<IoMdArrowBack />}
-            onPress={() => router.push("/home")}>
+            onPress={() => router.push("/home")}
+          >
             Homepage
           </Button>
 
           <Breadcrumbs>
             <BreadcrumbItem href="/home">Home</BreadcrumbItem>
-            {report.docfile_id && <BreadcrumbItem href={`/document/${report.docfile_id}`}>Documento</BreadcrumbItem>}
+            {report.docfile_id && (
+              <BreadcrumbItem href={`/document/${report.docfile_id}`}>
+                Documento
+              </BreadcrumbItem>
+            )}
             <BreadcrumbItem>{formattedCuit ?? "Cargando..."}</BreadcrumbItem>
           </Breadcrumbs>
         </div>
@@ -155,8 +176,16 @@ export default function ReportPage() {
         <div className="max-w-7xl mx-auto items-center pt-8">
           {/* Header de la empresa */}
           <CompanyHeader
-            balanceDate={report.statement_data.statement_date.$date}
-            balanceDatePrevious={report.statement_data.statement_date_previous.$date}
+            balanceDate={
+              typeof report.statement_data.statement_date === 'string'
+                ? report.statement_data.statement_date
+                : report.statement_data.statement_date.$date
+            }
+            balanceDatePrevious={
+              typeof report.statement_data.statement_date_previous === 'string'
+                ? report.statement_data.statement_date_previous
+                : report.statement_data.statement_date_previous.$date
+            }
             companyInfo={report.company_info}
             reportDate={formatDate(report.bcra_data.fecha_consulta)}
           />
@@ -177,12 +206,16 @@ export default function ReportPage() {
               <Tabs
                 aria-label="Secciones del reporte"
                 selectedKey={activeTab}
-                onSelectionChange={(key) => setActiveTab(key as string)}>
+                onSelectionChange={(key) => setActiveTab(key as string)}
+              >
                 <Tab
                   key="resumen"
                   title={
                     <div className="flex items-center justify-center gap-2">
-                      <ClipboardDocumentListIcon aria-hidden="true" className="h-4 w-4 ml-2" />
+                      <ClipboardDocumentListIcon
+                        aria-hidden="true"
+                        className="h-4 w-4 ml-2"
+                      />
                       <span className="truncate mr-2">Resumen Ejecutivo</span>
                     </div>
                   }
@@ -191,8 +224,13 @@ export default function ReportPage() {
                   key="financiera"
                   title={
                     <div className="flex items-center justify-center gap-2">
-                      <ChartBarIcon aria-hidden="true" className="h-4 w-4 ml-2" />
-                      <span className="truncate mr-2">Situación Financiera</span>
+                      <ChartBarIcon
+                        aria-hidden="true"
+                        className="h-4 w-4 ml-2"
+                      />
+                      <span className="truncate mr-2">
+                        Situación Financiera
+                      </span>
                     </div>
                   }
                 />
@@ -200,38 +238,59 @@ export default function ReportPage() {
                   key="deudor"
                   title={
                     <div className="flex items-center justify-center gap-2">
-                      <BuildingLibraryIcon aria-hidden="true" className="h-4 w-4 ml-2" />
-                      <span className="truncate mr-2">Estado Deudor (BCRA)</span>
+                      <BuildingLibraryIcon
+                        aria-hidden="true"
+                        className="h-4 w-4 ml-2"
+                      />
+                      <span className="truncate mr-2">
+                        Estado Deudor (BCRA)
+                      </span>
                     </div>
                   }
                 />
               </Tabs>
-              <ButtonGroup size="sm" className="rounded-xl border border-gray-300">
+              <ButtonGroup
+                className="rounded-xl border border-gray-300"
+                size="sm"
+              >
                 <Button
                   className="text-gray-600"
                   isDisabled={!report?.docfile_id}
-                  startContent={<DocumentCurrencyDollarIcon className="h-4 w-4" />}
+                  startContent={
+                    <DocumentCurrencyDollarIcon className="h-4 w-4" />
+                  }
                   variant="light"
-                  onPress={handleViewDocument}>
+                  onPress={handleViewDocument}
+                >
                   Ver documento original
                 </Button>
                 <Button
                   className="text-gray-600"
                   isDisabled={!report?.docfile_id}
                   isLoading={isRegenerating}
-                  startContent={!isRegenerating && <ArrowPathIcon className="h-4 w-4" />}
+                  startContent={
+                    !isRegenerating && <ArrowPathIcon className="h-4 w-4" />
+                  }
                   variant="light"
-                  onPress={handleRegenerateReport}>
+                  onPress={handleRegenerateReport}
+                >
                   Rehacer reporte IA
                 </Button>
               </ButtonGroup>
             </div>
             {/* Contenido de las tabs */}
             {activeTab === "resumen" && (
-              <ResumenEjecutivo chequesRechazados={chequesRechazados} deudasHistoria={deudasHistoria} reporteData={report} />
+              <ResumenEjecutivo
+                chequesRechazados={chequesRechazados}
+                deudasHistoria={deudasHistoria}
+                reporteData={report}
+              />
             )}
             {activeTab === "financiera" && (
-              <SituacionFinancieraTab estadosContables={estadosContables} indicators={report.indicators} />
+              <SituacionFinancieraTab
+                estadosContables={estadosContables}
+                indicators={report.indicators}
+              />
             )}
             {activeTab === "deudor" && (
               <EstadoDeudorBCRATab

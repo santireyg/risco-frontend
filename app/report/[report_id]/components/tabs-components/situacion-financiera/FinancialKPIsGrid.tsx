@@ -55,7 +55,11 @@ const getStatusLabel = (status: string) => {
   }
 };
 
-export default function FinancialKPIsGrid({ kpis, currentYear, previousYear }: FinancialKPIsGridProps) {
+export default function FinancialKPIsGrid({
+  kpis,
+  currentYear,
+  previousYear,
+}: FinancialKPIsGridProps) {
   const [expandedKPI, setExpandedKPI] = useState<string | null>(null);
 
   const toggleKPI = (name: string) => {
@@ -69,7 +73,10 @@ export default function FinancialKPIsGrid({ kpis, currentYear, previousYear }: F
   return (
     <div className="flex flex-col gap-3">
       {kpis.map((kpi) => {
-        const isPercentageKPI = kpi.name.includes("%") || kpi.name.includes("Endeudamiento") || kpi.name.includes("Margen");
+        const isPercentageKPI =
+          kpi.name.includes("%") ||
+          kpi.name.includes("Endeudamiento") ||
+          kpi.name.includes("Margen");
 
         const isExpanded = expandedKPI === kpi.name;
 
@@ -80,17 +87,21 @@ export default function FinancialKPIsGrid({ kpis, currentYear, previousYear }: F
             className={`border transition-all duration-300 bg-white group ${isExpanded ? "border-primary-500 ring-1 ring-primary-100 shadow-md" : "border-slate-200 shadow-none hover:border-primary-200"}`}
             radius="sm"
             shadow="none"
-            onPress={() => toggleKPI(kpi.name)}>
+            onPress={() => toggleKPI(kpi.name)}
+          >
             <CardBody className="p-0">
               {/* Main Row */}
               <div className="p-4 flex items-center justify-between gap-4">
                 <div className="flex items-center gap-3 flex-1">
                   <div
-                    className={`p-2 rounded-lg ${isExpanded ? "bg-primary-50 text-primary-600" : "bg-gray-50 text-gray-500 group-hover:bg-blue-50 group-hover:text-blue-500"} transition-colors`}>
+                    className={`p-2 rounded-lg ${isExpanded ? "bg-primary-50 text-primary-600" : "bg-gray-50 text-gray-500 group-hover:bg-blue-50 group-hover:text-blue-500"} transition-colors`}
+                  >
                     {getIcon(kpi.name)}
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-sm font-semibold text-gray-700">{kpi.name}</span>
+                    <span className="text-sm font-semibold text-gray-700">
+                      {kpi.name}
+                    </span>
                   </div>
                 </div>
 
@@ -114,12 +125,17 @@ export default function FinancialKPIsGrid({ kpis, currentYear, previousYear }: F
                                   ? "bg-yellow-50 text-yellow-700 border border-yellow-100"
                                   : "bg-red-50 text-red-700 border border-red-100"
                             }
-                        `}>
+                        `}
+                  >
                     {getStatusLabel(kpi.status)}
                   </div>
 
                   <div className="text-gray-400">
-                    {isExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+                    {isExpanded ? (
+                      <ChevronUp className="w-5 h-5" />
+                    ) : (
+                      <ChevronDown className="w-5 h-5" />
+                    )}
                   </div>
                 </div>
               </div>
@@ -132,12 +148,15 @@ export default function FinancialKPIsGrid({ kpis, currentYear, previousYear }: F
                     className="overflow-hidden"
                     exit={{ height: 0, opacity: 0 }}
                     initial={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.2 }}>
+                    transition={{ duration: 0.2 }}
+                  >
                     <div className="border-t border-gray-100 bg-gray-50/50 p-5 space-y-6">
                       {/* Values Row - Actual and Previous side by side */}
                       <div className="grid grid-cols-2 gap-4">
                         <div className="flex items-center gap-2 text-sm bg-white p-3 rounded-lg border border-gray-100">
-                          <span className="text-gray-500">Actual ({currentYear}):</span>
+                          <span className="text-gray-500">
+                            Actual ({currentYear}):
+                          </span>
                           <span className="font-semibold text-gray-900">
                             {kpi.name === "Capital de Trabajo"
                               ? formatNumber(kpi.value, 0)
@@ -147,7 +166,9 @@ export default function FinancialKPIsGrid({ kpis, currentYear, previousYear }: F
                           </span>
                         </div>
                         <div className="flex items-center gap-2 text-sm bg-white p-3 rounded-lg border border-gray-100">
-                          <span className="text-gray-500">Anterior ({previousYear}):</span>
+                          <span className="text-gray-500">
+                            Anterior ({previousYear}):
+                          </span>
                           <span className="font-semibold text-gray-700">
                             {kpi.name === "Capital de Trabajo"
                               ? formatNumber(kpi.comparison.value, 0)
@@ -164,11 +185,15 @@ export default function FinancialKPIsGrid({ kpis, currentYear, previousYear }: F
                           <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">
                             ¿Qué mide este ratio?
                           </h4>
-                          <p className="text-sm text-gray-700 leading-relaxed max-w-2xl">{kpi.description}</p>
+                          <p className="text-sm text-gray-700 leading-relaxed max-w-2xl">
+                            {kpi.description}
+                          </p>
                         </div>
 
                         <div>
-                          <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Fórmula de cálculo</h4>
+                          <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">
+                            Fórmula de cálculo
+                          </h4>
                           <code className="text-xs bg-white px-2 py-1 rounded border border-gray-200 text-gray-600 font-mono">
                             {kpi.formula}
                           </code>
@@ -183,10 +208,12 @@ export default function FinancialKPIsGrid({ kpis, currentYear, previousYear }: F
                               <span>Def.:</span> {kpi.criteria.deficiente}
                             </div>
                             <div className="flex items-center gap-2 text-xs bg-yellow-50 border border-yellow-100 px-3 py-1.5 rounded-md text-yellow-800">
-                              <span className="font-bold">Adm.:</span> {kpi.criteria.admisible}
+                              <span className="font-bold">Adm.:</span>{" "}
+                              {kpi.criteria.admisible}
                             </div>
                             <div className="flex items-center gap-2 text-xs bg-green-50 border border-green-100 px-3 py-1.5 rounded-md text-green-800">
-                              <span className="font-bold">Exc.:</span> {kpi.criteria.excelente}
+                              <span className="font-bold">Exc.:</span>{" "}
+                              {kpi.criteria.excelente}
                             </div>
                           </div>
                         </div>

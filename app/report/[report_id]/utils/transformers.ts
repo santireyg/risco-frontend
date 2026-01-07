@@ -12,7 +12,9 @@ import type { ReporteDataV2 } from "@/app/report/[report_id]/types";
  * @returns Objeto con valores actual y anterior (0 si no se encuentra)
  */
 export const findBalanceItem = (items: any[], code: string) => {
-  const item = items.find((item) => item.concepto_code === code);
+  // Filtrar elementos nulos antes de buscar
+  const validItems = (items || []).filter(Boolean);
+  const item = validItems.find((item) => item.concepto_code === code);
 
   return {
     actual: item?.monto_actual || 0,
@@ -28,7 +30,8 @@ export const findBalanceItem = (items: any[], code: string) => {
 export const mapDetailItems = (items?: any[]) => {
   if (!items) return undefined;
 
-  return items.map((item) => ({
+  // Filtrar elementos nulos antes de mapear
+  return items.filter(Boolean).map((item) => ({
     concepto: item.concepto,
     monto_periodo_actual: item.monto_actual,
     monto_periodo_anterior: item.monto_anterior,
@@ -46,16 +49,23 @@ export const extractBalancePrincipales = (balanceItems: any[]) => {
   const disponibilidades = findBalanceItem(balanceItems, "disponibilidades");
   const bienesCambio = findBalanceItem(balanceItems, "bienes_de_cambio");
   const activoCorriente = findBalanceItem(balanceItems, "activo_corriente");
-  const activoNoCorriente = findBalanceItem(balanceItems, "activo_no_corriente");
+  const activoNoCorriente = findBalanceItem(
+    balanceItems,
+    "activo_no_corriente",
+  );
   const activoTotal = findBalanceItem(balanceItems, "activo_total");
   const pasivoCorriente = findBalanceItem(balanceItems, "pasivo_corriente");
-  const pasivoNoCorriente = findBalanceItem(balanceItems, "pasivo_no_corriente");
+  const pasivoNoCorriente = findBalanceItem(
+    balanceItems,
+    "pasivo_no_corriente",
+  );
   const pasivoTotal = findBalanceItem(balanceItems, "pasivo_total");
   const patrimonioNeto = findBalanceItem(balanceItems, "patrimonio_neto");
 
   return {
     disponibilidades_caja_banco_o_equivalentes_actual: disponibilidades.actual,
-    disponibilidades_caja_banco_o_equivalentes_anterior: disponibilidades.anterior,
+    disponibilidades_caja_banco_o_equivalentes_anterior:
+      disponibilidades.anterior,
     bienes_de_cambio_o_equivalentes_actual: bienesCambio.actual,
     bienes_de_cambio_o_equivalentes_anterior: bienesCambio.anterior,
     activo_corriente_actual: activoCorriente.actual,
@@ -84,8 +94,14 @@ export const extractBalancePrincipales = (balanceItems: any[]) => {
  */
 export const extractIncomePrincipales = (incomeItems: any[]) => {
   const ingresosVenta = findBalanceItem(incomeItems, "ingresos_por_venta");
-  const resultadosAntesImpuestos = findBalanceItem(incomeItems, "resultados_antes_de_impuestos");
-  const resultadosEjercicio = findBalanceItem(incomeItems, "resultados_del_ejercicio");
+  const resultadosAntesImpuestos = findBalanceItem(
+    incomeItems,
+    "resultados_antes_de_impuestos",
+  );
+  const resultadosEjercicio = findBalanceItem(
+    incomeItems,
+    "resultados_del_ejercicio",
+  );
 
   return {
     ingresos_operativos_empresa_actual: ingresosVenta.actual,
@@ -105,12 +121,18 @@ export const extractIncomePrincipales = (incomeItems: any[]) => {
  * @returns Objeto con status 200 y structure de results con periodos combinados
  */
 export const reshapeDeudasHistoria = (bcraData: any) => {
+  // Filtrar periodos nulos para evitar errores en producción
+  const periodos = [
+    bcraData.deudas_ultimo_periodo,
+    ...(bcraData.deudas_historia || []),
+  ].filter(Boolean);
+
   return {
     status: 200,
     results: {
       identificacion: parseInt(bcraData.identificacion),
       denominacion: bcraData.denominacion,
-      periodos: [bcraData.deudas_ultimo_periodo, ...bcraData.deudas_historia],
+      periodos,
     },
   };
 };
@@ -122,12 +144,17 @@ export const reshapeDeudasHistoria = (bcraData: any) => {
  * @returns Objeto con status 200 y solo el último período
  */
 export const reshapeDeudasUltimoPeriodo = (bcraData: any) => {
+  // Filtrar periodos nulos para evitar errores en producción
+  const periodos = bcraData.deudas_ultimo_periodo
+    ? [bcraData.deudas_ultimo_periodo]
+    : [];
+
   return {
     status: 200,
     results: {
       identificacion: parseInt(bcraData.identificacion),
       denominacion: bcraData.denominacion,
-      periodos: [bcraData.deudas_ultimo_periodo],
+      periodos,
     },
   };
 };
@@ -165,6 +192,18 @@ export const formatCuit = (cuit?: string | null) => {
 };
 
 /**
+ * Normaliza una fecha que puede venir como string ISO o como objeto MongoDate.
+ * @param date Fecha en formato string ISO o MongoDate
+ * @returns Objeto MongoDate normalizado
+ */
+const normalizeMongoDate = (date: any): { $date: string } => {
+  if (typeof date === 'string') {
+    return { $date: date };
+  }
+  return date;
+};
+
+/**
  * Transforma todo el reporte desde el formato API V2 al formato esperado por los componentes.
  * Esta es la función principal que orquesta todas las transformaciones.
  *
@@ -172,8 +211,12 @@ export const formatCuit = (cuit?: string | null) => {
  * @returns Objeto con todas las estructuras de datos transformadas
  */
 export const transformReportData = (reporteData: ReporteDataV2) => {
-  const balanceItems = reporteData.statement_data.balance_data.resultados_principales;
-  const incomeItems = reporteData.statement_data.income_statement_data.resultados_principales;
+  // Filtrar elementos nulos de los arrays antes de procesarlos
+  const balanceItems =
+    reporteData.statement_data.balance_data.resultados_principales || [];
+  const incomeItems =
+    reporteData.statement_data.income_statement_data.resultados_principales ||
+    [];
 
   return {
     // Datos BCRA reshapeados
@@ -183,18 +226,27 @@ export const transformReportData = (reporteData: ReporteDataV2) => {
 
     // Estados contables transformados para SituacionFinancieraTab
     estadosContables: {
-      balance_date: reporteData.statement_data.statement_date,
-      balance_date_previous: reporteData.statement_data.statement_date_previous,
+      balance_date: normalizeMongoDate(reporteData.statement_data.statement_date),
+      balance_date_previous: normalizeMongoDate(reporteData.statement_data.statement_date_previous),
       company_info: reporteData.company_info,
       balance_data: {
         resultados_principales: extractBalancePrincipales(balanceItems),
-        detalles_activo: mapDetailItems(reporteData.statement_data.balance_data.detalles_activo),
-        detalles_pasivo: mapDetailItems(reporteData.statement_data.balance_data.detalles_pasivo),
-        detalles_patrimonio_neto: mapDetailItems(reporteData.statement_data.balance_data.detalles_patrimonio_neto),
+        detalles_activo: mapDetailItems(
+          reporteData.statement_data.balance_data.detalles_activo,
+        ),
+        detalles_pasivo: mapDetailItems(
+          reporteData.statement_data.balance_data.detalles_pasivo,
+        ),
+        detalles_patrimonio_neto: mapDetailItems(
+          reporteData.statement_data.balance_data.detalles_patrimonio_neto,
+        ),
       },
       income_statement_data: {
         resultados_principales: extractIncomePrincipales(incomeItems),
-        detalles_estado_resultados: mapDetailItems(reporteData.statement_data.income_statement_data.detalles_estado_resultados),
+        detalles_estado_resultados: mapDetailItems(
+          reporteData.statement_data.income_statement_data
+            .detalles_estado_resultados,
+        ),
       },
     },
 

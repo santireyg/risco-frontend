@@ -5,7 +5,12 @@ import { Card, CardHeader, CardBody, CardFooter } from "@heroui/card";
 import { Input } from "@heroui/input";
 import { Tooltip } from "@heroui/tooltip";
 import { Button, ButtonGroup } from "@heroui/button";
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@heroui/dropdown";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+} from "@heroui/dropdown";
 import {
   DocumentMagnifyingGlassIcon,
   ArrowPathIcon,
@@ -19,10 +24,22 @@ import {
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import { DatePicker } from "@heroui/date-picker";
-import { CalendarDate, CalendarDateTime, DateValue, parseDate, ZonedDateTime } from "@internationalized/date";
+import {
+  CalendarDate,
+  CalendarDateTime,
+  DateValue,
+  parseDate,
+  ZonedDateTime,
+} from "@internationalized/date";
 import { I18nProvider } from "@react-aria/i18n";
 import { useDisclosure } from "@heroui/use-disclosure";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@heroui/modal";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "@heroui/modal";
 
 import { api } from "../../../lib/apiClient"; // Importa tu apiClient
 
@@ -56,14 +73,18 @@ const InformationCard: React.FC<InformationCardProps> = ({
   const [balanceDate, setBalanceDate] = useState<DateValue>(
     editableDocument.balance_date
       ? parseDate(editableDocument.balance_date.split("T")[0])
-      : parseDate(new Date().toISOString().split("T")[0])
+      : parseDate(new Date().toISOString().split("T")[0]),
   );
 
-  const handleBalanceDateChange = (newDate: CalendarDate | CalendarDateTime | ZonedDateTime | null) => {
+  const handleBalanceDateChange = (
+    newDate: CalendarDate | CalendarDateTime | ZonedDateTime | null,
+  ) => {
     if (newDate) {
       setBalanceDate(newDate);
       // Convert CalendarDate to JS Date at midnight UTC
-      const jsDate = new Date(Date.UTC(newDate.year, newDate.month - 1, newDate.day, 0, 0, 0, 0));
+      const jsDate = new Date(
+        Date.UTC(newDate.year, newDate.month - 1, newDate.day, 0, 0, 0, 0),
+      );
       // Format as ISO string with timezone offset +00:00
       const isoString = jsDate.toISOString().replace("Z", "+00:00");
 
@@ -76,9 +97,12 @@ const InformationCard: React.FC<InformationCardProps> = ({
 
   // Estado para la fecha del período anterior
   const previousPeriodRaw =
-    editableDocument.balance_date_previous || editableDocument.balance_data?.informacion_general?.periodo_anterior;
+    editableDocument.balance_date_previous ||
+    editableDocument.balance_data?.informacion_general?.periodo_anterior;
   const [balanceDatePrevious, setBalanceDatePrevious] = useState<DateValue>(
-    previousPeriodRaw ? parseDate(previousPeriodRaw.split("T")[0]) : parseDate(new Date().toISOString().split("T")[0])
+    previousPeriodRaw
+      ? parseDate(previousPeriodRaw.split("T")[0])
+      : parseDate(new Date().toISOString().split("T")[0]),
   );
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const {
@@ -89,10 +113,14 @@ const InformationCard: React.FC<InformationCardProps> = ({
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
 
   // Handler para editar la fecha del período anterior
-  const handleBalanceDatePreviousChange = (newDate: CalendarDate | CalendarDateTime | ZonedDateTime | null) => {
+  const handleBalanceDatePreviousChange = (
+    newDate: CalendarDate | CalendarDateTime | ZonedDateTime | null,
+  ) => {
     if (newDate) {
       setBalanceDatePrevious(newDate);
-      const jsDate = new Date(Date.UTC(newDate.year, newDate.month - 1, newDate.day, 0, 0, 0, 0));
+      const jsDate = new Date(
+        Date.UTC(newDate.year, newDate.month - 1, newDate.day, 0, 0, 0, 0),
+      );
       const isoString = jsDate.toISOString().replace("Z", "+00:00");
 
       setEditableDocument((prev: any) => ({
@@ -137,13 +165,21 @@ const InformationCard: React.FC<InformationCardProps> = ({
     return null;
   };
 
-  const cuitError = validateCuit(editableDocument?.company_info?.company_cuit || "");
-  const companyNameError = validateCompanyName(editableDocument?.company_info?.company_name || "");
+  const cuitError = validateCuit(
+    editableDocument?.company_info?.company_cuit || "",
+  );
+  const companyNameError = validateCompanyName(
+    editableDocument?.company_info?.company_name || "",
+  );
 
   // Función para validar todos los campos antes de guardar
   const validateFormBeforeSave = () => {
-    const cuitValidation = validateCuit(editableDocument?.company_info?.company_cuit || "");
-    const companyNameValidation = validateCompanyName(editableDocument?.company_info?.company_name || "");
+    const cuitValidation = validateCuit(
+      editableDocument?.company_info?.company_cuit || "",
+    );
+    const companyNameValidation = validateCompanyName(
+      editableDocument?.company_info?.company_name || "",
+    );
 
     if (cuitValidation || companyNameValidation) {
       const errors = [];
@@ -305,13 +341,18 @@ const InformationCard: React.FC<InformationCardProps> = ({
               content={editableDocument?.company_info?.company_name}
               delay={0}
               isDisabled={
-                !editableDocument?.company_info?.company_name || editableDocument?.company_info?.company_name.length <= 30
+                !editableDocument?.company_info?.company_name ||
+                editableDocument?.company_info?.company_name.length <= 30
               }
-              placement="top">
+              placement="top"
+            >
               <h2
                 className="font-medium leading-none text-lg text-foreground-700 truncate max-w-full cursor-pointer"
-                style={{ maxWidth: "100%" }}>
-                {editableDocument?.company_info?.company_name || <span className="text-foreground-400">-</span>}
+                style={{ maxWidth: "100%" }}
+              >
+                {editableDocument?.company_info?.company_name || (
+                  <span className="text-foreground-400">-</span>
+                )}
               </h2>
             </Tooltip>
             {/* Nombre archivo debajo, más chico y gris */}
@@ -322,16 +363,23 @@ const InformationCard: React.FC<InformationCardProps> = ({
                 content={document.name}
                 delay={0}
                 isDisabled={!document.name || document.name.length <= 30}
-                placement="top">
+                placement="top"
+              >
                 <span className="text-slate-500 text-xs truncate max-w-xs block">
-                  {document.name || <span className="text-foreground-400">-</span>}
+                  {document.name || (
+                    <span className="text-foreground-400">-</span>
+                  )}
                 </span>
               </Tooltip>
             </div>
           </div>
           {/* Right: Chips y Exportar */}
           <div className="flex flex-row border-l items-center gap-6 pl-5">
-            <StatusChip errorMessage={document.errorMessage} progress={document.progress} status={document.status} />
+            <StatusChip
+              errorMessage={document.errorMessage}
+              progress={document.progress}
+              status={document.status}
+            />
             <ValidationChip
               message={document.validation?.message}
               progress={document.progress}
@@ -347,14 +395,21 @@ const InformationCard: React.FC<InformationCardProps> = ({
           <div className="flex flex-col gap-6">
             {/* Empresa */}
             <div className="flex flex-col xl:flex-row xl:items-center xl:gap-x-2 min-w-0">
-              <span className="text-foreground-900 text-md whitespace-nowrap mb-1 xl:mb-0">R. Social:</span>
+              <span className="text-foreground-900 text-md whitespace-nowrap mb-1 xl:mb-0">
+                R. Social:
+              </span>
               <div className="min-w-0 flex-1">
                 {isEditing ? (
                   <Input
                     isRequired
                     aria-label="Editar nombre empresa"
                     classNames={{
-                      inputWrapper: ["bg-white", "shadow-none", "border-1", "pr-2"],
+                      inputWrapper: [
+                        "bg-white",
+                        "shadow-none",
+                        "border-1",
+                        "pr-2",
+                      ],
                       input: ["text-md"],
                     }}
                     errorMessage={companyNameError}
@@ -371,11 +426,15 @@ const InformationCard: React.FC<InformationCardProps> = ({
                     content={editableDocument?.company_info?.company_name}
                     delay={0}
                     isDisabled={
-                      !editableDocument?.company_info?.company_name || editableDocument?.company_info?.company_name.length <= 20
+                      !editableDocument?.company_info?.company_name ||
+                      editableDocument?.company_info?.company_name.length <= 20
                     }
-                    placement="top">
+                    placement="top"
+                  >
                     <span className="text-foreground-400 text-sm truncate block max-w-full">
-                      {editableDocument?.company_info?.company_name || <span className="text-foreground-400">-</span>}
+                      {editableDocument?.company_info?.company_name || (
+                        <span className="text-foreground-400">-</span>
+                      )}
                     </span>
                   </Tooltip>
                 )}
@@ -383,14 +442,21 @@ const InformationCard: React.FC<InformationCardProps> = ({
             </div>
             {/* CUIT */}
             <div className="flex flex-col xl:flex-row xl:items-center xl:gap-x-2 min-w-0">
-              <span className="text-foreground-900 text-md whitespace-nowrap mb-1 xl:mb-0">CUIT:</span>
+              <span className="text-foreground-900 text-md whitespace-nowrap mb-1 xl:mb-0">
+                CUIT:
+              </span>
               <div className="min-w-0 flex-1">
                 {isEditing ? (
                   <Input
                     isRequired
                     aria-label="Editar CUIT"
                     classNames={{
-                      inputWrapper: ["bg-white", "shadow-none", "border-1", "pr-2"],
+                      inputWrapper: [
+                        "bg-white",
+                        "shadow-none",
+                        "border-1",
+                        "pr-2",
+                      ],
                       input: ["text-md"],
                     }}
                     errorMessage={cuitError}
@@ -416,14 +482,18 @@ const InformationCard: React.FC<InformationCardProps> = ({
           <div className="flex flex-col gap-6 xl:justify-end">
             {/* Período actual */}
             <div className="flex flex-col xl:flex-row xl:items-center xl:gap-x-2 min-w-0">
-              <span className="text-foreground-900 text-md whitespace-nowrap mb-1 xl:mb-0">Período actual:</span>
+              <span className="text-foreground-900 text-md whitespace-nowrap mb-1 xl:mb-0">
+                Período actual:
+              </span>
               <div className="min-w-0 flex-1">
                 {!isEditing ? (
                   (() => {
                     if (!document.balance_date) return <span>-</span>;
                     const d = parseDate(document.balance_date.slice(0, 10));
 
-                    return <span>{`${d.day.toString().padStart(2, "0")}/${d.month.toString().padStart(2, "0")}/${d.year}`}</span>;
+                    return (
+                      <span>{`${d.day.toString().padStart(2, "0")}/${d.month.toString().padStart(2, "0")}/${d.year}`}</span>
+                    );
                   })()
                 ) : (
                   <I18nProvider locale="es-AR">
@@ -444,16 +514,23 @@ const InformationCard: React.FC<InformationCardProps> = ({
             </div>
             {/* Período anterior */}
             <div className="flex flex-col xl:flex-row xl:items-center xl:gap-x-2 min-w-0">
-              <span className="text-foreground-900 text-md whitespace-nowrap mb-1 xl:mb-0">Período anterior:</span>
+              <span className="text-foreground-900 text-md whitespace-nowrap mb-1 xl:mb-0">
+                Período anterior:
+              </span>
               <div className="min-w-0 flex-1">
                 {!isEditing ? (
                   (() => {
-                    const raw = document.balance_date_previous || document.balance_data?.informacion_general?.periodo_anterior;
+                    const raw =
+                      document.balance_date_previous ||
+                      document.balance_data?.informacion_general
+                        ?.periodo_anterior;
 
                     if (!raw) return <span>-</span>;
                     const d = parseDate(raw.slice(0, 10));
 
-                    return <span>{`${d.day.toString().padStart(2, "0")}/${d.month.toString().padStart(2, "0")}/${d.year}`}</span>;
+                    return (
+                      <span>{`${d.day.toString().padStart(2, "0")}/${d.month.toString().padStart(2, "0")}/${d.year}`}</span>
+                    );
                   })()
                 ) : (
                   <I18nProvider locale="es-AR">
@@ -488,7 +565,8 @@ const InformationCard: React.FC<InformationCardProps> = ({
                   size="sm"
                   startContent={<ArrowUpOnSquareIcon className="h-5 w-5" />}
                   variant="flat"
-                  onPress={onOpen}>
+                  onPress={onOpen}
+                >
                   Exportar
                 </Button>
               </Tooltip>
@@ -500,13 +578,18 @@ const InformationCard: React.FC<InformationCardProps> = ({
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Acciones del documento">
-                    <DropdownItem key="edit" startContent={<PencilIcon className="h-4 w-4" />} onPress={() => setIsEditing(true)}>
+                    <DropdownItem
+                      key="edit"
+                      startContent={<PencilIcon className="h-4 w-4" />}
+                      onPress={() => setIsEditing(true)}
+                    >
                       Editar datos
                     </DropdownItem>
                     <DropdownItem
                       key="download"
                       startContent={<ArrowDownTrayIcon className="h-4 w-4" />}
-                      onPress={handleDownloadPdf}>
+                      onPress={handleDownloadPdf}
+                    >
                       Descargar PDF
                     </DropdownItem>
                   </DropdownMenu>
@@ -522,7 +605,8 @@ const InformationCard: React.FC<InformationCardProps> = ({
                 size="sm"
                 startContent={<FolderArrowDownIcon className="h-5 w-5" />}
                 variant="flat"
-                onPress={handleSaveWithValidation}>
+                onPress={handleSaveWithValidation}
+              >
                 Guardar cambios
               </Button>
               <Button
@@ -531,7 +615,8 @@ const InformationCard: React.FC<InformationCardProps> = ({
                 size="sm"
                 startContent={<ArrowUturnLeftIcon className="h-5 w-5" />}
                 variant="flat"
-                onPress={handleCancelEdit}>
+                onPress={handleCancelEdit}
+              >
                 Cancelar
               </Button>
             </div>
@@ -543,7 +628,13 @@ const InformationCard: React.FC<InformationCardProps> = ({
             <Tooltip content="Reprocesar balance">
               <div>
                 <DropdownTrigger>
-                  <Button isIconOnly color="primary" radius="full" size="md" variant="light">
+                  <Button
+                    isIconOnly
+                    color="primary"
+                    radius="full"
+                    size="md"
+                    variant="light"
+                  >
                     <ArrowPathIcon className="h-5 w-5" />
                   </Button>
                 </DropdownTrigger>
@@ -553,13 +644,17 @@ const InformationCard: React.FC<InformationCardProps> = ({
               <DropdownItem
                 key="full-reprocess"
                 startContent={<ArrowPathIcon className="h-4 w-4" />}
-                onPress={handleReiniciarProcesamiento}>
+                onPress={handleReiniciarProcesamiento}
+              >
                 Rehacer análisis completo
               </DropdownItem>
               <DropdownItem
                 key="extract-only"
-                startContent={<DocumentMagnifyingGlassIcon className="h-4 w-4" />}
-                onPress={handleReiniciarExtraccion}>
+                startContent={
+                  <DocumentMagnifyingGlassIcon className="h-4 w-4" />
+                }
+                onPress={handleReiniciarExtraccion}
+              >
                 Rehacer solo extracción
               </DropdownItem>
             </DropdownMenu>
@@ -571,7 +666,8 @@ const InformationCard: React.FC<InformationCardProps> = ({
                 : document.report_status === "Finalizado"
                   ? "Abrir reporte de IA"
                   : "Ejecutar análisis de reporte de IA"
-            }>
+            }
+          >
             <Button
               color="primary"
               isDisabled={document.report_status === "Generando reporte"}
@@ -579,8 +675,11 @@ const InformationCard: React.FC<InformationCardProps> = ({
               size="sm"
               startContent={<SparklesIcon className="h-5 w-5" />}
               variant="flat"
-              onPress={handleReporteIA}>
-              {document.report_status === "Finalizado" ? "Ver reporte" : "Crear reporte"}
+              onPress={handleReporteIA}
+            >
+              {document.report_status === "Finalizado"
+                ? "Ver reporte"
+                : "Crear reporte"}
             </Button>
           </Tooltip>
         </div>
@@ -601,7 +700,12 @@ const InformationCard: React.FC<InformationCardProps> = ({
       )}
 
       {/* Modal de validación */}
-      <Modal isOpen={isValidationModalOpen} placement="center" size="md" onOpenChange={onValidationModalOpenChange}>
+      <Modal
+        isOpen={isValidationModalOpen}
+        placement="center"
+        size="md"
+        onOpenChange={onValidationModalOpenChange}
+      >
         <ModalContent>
           {(onClose) => (
             <>
@@ -614,7 +718,10 @@ const InformationCard: React.FC<InformationCardProps> = ({
                 </div>
               </ModalHeader>
               <ModalBody>
-                <p className="text-foreground-600 mb-3">No se pueden guardar los cambios debido a los siguientes errores:</p>
+                <p className="text-foreground-600 mb-3">
+                  No se pueden guardar los cambios debido a los siguientes
+                  errores:
+                </p>
                 <div className="space-y-2">
                   {validationErrors.map((error, index) => (
                     <div key={index} className="flex items-start gap-2">
@@ -625,7 +732,12 @@ const InformationCard: React.FC<InformationCardProps> = ({
                 </div>
               </ModalBody>
               <ModalFooter>
-                <Button color="primary" size="sm" variant="flat" onPress={onClose}>
+                <Button
+                  color="primary"
+                  size="sm"
+                  variant="flat"
+                  onPress={onClose}
+                >
                   Entendido
                 </Button>
               </ModalFooter>
@@ -641,7 +753,8 @@ const InformationCard: React.FC<InformationCardProps> = ({
         isOpen={isOpen}
         periodoActual={formatDate(document.balance_date)}
         periodoAnterior={formatDate(
-          document.balance_date_previous || document.balance_data?.informacion_general?.periodo_anterior
+          document.balance_date_previous ||
+            document.balance_data?.informacion_general?.periodo_anterior,
         )}
         onConfirm={() => {
           /* Acción de confirmación de exportación */
