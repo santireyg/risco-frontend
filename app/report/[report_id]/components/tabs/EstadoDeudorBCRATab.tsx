@@ -70,6 +70,7 @@ interface EstadoDeudorBCRATabProps {
   deudasUltimoPeriodo: DebtHistory;
   chequesRechazados: ChequesRechazados;
   reportDate: string;
+  isBCRADataMissing?: boolean;
 }
 
 interface DebtRow {
@@ -301,6 +302,7 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
   deudasUltimoPeriodo,
   chequesRechazados,
   reportDate,
+  isBCRADataMissing = false,
 }) => {
   const [debtSort, setDebtSort] = useState<SortState<DebtSortKey>>({
     column: "monto",
@@ -645,6 +647,32 @@ const EstadoDeudorBCRATab: React.FC<EstadoDeudorBCRATabProps> = ({
   };
 
   const unpaidCount = chequeSummary.sinLevantar;
+
+  // Check if there's meaningful data to display
+  const hasMeaningfulData =
+    !isBCRADataMissing &&
+    (deudasHistoria?.results?.periodos?.length > 0 ||
+      chequesRechazados?.results?.causales?.length > 0);
+
+  // If no meaningful BCRA data, show warning
+  if (!hasMeaningfulData) {
+    return (
+      <div className="flex items-start gap-3 rounded-lg border border-warning bg-warning/5 p-6">
+        <ExclamationTriangleIcon className="h-6 w-6 shrink-0 text-warning" />
+        <div className="flex flex-col gap-2">
+          <p className="text-base font-semibold text-warning">
+            No se encontró información del BCRA
+          </p>
+          <p className="text-sm text-slate-600">
+            No se pudo obtener información de Estado Deudor o Cheques Rechazados
+            del BCRA para el CUIT ingresado. Esto puede indicar que el CUIT es
+            incorrecto o no está registrado en el sistema del BCRA. Por favor,
+            verifique los datos del documento.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-10">

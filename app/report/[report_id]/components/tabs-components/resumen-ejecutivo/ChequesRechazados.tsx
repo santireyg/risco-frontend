@@ -9,10 +9,23 @@ interface ChequesRechazadosProps {
 }
 
 export default function ChequesRechazados({ data }: ChequesRechazadosProps) {
+  // Safely extract cheques data
+  const causales = data?.results?.causales ?? [];
+
+  // Return early if no causales or no cheques
+  if (!causales.length) {
+    return null;
+  }
+
   // Extraer todos los cheques
-  const todosCheques = data.results.causales.flatMap((causal) =>
+  const todosCheques = causales.flatMap((causal) =>
     causal.entidades.flatMap((entidad) => entidad.detalle),
   );
+
+  // Return early if no actual cheques
+  if (!todosCheques.length) {
+    return null;
+  }
 
   // Cantidad total
   const cantidadTotal = todosCheques.length;

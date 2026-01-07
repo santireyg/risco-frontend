@@ -56,6 +56,52 @@ export const formatDate = (value: string | Date): string => {
   }).format(date);
 };
 
+/**
+ * Extrae una fecha de un valor que puede ser un string, un objeto Date,
+ * un objeto MongoDB { $date: string }, o null/undefined.
+ * @param value El valor que contiene la fecha
+ * @returns String de fecha en formato ISO o null si no se puede extraer
+ */
+export const extractDateString = (value: any): string | null => {
+  if (!value) return null;
+
+  // Si es un objeto MongoDB con $date
+  if (typeof value === "object" && "$date" in value && value.$date) {
+    return value.$date;
+  }
+
+  // Si es un string directamente
+  if (typeof value === "string") {
+    return value;
+  }
+
+  // Si es un objeto Date
+  if (value instanceof Date) {
+    return value.toISOString();
+  }
+
+  return null;
+};
+
+/**
+ * Extrae el año de una fecha que puede estar en formato MongoDB { $date: string },
+ * string ISO, o Date object.
+ * @param value El valor que contiene la fecha
+ * @param fallback Valor por defecto si no se puede extraer el año
+ * @returns El año como string o el fallback
+ */
+export const extractYear = (value: any, fallback: string = "N/A"): string => {
+  const dateString = extractDateString(value);
+
+  if (!dateString) return fallback;
+
+  const date = new Date(dateString);
+
+  if (Number.isNaN(date.getTime())) return fallback;
+
+  return date.getFullYear().toString();
+};
+
 export const formatPeriod = (period: string): string => {
   if (!period || period.length !== 6) return period;
   const year = period.slice(0, 4);
@@ -90,8 +136,7 @@ export const formatShortDate = (value?: string | Date | null): string => {
 };
 
 export const formatSituacionLabel = (situacion?: number): string => {
-  if (situacion === undefined || situacion === null)
-    return "Situación desconocida";
+  if (situacion === undefined || situacion === null) return "Situación desconocida";
   const labels: Record<number, string> = {
     0: "Sin deuda",
     1: "Normal",
@@ -112,8 +157,7 @@ export const formatSituacionChip = (situacion?: number): string => {
 };
 
 export const formatSituacionDescription = (situacion?: number): string => {
-  if (situacion === undefined || situacion === null)
-    return "Situación desconocida";
+  if (situacion === undefined || situacion === null) return "Situación desconocida";
   const descriptions: Record<number, string> = {
     0: "Sin deuda",
     1: "En situación normal",

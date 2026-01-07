@@ -18,7 +18,13 @@ interface EstadoDeudorProps {
 }
 
 export default function EstadoDeudor({ data }: EstadoDeudorProps) {
-  const periodos = data.results.periodos ?? [];
+  const periodos = data?.results?.periodos ?? [];
+
+  // Return early if no periods or no entities in first period
+  if (!periodos.length || !periodos[0]?.entidades?.length) {
+    return null;
+  }
+
   const latestPeriod = periodos[0];
 
   const buildPeriodSequence = (

@@ -23,7 +23,7 @@ import EstadoDeudorBCRATab from "./components/tabs/EstadoDeudorBCRATab";
 import SituacionFinancieraTab from "./components/tabs/SituacionFinancieraTab";
 import { formatDate } from "./utils/formatting";
 import { useReport } from "./hooks/useReport";
-import { transformReportData } from "./utils/transformers";
+import { transformReportData, isBCRADataMissing } from "./utils/transformers";
 
 import StatusMessage from "@/components/StatusMessage";
 import { api } from "@/app/lib/apiClient";
@@ -146,6 +146,9 @@ export default function ReportPage() {
     formattedCuit,
   } = transformReportData(report);
 
+  // Detect if BCRA data is missing
+  const hasMissingBCRAData = isBCRADataMissing(report.bcra_data);
+
   return (
     <div>
       <div className="container mx-auto flex items-center h-14 pl-2">
@@ -177,16 +180,18 @@ export default function ReportPage() {
           {/* Header de la empresa */}
           <CompanyHeader
             balanceDate={
-              typeof report.statement_data.statement_date === 'string'
+              typeof report.statement_data.statement_date === "string"
                 ? report.statement_data.statement_date
                 : report.statement_data.statement_date.$date
             }
             balanceDatePrevious={
-              typeof report.statement_data.statement_date_previous === 'string'
+              typeof report.statement_data.statement_date_previous === "string"
                 ? report.statement_data.statement_date_previous
                 : report.statement_data.statement_date_previous.$date
             }
             companyInfo={report.company_info}
+            docfileId={report.docfile_id}
+            isBCRADataMissing={hasMissingBCRAData}
             reportDate={formatDate(report.bcra_data.fecha_consulta)}
           />
         </div>
@@ -283,6 +288,7 @@ export default function ReportPage() {
               <ResumenEjecutivo
                 chequesRechazados={chequesRechazados}
                 deudasHistoria={deudasHistoria}
+                isBCRADataMissing={hasMissingBCRAData}
                 reporteData={report}
               />
             )}
@@ -297,6 +303,7 @@ export default function ReportPage() {
                 chequesRechazados={chequesRechazados}
                 deudasHistoria={deudasHistoria}
                 deudasUltimoPeriodo={deudasUltimoPeriodo}
+                isBCRADataMissing={hasMissingBCRAData}
                 reportDate={formatDate(report.bcra_data.fecha_consulta)}
               />
             )}

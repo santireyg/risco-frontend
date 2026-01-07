@@ -5,6 +5,7 @@ import { Accordion, AccordionItem } from "@heroui/accordion";
 
 import { EstadosContables, IndicatorV2 } from "../../types";
 import { transformIndicatorsToKPIs } from "../../utils/calculations";
+import { extractYear } from "../../utils/formatting";
 import FinancialKPIsGrid from "../tabs-components/situacion-financiera/FinancialKPIsGrid";
 import BalanceStructureChart from "../tabs-components/situacion-financiera/BalanceStructureChart";
 import IncomeStatementChart from "../tabs-components/situacion-financiera/IncomeStatementChart";
@@ -21,15 +22,11 @@ export default function SituacionFinancieraTab({ estadosContables, indicators }:
 
   // Extract years from dates
   const currentYear = useMemo(() => {
-    const date = estadosContables.balance_date?.$date;
-
-    return date ? new Date(date).getFullYear().toString() : "N/A";
+    return extractYear(estadosContables.balance_date, "2024");
   }, [estadosContables]);
 
   const previousYear = useMemo(() => {
-    const date = estadosContables.balance_date_previous?.$date;
-
-    return date ? new Date(date).getFullYear().toString() : "N/A";
+    return extractYear(estadosContables.balance_date_previous, "2023");
   }, [estadosContables]);
 
   const balanceData = useMemo(() => {

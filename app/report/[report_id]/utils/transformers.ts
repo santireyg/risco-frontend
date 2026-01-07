@@ -12,9 +12,7 @@ import type { ReporteDataV2 } from "@/app/report/[report_id]/types";
  * @returns Objeto con valores actual y anterior (0 si no se encuentra)
  */
 export const findBalanceItem = (items: any[], code: string) => {
-  // Filtrar elementos nulos antes de buscar
-  const validItems = (items || []).filter(Boolean);
-  const item = validItems.find((item) => item.concepto_code === code);
+  const item = items.find((item) => item.concepto_code === code);
 
   return {
     actual: item?.monto_actual || 0,
@@ -30,8 +28,7 @@ export const findBalanceItem = (items: any[], code: string) => {
 export const mapDetailItems = (items?: any[]) => {
   if (!items) return undefined;
 
-  // Filtrar elementos nulos antes de mapear
-  return items.filter(Boolean).map((item) => ({
+  return items.map((item) => ({
     concepto: item.concepto,
     monto_periodo_actual: item.monto_actual,
     monto_periodo_anterior: item.monto_anterior,
@@ -130,8 +127,8 @@ export const reshapeDeudasHistoria = (bcraData: any) => {
   return {
     status: 200,
     results: {
-      identificacion: parseInt(bcraData.identificacion),
-      denominacion: bcraData.denominacion,
+      identificacion: parseInt(bcraData.identificacion) || 0,
+      denominacion: bcraData.denominacion || "",
       periodos,
     },
   };
@@ -152,8 +149,8 @@ export const reshapeDeudasUltimoPeriodo = (bcraData: any) => {
   return {
     status: 200,
     results: {
-      identificacion: parseInt(bcraData.identificacion),
-      denominacion: bcraData.denominacion,
+      identificacion: parseInt(bcraData.identificacion) || 0,
+      denominacion: bcraData.denominacion || "",
       periodos,
     },
   };
@@ -169,9 +166,9 @@ export const reshapeChequesRechazados = (bcraData: any) => {
   return {
     status: 200,
     results: {
-      identificacion: parseInt(bcraData.identificacion),
-      denominacion: bcraData.denominacion,
-      causales: bcraData.cheques_rechazados,
+      identificacion: parseInt(bcraData.identificacion) || 0,
+      denominacion: bcraData.denominacion || "",
+      causales: bcraData.cheques_rechazados || [],
     },
   };
 };
@@ -192,15 +189,25 @@ export const formatCuit = (cuit?: string | null) => {
 };
 
 /**
- * Normaliza una fecha que puede venir como string ISO o como objeto MongoDate.
- * @param date Fecha en formato string ISO o MongoDate
- * @returns Objeto MongoDate normalizado
+ * Verifica si los datos de BCRA están disponibles.
+ * Se considera que faltan datos si denominacion es null o los arrays críticos están vacíos.
+ *
+ * @param bcraData Datos BCRA del reporte
+ * @returns true si los datos de BCRA están ausentes o vacíos
  */
-const normalizeMongoDate = (date: any): { $date: string } => {
-  if (typeof date === 'string') {
-    return { $date: date };
-  }
-  return date;
+export const isBCRADataMissing = (bcraData: any): boolean => {
+  if (!bcraData) return true;
+
+  const isDenominacionMissing =
+    !bcraData.denominacion || bcraData.denominacion === null;
+  const isDeudasEmpty =
+    (!bcraData.deudas_ultimo_periodo ||
+      Object.keys(bcraData.deudas_ultimo_periodo).length === 0) &&
+    (!bcraData.deudas_historia || bcraData.deudas_historia.length === 0);
+  const isChequesEmpty =
+    !bcraData.cheques_rechazados || bcraData.cheques_rechazados.length === 0;
+
+  return isDenominacionMissing || (isDeudasEmpty && isChequesEmpty);
 };
 
 /**
@@ -211,41 +218,56 @@ const normalizeMongoDate = (date: any): { $date: string } => {
  * @returns Objeto con todas las estructuras de datos transformadas
  */
 export const transformReportData = (reporteData: ReporteDataV2) => {
-  // Filtrar elementos nulos de los arrays antes de procesarlos
   const balanceItems =
-    reporteData.statement_data.balance_data.resultados_principales || [];
+    reporteData.statement_data?.balance_data?.resultados_principales || [];
   const incomeItems =
-    reporteData.statement_data.income_statement_data.resultados_principales ||
+    reporteData.statement_data?.income_statement_data?.resultados_principales ||
     [];
 
   return {
     // Datos BCRA reshapeados
-    deudasHistoria: reshapeDeudasHistoria(reporteData.bcra_data),
-    deudasUltimoPeriodo: reshapeDeudasUltimoPeriodo(reporteData.bcra_data),
-    chequesRechazados: reshapeChequesRechazados(reporteData.bcra_data),
+    deudasHistoria: reporteData.bcra_data
+      ? reshapeDeudasHistoria(reporteData.bcra_data)
+      : {
+          status: 200,
+          results: { identificacion: 0, denominacion: "", periodos: [] },
+        },
+    deudasUltimoPeriodo: reporteData.bcra_data
+      ? reshapeDeudasUltimoPeriodo(reporteData.bcra_data)
+      : {
+          status: 200,
+          results: { identificacion: 0, denominacion: "", periodos: [] },
+        },
+    chequesRechazados: reporteData.bcra_data
+      ? reshapeChequesRechazados(reporteData.bcra_data)
+      : {
+          status: 200,
+          results: { identificacion: 0, denominacion: "", causales: [] },
+        },
 
     // Estados contables transformados para SituacionFinancieraTab
     estadosContables: {
-      balance_date: normalizeMongoDate(reporteData.statement_data.statement_date),
-      balance_date_previous: normalizeMongoDate(reporteData.statement_data.statement_date_previous),
-      company_info: reporteData.company_info,
+      balance_date: reporteData.statement_data?.statement_date || null,
+      balance_date_previous:
+        reporteData.statement_data?.statement_date_previous || null,
+      company_info: reporteData.company_info || {},
       balance_data: {
         resultados_principales: extractBalancePrincipales(balanceItems),
         detalles_activo: mapDetailItems(
-          reporteData.statement_data.balance_data.detalles_activo,
+          reporteData.statement_data?.balance_data?.detalles_activo,
         ),
         detalles_pasivo: mapDetailItems(
-          reporteData.statement_data.balance_data.detalles_pasivo,
+          reporteData.statement_data?.balance_data?.detalles_pasivo,
         ),
         detalles_patrimonio_neto: mapDetailItems(
-          reporteData.statement_data.balance_data.detalles_patrimonio_neto,
+          reporteData.statement_data?.balance_data?.detalles_patrimonio_neto,
         ),
       },
       income_statement_data: {
         resultados_principales: extractIncomePrincipales(incomeItems),
         detalles_estado_resultados: mapDetailItems(
-          reporteData.statement_data.income_statement_data
-            .detalles_estado_resultados,
+          reporteData.statement_data?.income_statement_data
+            ?.detalles_estado_resultados,
         ),
       },
     },
