@@ -27,9 +27,7 @@ function useDocument(docfile_id: string) {
       setEditableDocument(JSON.parse(JSON.stringify(data)));
     } catch (err: any) {
       if (err instanceof ApiError && err.status === 401) {
-        setError(
-          "No autorizado para ver el documento. Por favor, inicie sesión.",
-        );
+        setError("No autorizado para ver el documento. Por favor, inicie sesión.");
         router.push("/login?expired=1");
 
         return;
@@ -55,21 +53,20 @@ function useDocument(docfile_id: string) {
         return {
           ...prev,
           status: update.status ?? prev.status,
-          progress:
-            update.progress !== undefined ? update.progress : prev.progress,
+          progress: update.progress !== undefined ? update.progress : prev.progress,
           upload_date: update.upload_date ?? prev.upload_date,
           balance_date: update.balance_date ?? prev.balance_date,
           validation: update.validation ?? prev.validation,
           ai_report: update.ai_report ?? prev.ai_report,
           errorMessage: update.error_message ?? prev.errorMessage,
+          report_status: update.report_status ?? prev.report_status,
+          report_id: update.report_id ?? prev.report_id,
         };
       });
 
       // Refrescar o recargar la página basado en el estado recibido
       if (update.status) {
-        if (
-          ["Analizando", "Convirtiendo", "Reconociendo"].includes(update.status)
-        ) {
+        if (["Analizando", "Convirtiendo", "Reconociendo"].includes(update.status)) {
           router.refresh();
         } else if (update.status === "Analizado") {
           window.location.reload();
@@ -82,10 +79,7 @@ function useDocument(docfile_id: string) {
   const handleSaveChanges = async () => {
     setIsSaving(true);
     try {
-      const updatedData = await api.put<any>(
-        `update_docfile/${docfile_id}`,
-        editableDocument,
-      );
+      const updatedData = await api.put<any>(`update_docfile/${docfile_id}`, editableDocument);
 
       setDocument(updatedData);
       setEditableDocument(JSON.parse(JSON.stringify(updatedData)));

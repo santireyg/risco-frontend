@@ -12,28 +12,9 @@ interface StatusChipProps {
   errorMessage?: string;
 }
 
-const StatusChip: React.FC<StatusChipProps> = ({
-  status,
-  progress,
-  errorMessage,
-}) => {
-  let chipColor:
-    | "default"
-    | "primary"
-    | "secondary"
-    | "success"
-    | "warning"
-    | "danger"
-    | undefined = "default";
-  let chipVariant:
-    | "solid"
-    | "bordered"
-    | "light"
-    | "flat"
-    | "faded"
-    | "shadow"
-    | "dot"
-    | undefined = "dot";
+const StatusChip: React.FC<StatusChipProps> = ({ status, progress, errorMessage }) => {
+  let chipColor: "default" | "primary" | "secondary" | "success" | "warning" | "danger" | undefined = "default";
+  let chipVariant: "solid" | "bordered" | "light" | "flat" | "faded" | "shadow" | "dot" | undefined = "dot";
   let endContent = null;
   let startContent = null;
   let showTooltip = false;
@@ -85,6 +66,18 @@ const StatusChip: React.FC<StatusChipProps> = ({
       );
       showTooltip = true;
       tooltipContent = `Se esta llevando a cabo la lectura del documento ${progress !== undefined ? ` (${progress}%)` : ""}`;
+      break;
+
+    case "Reporte IA":
+      chipColor = "warning";
+      chipVariant = "bordered";
+      endContent = (
+        <span>
+          <Spinner color="warning" size="sm" />
+        </span>
+      );
+      showTooltip = true;
+      tooltipContent = "Se está generando el reporte de IA. Esto puede demorar un minuto.";
       break;
 
     case "Analizando":
@@ -145,8 +138,7 @@ const StatusChip: React.FC<StatusChipProps> = ({
       endContent={endContent}
       size="md"
       startContent={startContent}
-      variant={chipVariant}
-    >
+      variant={chipVariant}>
       {status}
     </Chip>
   );
