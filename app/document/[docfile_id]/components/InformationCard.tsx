@@ -4,7 +4,8 @@ import React, { useState } from "react";
 import { Card, CardHeader, CardBody, CardFooter } from "@heroui/card";
 import { Input } from "@heroui/input";
 import { Tooltip } from "@heroui/tooltip";
-import { Button } from "@heroui/button";
+import { Button, ButtonGroup } from "@heroui/button";
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@heroui/dropdown";
 import {
   DocumentMagnifyingGlassIcon,
   ArrowPathIcon,
@@ -14,6 +15,7 @@ import {
   ArrowUpOnSquareIcon,
   ArrowDownTrayIcon,
   SparklesIcon,
+  EllipsisVerticalIcon,
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import { DatePicker } from "@heroui/date-picker";
@@ -489,16 +491,26 @@ const InformationCard: React.FC<InformationCardProps> = ({
                   Exportar
                 </Button>
               </Tooltip>
-              <Tooltip content="Editar datos del documento">
-                <Button isIconOnly color="primary" radius="md" size="sm" variant="flat" onPress={() => setIsEditing(true)}>
-                  <PencilIcon className="h-5 w-5" />
-                </Button>
-              </Tooltip>
-              <Tooltip content="Descargar archivo PDF">
-                <Button isIconOnly color="primary" radius="md" size="sm" variant="flat" onPress={handleDownloadPdf}>
-                  <ArrowDownTrayIcon className="h-5 w-5" />
-                </Button>
-              </Tooltip>
+              <ButtonGroup variant="flat">
+                <Dropdown placement="bottom-end">
+                  <DropdownTrigger>
+                    <Button isIconOnly color="primary" radius="md" size="sm">
+                      <EllipsisVerticalIcon className="h-5 w-5" />
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu aria-label="Acciones del documento">
+                    <DropdownItem key="edit" startContent={<PencilIcon className="h-4 w-4" />} onPress={() => setIsEditing(true)}>
+                      Editar datos
+                    </DropdownItem>
+                    <DropdownItem
+                      key="download"
+                      startContent={<ArrowDownTrayIcon className="h-4 w-4" />}
+                      onPress={handleDownloadPdf}>
+                      Descargar PDF
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </ButtonGroup>
             </div>
           ) : (
             <div className="flex space-x-2">
@@ -526,16 +538,31 @@ const InformationCard: React.FC<InformationCardProps> = ({
         </div>
         {/* Contenedor de la mitad derecha */}
         <div className="flex items-center justify-end w-1/2 space-x-2">
-          <Tooltip content="Rehacer análisis completo del documento">
-            <Button isIconOnly color="primary" radius="full" size="md" variant="light" onPress={handleReiniciarProcesamiento}>
-              <ArrowPathIcon className="h-5 w-5" />
-            </Button>
-          </Tooltip>
-          <Tooltip content="Rehacer sólo el proceso de extracción de datos">
-            <Button isIconOnly color="primary" radius="full" size="md" variant="light" onPress={handleReiniciarExtraccion}>
-              <DocumentMagnifyingGlassIcon className="h-5 w-5" />
-            </Button>
-          </Tooltip>
+          <Dropdown placement="bottom-end">
+            <Tooltip content="Reprocesar balance">
+              <div>
+                <DropdownTrigger>
+                  <Button isIconOnly color="primary" radius="full" size="md" variant="light">
+                    <ArrowPathIcon className="h-5 w-5" />
+                  </Button>
+                </DropdownTrigger>
+              </div>
+            </Tooltip>
+            <DropdownMenu aria-label="Opciones de reprocesamiento">
+              <DropdownItem
+                key="full-reprocess"
+                startContent={<ArrowPathIcon className="h-4 w-4" />}
+                onPress={handleReiniciarProcesamiento}>
+                Rehacer análisis completo
+              </DropdownItem>
+              <DropdownItem
+                key="extract-only"
+                startContent={<DocumentMagnifyingGlassIcon className="h-4 w-4" />}
+                onPress={handleReiniciarExtraccion}>
+                Rehacer solo extracción
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
           <Tooltip
             content={
               document.report_status === "Generando reporte"
