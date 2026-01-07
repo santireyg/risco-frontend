@@ -155,8 +155,8 @@ export default function ReportPage() {
         <div className="max-w-7xl mx-auto items-center pt-8">
           {/* Header de la empresa */}
           <CompanyHeader
-            balanceDate={report.statement_data.statement_date}
-            balanceDatePrevious={report.statement_data.statement_date_previous}
+            balanceDate={report.statement_data.statement_date.$date}
+            balanceDatePrevious={report.statement_data.statement_date_previous.$date}
             companyInfo={report.company_info}
             reportDate={formatDate(report.bcra_data.fecha_consulta)}
           />

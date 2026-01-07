@@ -197,8 +197,8 @@ export interface IncomeStatementDataV2Item {
 }
 
 export interface StatementDataV2 {
-  statement_date: string;
-  statement_date_previous: string;
+  statement_date: MongoDate;
+  statement_date_previous: MongoDate;
   balance_data: {
     resultados_principales: BalanceDataV2Item[];
     detalles_activo?: BalanceDataV2Item[];

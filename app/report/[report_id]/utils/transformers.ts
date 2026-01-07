@@ -183,8 +183,8 @@ export const transformReportData = (reporteData: ReporteDataV2) => {
 
     // Estados contables transformados para SituacionFinancieraTab
     estadosContables: {
-      balance_date: { $date: reporteData.statement_data.statement_date },
-      balance_date_previous: { $date: reporteData.statement_data.statement_date_previous },
+      balance_date: reporteData.statement_data.statement_date,
+      balance_date_previous: reporteData.statement_data.statement_date_previous,
       company_info: reporteData.company_info,
       balance_data: {
         resultados_principales: extractBalancePrincipales(balanceItems),
