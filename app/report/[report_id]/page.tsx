@@ -7,7 +7,11 @@ import { Button } from "@heroui/button";
 import { Breadcrumbs, BreadcrumbItem } from "@heroui/breadcrumbs";
 import { Spinner } from "@heroui/spinner";
 import { IoMdArrowBack } from "react-icons/io";
-import { ClipboardDocumentListIcon, ChartBarIcon, BuildingLibraryIcon } from "@heroicons/react/24/outline";
+import {
+  ClipboardDocumentListIcon,
+  ChartBarIcon,
+  BuildingLibraryIcon,
+} from "@heroicons/react/24/outline";
 
 import { AuthContext } from "../../context/AuthContext";
 
@@ -40,7 +44,9 @@ export default function ReportPage() {
   if (!user) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen gap-4">
-        <p className="text-lg text-gray-600">No estás autenticado. Por favor, inicia sesión.</p>
+        <p className="text-lg text-gray-600">
+          No estás autenticado. Por favor, inicia sesión.
+        </p>
         <Button color="primary" onPress={() => router.push("/login")}>
           Ir a Login
         </Button>
@@ -62,7 +68,9 @@ export default function ReportPage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen gap-4 px-4">
         <div className="max-w-2xl w-full">
-          <h2 className="text-xl font-semibold mb-4 text-center">Error al cargar el reporte</h2>
+          <h2 className="text-xl font-semibold mb-4 text-center">
+            Error al cargar el reporte
+          </h2>
           <StatusMessage message={error} type="error" />
         </div>
         <div className="flex gap-2">
@@ -81,7 +89,9 @@ export default function ReportPage() {
   if (!report) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen gap-4">
-        <p className="text-lg text-gray-600">No se encontraron datos del reporte.</p>
+        <p className="text-lg text-gray-600">
+          No se encontraron datos del reporte.
+        </p>
         <Button color="default" onPress={() => router.push("/home")}>
           Volver al inicio
         </Button>
@@ -90,7 +100,13 @@ export default function ReportPage() {
   }
 
   // Transform API data to component format
-  const { deudasHistoria, deudasUltimoPeriodo, chequesRechazados, estadosContables, formattedCuit } = transformReportData(report);
+  const {
+    deudasHistoria,
+    deudasUltimoPeriodo,
+    chequesRechazados,
+    estadosContables,
+    formattedCuit,
+  } = transformReportData(report);
 
   return (
     <div>
@@ -101,13 +117,18 @@ export default function ReportPage() {
             radius="md"
             size="sm"
             startContent={<IoMdArrowBack />}
-            onPress={() => router.push("/home")}>
+            onPress={() => router.push("/home")}
+          >
             Homepage
           </Button>
 
           <Breadcrumbs>
             <BreadcrumbItem href="/home">Home</BreadcrumbItem>
-            {report.docfile_id && <BreadcrumbItem href={`/document/${report.docfile_id}`}>Documento</BreadcrumbItem>}
+            {report.docfile_id && (
+              <BreadcrumbItem href={`/document/${report.docfile_id}`}>
+                Documento
+              </BreadcrumbItem>
+            )}
             <BreadcrumbItem>{formattedCuit ?? "Cargando..."}</BreadcrumbItem>
           </Breadcrumbs>
         </div>
@@ -118,7 +139,9 @@ export default function ReportPage() {
           {/* Header de la empresa */}
           <CompanyHeader
             balanceDate={report.statement_data.statement_date.$date}
-            balanceDatePrevious={report.statement_data.statement_date_previous.$date}
+            balanceDatePrevious={
+              report.statement_data.statement_date_previous.$date
+            }
             companyInfo={report.company_info}
             reportDate={formatDate(report.bcra_data.fecha_consulta)}
           />
@@ -129,16 +152,28 @@ export default function ReportPage() {
         <div className="min-h-screen bg-white py-8 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">
             {/* Navegación de tabs */}
-            <Tabs aria-label="Secciones del reporte" className="mb-3" defaultSelectedKey="resumen">
+            <Tabs
+              aria-label="Secciones del reporte"
+              className="mb-3"
+              defaultSelectedKey="resumen"
+            >
               <Tab
                 key="resumen"
                 title={
                   <div className="flex items-center justify-center gap-2">
-                    <ClipboardDocumentListIcon aria-hidden="true" className="h-4 w-4 ml-2" />
+                    <ClipboardDocumentListIcon
+                      aria-hidden="true"
+                      className="h-4 w-4 ml-2"
+                    />
                     <span className="truncate mr-2">Resumen Ejecutivo</span>
                   </div>
-                }>
-                <ResumenEjecutivo chequesRechazados={chequesRechazados} deudasHistoria={deudasHistoria} reporteData={report} />
+                }
+              >
+                <ResumenEjecutivo
+                  chequesRechazados={chequesRechazados}
+                  deudasHistoria={deudasHistoria}
+                  reporteData={report}
+                />
               </Tab>
               <Tab
                 key="financiera"
@@ -147,17 +182,25 @@ export default function ReportPage() {
                     <ChartBarIcon aria-hidden="true" className="h-4 w-4 ml-2" />
                     <span className="truncate mr-2">Situación Financiera</span>
                   </div>
-                }>
-                <SituacionFinancieraTab estadosContables={estadosContables} indicators={report.indicators} />
+                }
+              >
+                <SituacionFinancieraTab
+                  estadosContables={estadosContables}
+                  indicators={report.indicators}
+                />
               </Tab>
               <Tab
                 key="deudor"
                 title={
                   <div className="flex items-center justify-center gap-2">
-                    <BuildingLibraryIcon aria-hidden="true" className="h-4 w-4 ml-2" />
+                    <BuildingLibraryIcon
+                      aria-hidden="true"
+                      className="h-4 w-4 ml-2"
+                    />
                     <span className="truncate mr-2">Estado Deudor (BCRA)</span>
                   </div>
-                }>
+                }
+              >
                 <EstadoDeudorBCRATab
                   chequesRechazados={chequesRechazados}
                   deudasHistoria={deudasHistoria}

@@ -42,19 +42,25 @@ export function useReport(report_id: string): UseReportReturn {
 
       if (err instanceof ApiError) {
         if (err.status === 401) {
-          setError("No autorizado para ver el reporte. Por favor, inicie sesión.");
+          setError(
+            "No autorizado para ver el reporte. Por favor, inicie sesión.",
+          );
           router.push("/login?expired=1");
 
           return;
         } else if (err.status === 404) {
-          setError("Reporte no encontrado. Es posible que haya sido eliminado o no tengas acceso.");
+          setError(
+            "Reporte no encontrado. Es posible que haya sido eliminado o no tengas acceso.",
+          );
         } else if (err.status === 400) {
           setError("ID de reporte inválido.");
         } else {
           setError(`Error al cargar el reporte: ${err.message}`);
         }
       } else {
-        setError("Error de red al cargar el reporte. Por favor, verifica tu conexión.");
+        setError(
+          "Error de red al cargar el reporte. Por favor, verifica tu conexión.",
+        );
       }
     } finally {
       setLoading(false);
