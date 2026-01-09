@@ -17,18 +17,11 @@ const formatCuit = (cuit: string) => {
   return `${cuit.slice(0, 2)}-${cuit.slice(2, 10)}-${cuit.slice(10)}`;
 };
 
-const CompanyInfo: React.FC<CompanyInfoProps> = ({
-  document: _document,
-  editableDocument,
-  isEditing,
-  setEditableDocument,
-}) => {
+const CompanyInfo: React.FC<CompanyInfoProps> = ({ document: _document, editableDocument, isEditing, setEditableDocument }) => {
   return (
-    <Card className="my-7 " shadow="sm">
+    <Card className="mt-7 " shadow="sm">
       <CardHeader className="px-8 py-4 border-b">
-        <h2 className="text-lg font-light text-foreground-700">
-          Información de la organización y del archivo
-        </h2>
+        <h2 className="text-lg  text-gray-400">Información de la organización y del archivo</h2>
       </CardHeader>
 
       <CardBody className="px-8 py-4 text-md">
@@ -39,41 +32,28 @@ const CompanyInfo: React.FC<CompanyInfoProps> = ({
             <p className="text-sm font-medium text-foreground-400 mb-1">CUIT</p>
             {isEditing ? (
               <Tooltip content="Este elemento se edita desde el encabezado">
-                <span className="text-foreground-400">
-                  {formatCuit(editableDocument.company_info?.company_cuit) ||
-                    "-"}
-                </span>
+                <span className="text-foreground-400">{formatCuit(editableDocument.company_info?.company_cuit) || "-"}</span>
               </Tooltip>
             ) : (
-              <span className="text-foreground-700">
-                {formatCuit(editableDocument.company_info?.company_cuit) || "-"}
-              </span>
+              <span className="text-foreground-700">{formatCuit(editableDocument.company_info?.company_cuit) || "-"}</span>
             )}
           </div>
 
           {/* Nombre de la empresa (razón social) */}
           <div className="flex flex-col mb-2">
-            <p className="text-sm font-medium text-foreground-400 mb-1">
-              Razón social
-            </p>
+            <p className="text-sm font-medium text-foreground-400 mb-1">Razón social</p>
             {isEditing ? (
               <Tooltip content="Este elemento se edita desde la card">
-                <span className="text-foreground-400">
-                  {editableDocument.company_info?.company_name || "-"}
-                </span>
+                <span className="text-foreground-400">{editableDocument.company_info?.company_name || "-"}</span>
               </Tooltip>
             ) : (
-              <span className="text-foreground-700">
-                {editableDocument.company_info?.company_name || "-"}
-              </span>
+              <span className="text-foreground-700">{editableDocument.company_info?.company_name || "-"}</span>
             )}
           </div>
 
           {/* Actividad principal */}
           <div className="flex flex-col mb-2">
-            <p className="text-sm font-medium text-foreground-400 mb-1">
-              Actividad principal
-            </p>
+            <p className="text-sm font-medium text-foreground-400 mb-1">Actividad principal</p>
             {isEditing ? (
               <Input
                 classNames={{
@@ -96,18 +76,14 @@ const CompanyInfo: React.FC<CompanyInfoProps> = ({
               />
             ) : (
               <>
-                <span className="text-foreground-700">
-                  {editableDocument.company_info?.company_activity || "-"}
-                </span>
+                <span className="text-foreground-700">{editableDocument.company_info?.company_activity || "-"}</span>
               </>
             )}
           </div>
 
           {/* Domicilio fiscal */}
           <div className="flex flex-col mb-2">
-            <p className="text-sm font-medium text-foreground-400 mb-1">
-              Domicilio fiscal
-            </p>
+            <p className="text-sm font-medium text-foreground-400 mb-1">Domicilio fiscal</p>
             {isEditing ? (
               <Input
                 classNames={{
@@ -130,9 +106,7 @@ const CompanyInfo: React.FC<CompanyInfoProps> = ({
               />
             ) : (
               <>
-                <span className="text-foreground-700">
-                  {editableDocument.company_info?.company_address || "-"}
-                </span>
+                <span className="text-foreground-700">{editableDocument.company_info?.company_address || "-"}</span>
               </>
             )}
           </div>
@@ -141,9 +115,7 @@ const CompanyInfo: React.FC<CompanyInfoProps> = ({
         {/* Sección: Acerca del archivo */}
         <div>
           <div className="flex flex-col mb-2 border-t pt-3 mt-1">
-            <p className="text-sm font-medium text-foreground-400 mb-1">
-              Nombre del archivo
-            </p>
+            <p className="text-sm font-medium text-foreground-400 mb-1">Nombre del archivo</p>
             {isEditing ? (
               <Input
                 classNames={{
@@ -163,9 +135,7 @@ const CompanyInfo: React.FC<CompanyInfoProps> = ({
               />
             ) : (
               <>
-                <span className="text-foreground-700">
-                  {editableDocument.name || "-"}
-                </span>
+                <span className="text-foreground-700">{editableDocument.name || "-"}</span>
               </>
             )}
           </div>

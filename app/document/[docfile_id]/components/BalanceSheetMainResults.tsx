@@ -1,14 +1,7 @@
 // ruta: app/document/[docfile_id]/components/BalanceSheetMainResults.tsx
 
 import React from "react";
-import {
-  Table,
-  TableHeader,
-  TableBody,
-  TableColumn,
-  TableRow,
-  TableCell,
-} from "@heroui/table";
+import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from "@heroui/table";
 import { Input } from "@heroui/input";
 
 import styles from "./DocView.module.css";
@@ -47,11 +40,7 @@ const BalanceSheetMainResults: React.FC<BalanceSheetMainResultsProps> = ({
   isEditing,
   setResultadosPrincipales,
 }) => {
-  const handleInputChange = (
-    index: number,
-    field: "concepto" | "monto_actual" | "monto_anterior",
-    value: string,
-  ) => {
+  const handleInputChange = (index: number, field: "concepto" | "monto_actual" | "monto_anterior", value: string) => {
     const updatedData = [...resultadosPrincipales];
 
     if (field === "concepto") {
@@ -67,17 +56,11 @@ const BalanceSheetMainResults: React.FC<BalanceSheetMainResultsProps> = ({
 
   return (
     <div className="mt-4">
-      <Table aria-label="Resultados principales">
+      <Table shadow="sm" aria-label="Resultados principales">
         <TableHeader>
-          <TableColumn className="text-foreground-500 text-sm font-semibold uppercase">
-            Concepto
-          </TableColumn>
-          <TableColumn className="text-foreground-500 text-sm font-semibold uppercase text-right">
-            Actual
-          </TableColumn>
-          <TableColumn className="text-foreground-500 text-sm font-semibold uppercase text-right">
-            Anterior
-          </TableColumn>
+          <TableColumn className="text-foreground-500 text-sm font-semibold uppercase">Concepto</TableColumn>
+          <TableColumn className="text-foreground-500 text-sm font-semibold uppercase text-right">Actual</TableColumn>
+          <TableColumn className="text-foreground-500 text-sm font-semibold uppercase text-right">Anterior</TableColumn>
         </TableHeader>
         <TableBody>
           {resultadosPrincipales.map((item, index) => (
@@ -87,8 +70,7 @@ const BalanceSheetMainResults: React.FC<BalanceSheetMainResultsProps> = ({
               style={{
                 borderBottom: "0.5px solid #E8E8E8",
                 height: "3rem",
-              }}
-            >
+              }}>
               <TableCell>{item.concepto || item.concepto_code}</TableCell>
               <TableCell className="text-right">
                 {isEditing ? (
@@ -104,9 +86,7 @@ const BalanceSheetMainResults: React.FC<BalanceSheetMainResultsProps> = ({
                     }
                     type="number"
                     value={String(item.monto_actual || 0)}
-                    onChange={(e) =>
-                      handleInputChange(index, "monto_actual", e.target.value)
-                    }
+                    onChange={(e) => handleInputChange(index, "monto_actual", e.target.value)}
                   />
                 ) : (
                   formatCurrency(item.monto_actual)
@@ -126,9 +106,7 @@ const BalanceSheetMainResults: React.FC<BalanceSheetMainResultsProps> = ({
                     }
                     type="number"
                     value={String(item.monto_anterior || 0)}
-                    onChange={(e) =>
-                      handleInputChange(index, "monto_anterior", e.target.value)
-                    }
+                    onChange={(e) => handleInputChange(index, "monto_anterior", e.target.value)}
                   />
                 ) : (
                   formatCurrency(item.monto_anterior)
