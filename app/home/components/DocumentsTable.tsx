@@ -1,34 +1,18 @@
 "use client";
 import React, { useState, useMemo, useCallback, useEffect } from "react";
-import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-} from "@heroui/table";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from "@heroui/table";
 import { Input } from "@heroui/input";
-import { Button } from "@heroui/button";
-import {
-  DropdownTrigger,
-  Dropdown,
-  DropdownMenu,
-  DropdownItem,
-} from "@heroui/dropdown";
+import { Button, ButtonGroup } from "@heroui/button";
+import { DropdownTrigger, Dropdown, DropdownMenu, DropdownItem } from "@heroui/dropdown";
 import { Pagination } from "@heroui/pagination";
 import { Skeleton } from "@heroui/skeleton";
-import {
-  FiSearch,
-  FiPlus,
-  FiChevronDown,
-  FiTrash2,
-  FiRotateCcw,
-} from "react-icons/fi";
+import { FiSearch, FiPlus, FiChevronDown, FiTrash2, FiRotateCcw } from "react-icons/fi";
 import { TbEyeEdit } from "react-icons/tb";
+import { PresentationChartBarIcon, SparklesIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import { ToastProvider, addToast } from "@heroui/toast";
 import { Tooltip } from "@heroui/tooltip";
+import { Spinner } from "@heroui/spinner";
 
 import { useDocuments } from "../hooks/useDocuments";
 import { useDebounce } from "../hooks/useDebounce";
@@ -97,9 +81,7 @@ const DEFAULT_STATE = {
   sortDescriptor: { column: "upload_date", direction: "descending" as const },
   page: 1,
   rowsPerPage: 7,
-  visibleColumns: new Set(
-    tableColumns.map((col) => col.key).filter((key) => key !== "name"),
-  ),
+  visibleColumns: new Set(tableColumns.map((col) => col.key).filter((key) => key !== "name")),
 };
 
 const DocumentsTable: React.FC = () => {
@@ -122,12 +104,8 @@ const DocumentsTable: React.FC = () => {
 
   // Estado inicial desde sessionStorage
   const initialState = getInitialTableState() || {};
-  const [searchQuery, setSearchQuery] = useState<string>(
-    initialState.searchQuery ?? "",
-  );
-  const [validationFilter, setValidationFilter] = useState<string>(
-    initialState.validationFilter ?? "all",
-  );
+  const [searchQuery, setSearchQuery] = useState<string>(initialState.searchQuery ?? "");
+  const [validationFilter, setValidationFilter] = useState<string>(initialState.validationFilter ?? "all");
   const [sortDescriptor, setSortDescriptor] = useState<{
     column: string;
     direction: "ascending" | "descending";
@@ -135,17 +113,12 @@ const DocumentsTable: React.FC = () => {
     initialState.sortDescriptor ?? {
       column: "upload_date",
       direction: "descending",
-    },
+    }
   );
   const [page, setPage] = useState<number>(initialState.page ?? 1);
-  const [rowsPerPage, setRowsPerPage] = useState<number>(
-    initialState.rowsPerPage ?? 7,
-  );
+  const [rowsPerPage, setRowsPerPage] = useState<number>(initialState.rowsPerPage ?? 7);
   const [visibleColumns, setVisibleColumns] = useState<"all" | Set<string>>(
-    initialState.visibleColumns ??
-      new Set(
-        tableColumns.map((col) => col.key).filter((key) => key !== "name"),
-      ),
+    initialState.visibleColumns ?? new Set(tableColumns.map((col) => col.key).filter((key) => key !== "name"))
   );
   const [storedTotalPages, setStoredTotalPages] = useState<number>(1);
   const [storedTotalDocs, setStoredTotalDocs] = useState<number>(0);
@@ -160,8 +133,7 @@ const DocumentsTable: React.FC = () => {
     sort_order: sortDescriptor.direction === "ascending" ? "asc" : "desc",
     page,
     page_size: rowsPerPage,
-    validation_status:
-      validationFilter !== "all" ? validationFilter : undefined, // <-- Pasar filtro a la API
+    validation_status: validationFilter !== "all" ? validationFilter : undefined, // <-- Pasar filtro a la API
   });
 
   // Hook para mantener un mínimo de tiempo en el estado de carga
@@ -204,20 +176,18 @@ const DocumentsTable: React.FC = () => {
       return {
         ...item,
         status: update?.status || item.status,
-        progress:
-          update?.progress !== undefined ? update.progress : item.progress,
+        progress: update?.progress !== undefined ? update.progress : item.progress,
         upload_date: update?.upload_date || item.upload_date,
         balance_date: update?.balance_date || item.balance_date,
         validation: update?.validation || item.validation,
         ai_report: update?.ai_report || item.ai_report,
         error_message: update?.error_message || item.error_message,
+        report_status: update?.report_status || item.report_status,
+        report_id: update?.report_id || item.report_id,
         company_info: companyInfo,
         company_name: companyInfo.company_name || "",
         company_cuit: companyInfo.company_cuit || "",
-        page_count:
-          update?.page_count !== undefined
-            ? update.page_count
-            : item.page_count,
+        page_count: update?.page_count !== undefined ? update.page_count : item.page_count,
         processing_time: update?.processing_time || item.processing_time,
       };
     });
@@ -238,9 +208,7 @@ const DocumentsTable: React.FC = () => {
 
   // Función para eliminar un documento
   const handleDelete = async (docId: string) => {
-    const confirmed = window.confirm(
-      "¿Deseas eliminar este documento de forma permanente? Esta acción no se puede deshacer.",
-    );
+    const confirmed = window.confirm("¿Deseas eliminar este documento de forma permanente? Esta acción no se puede deshacer.");
 
     if (!confirmed) return;
     try {
@@ -261,14 +229,32 @@ const DocumentsTable: React.FC = () => {
     }
   };
 
+  // Función para generar el reporte de IA
+  const handleGenerateReport = async (docId: string) => {
+    try {
+      await api.post<any>(`generate_report/${docId}`);
+      addToast({
+        title: "Reporte en proceso",
+        description: "El reporte de IA está siendo generado.",
+        color: "success",
+      });
+      // El estado se actualizará automáticamente vía WebSocket
+    } catch (err: any) {
+      addToast({
+        title: "Error al generar reporte",
+        description: err?.message ?? "No se pudo generar el reporte de IA.",
+        color: "danger",
+      });
+    }
+  };
+
   // Manejadores de cambios
   const handleSortChange = (column: string) => {
     setSortDescriptor((prev) => {
       if (column === prev.column) {
         return {
           column,
-          direction:
-            prev.direction === "ascending" ? "descending" : "ascending",
+          direction: prev.direction === "ascending" ? "descending" : "ascending",
         };
       } else {
         return {
@@ -307,18 +293,9 @@ const DocumentsTable: React.FC = () => {
       visibleColumns instanceof Set &&
       DEFAULT_STATE.visibleColumns instanceof Set &&
       visibleColumns.size === DEFAULT_STATE.visibleColumns.size &&
-      Array.from(visibleColumns).every((v) =>
-        DEFAULT_STATE.visibleColumns.has(v),
-      )
+      Array.from(visibleColumns).every((v) => DEFAULT_STATE.visibleColumns.has(v))
     );
-  }, [
-    searchQuery,
-    validationFilter,
-    sortDescriptor,
-    page,
-    rowsPerPage,
-    visibleColumns,
-  ]);
+  }, [searchQuery, validationFilter, sortDescriptor, page, rowsPerPage, visibleColumns]);
 
   // Función para resetear todo
   const handleReset = () => {
@@ -327,11 +304,7 @@ const DocumentsTable: React.FC = () => {
     setSortDescriptor({ ...DEFAULT_STATE.sortDescriptor });
     setPage(DEFAULT_STATE.page);
     setRowsPerPage(DEFAULT_STATE.rowsPerPage);
-    setVisibleColumns(
-      new Set(
-        tableColumns.map((col) => col.key).filter((key) => key !== "name"),
-      ),
-    );
+    setVisibleColumns(new Set(tableColumns.map((col) => col.key).filter((key) => key !== "name")));
     sessionStorage.removeItem(LOCAL_STORAGE_KEY);
   };
 
@@ -352,9 +325,7 @@ const DocumentsTable: React.FC = () => {
   function capitalizeCompanyName(name: string): string {
     if (!name) return "-";
 
-    return name
-      .toLowerCase()
-      .replace(/(^|[\.\s])([a-záéíóúüñ])/g, (match) => match.toUpperCase());
+    return name.toLowerCase().replace(/(^|[\.\s])([a-záéíóúüñ])/g, (match) => match.toUpperCase());
   }
 
   // Renderizamos cada celda según la columna
@@ -379,9 +350,7 @@ const DocumentsTable: React.FC = () => {
         case "name": {
           const fileName = item.name || "-";
           const truncated =
-            fileName.length > FILE_NAME_TRUNCATE_LENGTH
-              ? fileName.slice(0, FILE_NAME_TRUNCATE_LENGTH) + "..."
-              : fileName;
+            fileName.length > FILE_NAME_TRUNCATE_LENGTH ? fileName.slice(0, FILE_NAME_TRUNCATE_LENGTH) + "..." : fileName;
 
           return fileName.length > FILE_NAME_TRUNCATE_LENGTH ? (
             <TableCell className="text-xs text-slate-400 2xl:text-sm">
@@ -394,35 +363,23 @@ const DocumentsTable: React.FC = () => {
           );
         }
         case "uploaded_by":
-          return (
-            <TableCell className="text-xs text-slate-400 2xl:text-sm">
-              {item.uploaded_by}
-            </TableCell>
-          );
+          return <TableCell className="text-xs text-slate-400 2xl:text-sm">{item.uploaded_by}</TableCell>;
         case "status":
           return (
             <TableCell className="text-center">
-              <StatusChip
-                errorMessage={item.error_message}
-                progress={item.progress}
-                status={item.status}
-              />
+              <StatusChip errorMessage={item.error_message} progress={item.progress} status={item.status} />
             </TableCell>
           );
         case "upload_date":
           return (
             <TableCell className="text-xs text-slate-400 2xl:text-sm text-center">
-              {item.upload_date
-                ? new Date(item.upload_date).toLocaleDateString()
-                : "-"}
+              {item.upload_date ? new Date(item.upload_date).toLocaleDateString() : "-"}
             </TableCell>
           );
         case "balance_date":
           return (
             <TableCell className="text-xs text-slate-400 2xl:text-sm text-center">
-              {item.balance_date
-                ? new Date(item.balance_date).toLocaleDateString()
-                : "-"}
+              {item.balance_date ? new Date(item.balance_date).toLocaleDateString() : "-"}
             </TableCell>
           );
         case "validation":
@@ -442,51 +399,129 @@ const DocumentsTable: React.FC = () => {
         case "processing":
           return (
             <TableCell className="text-center">
-              <ProcessingChip
-                pageCount={item.page_count}
-                processingTime={item.processing_time}
-              />
+              <ProcessingChip pageCount={item.page_count} processingTime={item.processing_time} />
             </TableCell>
           );
-        case "actions":
+        case "actions": {
+          const docId = item.id || item._id;
+          const isProcessed = item.status === "Analizado" || item.status === "Exportado" || item.status === "Reporte IA";
+          const reportStatus = item.report_status;
+          const isReportFinished = reportStatus === "Finalizado";
+          const isReportGenerating = reportStatus === "Generando reporte";
+          // Si report_status es null, undefined, vacío, o cualquier otro valor que no sea "Finalizado" ni "Generando reporte"
+          const shouldShowPopover = !isReportFinished && !isReportGenerating;
+
           return (
             <TableCell>
               <div className="flex gap-2 justify-center">
-                <Tooltip content="Revisar documento">
-                  <Button
-                    isIconOnly
-                    color="primary"
-                    radius="md"
-                    size="sm"
-                    variant="flat"
-                    onPress={() =>
-                      router.push(`/document/${item.id || item._id}`)
-                    }
-                  >
-                    <TbEyeEdit className="h-4 w-4" />
-                  </Button>
+                {/* Botón Revisar documento */}
+                <Tooltip content={isProcessed ? "Revisar documento" : "El documento aún no ha sido procesado"}>
+                  <div>
+                    <Button
+                      isIconOnly
+                      color={isProcessed ? "primary" : "default"}
+                      isDisabled={!isProcessed}
+                      radius="md"
+                      size="sm"
+                      variant="flat"
+                      onPress={() => router.push(`/document/${docId}`)}>
+                      <TbEyeEdit className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </Tooltip>
+
+                {/* Botón Reporte de IA */}
+                {!isProcessed ? (
+                  // Si el documento no está procesado, botón deshabilitado
+                  <Tooltip content="El documento debe estar procesado para crear el reporte">
+                    <div>
+                      <Button isIconOnly color="default" isDisabled radius="md" size="sm" variant="flat">
+                        <PresentationChartBarIcon className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </Tooltip>
+                ) : isReportFinished ? (
+                  // Si el reporte está finalizado, abrir el reporte
+                  <Tooltip content="Abrir reporte de IA">
+                    <Button
+                      isIconOnly
+                      color="primary"
+                      radius="md"
+                      size="sm"
+                      variant="flat"
+                      onPress={() => router.push(`/report/${docId}`)}>
+                      <PresentationChartBarIcon className="h-4 w-4" />
+                    </Button>
+                  </Tooltip>
+                ) : isReportGenerating ? (
+                  // Si el reporte se está generando, botón deshabilitado con spinner
+                  <Tooltip content="El reporte de IA está siendo generado, esto puede demorar un minuto">
+                    <div>
+                      <Button isIconOnly color="primary" isDisabled radius="md" size="sm" variant="flat">
+                        <Spinner color="primary" size="sm" />
+                      </Button>
+                    </div>
+                  </Tooltip>
+                ) : (
+                  // Si el reporte no está creado (null, undefined, vacío, o error), mostrar dropdown con opciones
+                  <ButtonGroup variant="flat">
+                    <Dropdown placement="bottom-end">
+                      <DropdownTrigger>
+                        <Button isIconOnly color="default" radius="md" size="sm">
+                          <PresentationChartBarIcon className="h-4 w-4" />
+                        </Button>
+                      </DropdownTrigger>
+                      <DropdownMenu aria-label="Opciones de reporte de IA" className="max-w-[250px]">
+                        <DropdownItem key="header" isReadOnly className="opacity-100">
+                          <div className="flex flex-col gap-1">
+                            <p className="text-xs font-semibold">Reporte de IA</p>
+                            <p className="text-xs text-gray-400">Se recomienda revisar el documento antes de crear el reporte</p>
+                          </div>
+                        </DropdownItem>
+                        <DropdownItem key="divider" isReadOnly className="p-0">
+                          <div className="border-t border-divider" />
+                        </DropdownItem>
+                        <DropdownItem
+                          key="review"
+                          color="default"
+                          startContent={<TbEyeEdit className="h-4 w-4" />}
+                          onPress={() => router.push(`/document/${docId}`)}>
+                          Revisar documento
+                        </DropdownItem>
+                        <DropdownItem
+                          key="generate"
+                          color="default"
+                          startContent={<SparklesIcon className="h-4 w-4" />}
+                          onPress={() => handleGenerateReport(docId)}>
+                          Crear reporte de IA
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
+                  </ButtonGroup>
+                )}
+
+                {/* Botón Eliminar documento */}
                 <Tooltip content="Eliminar documento">
                   <Button
                     isIconOnly
-                    className="border"
+                    className="border-none"
                     color="default"
                     radius="md"
                     size="sm"
                     variant="ghost"
-                    onPress={() => handleDelete(item.id || item._id)}
-                  >
+                    onPress={() => handleDelete(docId)}>
                     <FiTrash2 className="h-4 w-4 text-gray-400" />
                   </Button>
                 </Tooltip>
               </div>
             </TableCell>
           );
+        }
         default:
           return <TableCell>{item[String(columnKey)]}</TableCell>;
       }
     },
-    [router],
+    [router]
   );
 
   // Anchos de columna responsivos
@@ -548,11 +583,7 @@ const DocumentsTable: React.FC = () => {
           {/* Controles y botón: ocupan toda la fila en mobile, horizontal en md+ */}
           <div className="flex gap-3 items-end">
             {/* Botón Reset a la izquierda del selector de Estado de validación */}
-            <Tooltip
-              closeDelay={0}
-              content="Reinicia los filtros y opciones"
-              delay={0}
-            >
+            <Tooltip closeDelay={0} content="Reinicia los filtros y opciones" delay={0}>
               <Button
                 isIconOnly
                 className="mr-1 mb-1 "
@@ -561,26 +592,16 @@ const DocumentsTable: React.FC = () => {
                 radius="full"
                 size="sm"
                 variant="bordered"
-                onPress={handleReset}
-              >
+                onPress={handleReset}>
                 <FiRotateCcw className="h-3 w-3 text-slate-500" />
               </Button>
             </Tooltip>
             <div className="text-xs text-gray-400">
-              <span className="hidden sm:flex mb-1 block">
-                Estado de validación
-              </span>
+              <span className="hidden sm:flex mb-1 block">Estado de validación</span>
               <Dropdown>
                 <DropdownTrigger className="hidden sm:flex">
-                  <Button
-                    className="min-w-[140px]"
-                    id="validation-dropdown"
-                    size="md"
-                    variant="bordered"
-                  >
-                    {validationOptions.find(
-                      (opt) => opt.value === validationFilter,
-                    )?.name || "Seleccionar"}{" "}
+                  <Button className="min-w-[140px]" id="validation-dropdown" size="md" variant="bordered">
+                    {validationOptions.find((opt) => opt.value === validationFilter)?.name || "Seleccionar"}{" "}
                     <FiChevronDown className="ml-1" />
                   </Button>
                 </DropdownTrigger>
@@ -593,27 +614,18 @@ const DocumentsTable: React.FC = () => {
                     const key = Array.from(keys)[0] as string;
 
                     handleValidationChange(key);
-                  }}
-                >
+                  }}>
                   {validationOptions.map((option) => (
-                    <DropdownItem key={option.value}>
-                      {option.name}
-                    </DropdownItem>
+                    <DropdownItem key={option.value}>{option.name}</DropdownItem>
                   ))}
                 </DropdownMenu>
               </Dropdown>
             </div>
             <div className="text-xs text-gray-400">
-              <span className="hidden sm:flex mb-1 block">
-                Modificar columnas
-              </span>
+              <span className="hidden sm:flex mb-1 block">Modificar columnas</span>
               <Dropdown>
                 <DropdownTrigger className="hidden sm:flex">
-                  <Button
-                    className="min-w-[140px]"
-                    size="md"
-                    variant="bordered"
-                  >
+                  <Button className="min-w-[140px]" size="md" variant="bordered">
                     Columnas <FiChevronDown className="ml-1" />
                   </Button>
                 </DropdownTrigger>
@@ -623,42 +635,28 @@ const DocumentsTable: React.FC = () => {
                   closeOnSelect={false}
                   selectedKeys={visibleColumns}
                   selectionMode="multiple"
-                  onSelectionChange={(keys) =>
-                    setVisibleColumns(keys as Set<string>)
-                  }
-                >
+                  onSelectionChange={(keys) => setVisibleColumns(keys as Set<string>)}>
                   {tableColumns.map((column) => (
                     <DropdownItem key={column.key}>{column.label}</DropdownItem>
                   ))}
                 </DropdownMenu>
               </Dropdown>
             </div>
-            <Button
-              color="primary"
-              size="md"
-              variant="flat"
-              onPress={() => router.push("/upload")}
-            >
+            <Button color="primary" size="md" variant="flat" onPress={() => router.push("/upload")}>
               <FiPlus className="mr-1" />
               Nuevo Documento
             </Button>
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <span className="text-sm text-gray-500">
-            Total {storedTotalDocs} documentos
-          </span>
-          <label
-            className="flex items-center text-sm text-gray-500"
-            htmlFor="rows-per-page-select"
-          >
+          <span className="text-sm text-gray-500">Total {storedTotalDocs} documentos</span>
+          <label className="flex items-center text-sm text-gray-500" htmlFor="rows-per-page-select">
             Filas por página:
             <select
               className="ml-2 bg-transparent outline-none"
               id="rows-per-page-select"
               value={rowsPerPage}
-              onChange={handleRowsPerPageChange}
-            >
+              onChange={handleRowsPerPageChange}>
               <option value="5">5</option>
               <option value="7">7</option>
               <option value="10">10</option>
@@ -670,15 +668,7 @@ const DocumentsTable: React.FC = () => {
         </div>
       </div>
     ),
-    [
-      searchQuery,
-      validationFilter,
-      rowsPerPage,
-      storedTotalDocs,
-      visibleColumns,
-      router,
-      isDefaultState,
-    ],
+    [searchQuery, validationFilter, rowsPerPage, storedTotalDocs, visibleColumns, router, isDefaultState]
   );
 
   // Contenido inferior: paginación
@@ -710,8 +700,7 @@ const DocumentsTable: React.FC = () => {
             radius="md"
             size="sm"
             variant="ghost"
-            onPress={onPreviousPage}
-          >
+            onPress={onPreviousPage}>
             Anterior
           </Button>
           <Button
@@ -720,8 +709,7 @@ const DocumentsTable: React.FC = () => {
             radius="md"
             size="sm"
             variant="ghost"
-            onPress={onNextPage}
-          >
+            onPress={onNextPage}>
             Siguiente
           </Button>
         </div>
@@ -746,14 +734,7 @@ const DocumentsTable: React.FC = () => {
     };
 
     sessionStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(state));
-  }, [
-    searchQuery,
-    validationFilter,
-    sortDescriptor,
-    page,
-    rowsPerPage,
-    visibleColumns,
-  ]);
+  }, [searchQuery, validationFilter, sortDescriptor, page, rowsPerPage, visibleColumns]);
 
   // Limpiar sessionStorage al cerrar sesión
   useEffect(() => {
@@ -789,10 +770,7 @@ const DocumentsTable: React.FC = () => {
 
   return (
     <>
-      <ToastProvider
-        placement="bottom-center"
-        toastProps={{ timeout: 10000, variant: "flat" }}
-      />
+      <ToastProvider placement="bottom-center" toastProps={{ timeout: 10000, variant: "flat" }} />
       {topContent}
       <div className="rounded-2xl shadow-sm overflow-hidden border">
         <Table
@@ -805,37 +783,23 @@ const DocumentsTable: React.FC = () => {
           rowHeight={48}
           shadow="none"
           sortDescriptor={sortDescriptor}
-          onSortChange={({ column, direction: _direction }) =>
-            handleSortChange(String(column))
-          }
+          onSortChange={({ column, direction: _direction }) => handleSortChange(String(column))}
           // isCompact
         >
           <TableHeader
             columns={tableColumns.filter((col) =>
-              visibleColumns === "all"
-                ? true
-                : (visibleColumns as Set<string>).has(col.key),
-            )}
-          >
+              visibleColumns === "all" ? true : (visibleColumns as Set<string>).has(col.key)
+            )}>
             {(column) => {
               const widthClass = headerWidths[column.key];
-              const centerAlignColumns = [
-                "actions",
-                "upload_date",
-                "balance_date",
-                "status",
-                "validation",
-              ];
+              const centerAlignColumns = ["actions", "upload_date", "balance_date", "status", "validation"];
 
               return (
                 <TableColumn
                   key={column.key}
-                  align={
-                    centerAlignColumns.includes(column.key) ? "center" : "start"
-                  }
+                  align={centerAlignColumns.includes(column.key) ? "center" : "start"}
                   allowsSorting={column.sortable}
-                  width={widthClass as any}
-                >
+                  width={widthClass as any}>
                   {column.label.toUpperCase()}
                 </TableColumn>
               );
@@ -846,11 +810,7 @@ const DocumentsTable: React.FC = () => {
               ? skeletonRows.map((_, idx) => (
                   <TableRow key={idx} className="hover:bg-gray-100 h-[48px]">
                     {tableColumns
-                      .filter((col) =>
-                        visibleColumns === "all"
-                          ? true
-                          : (visibleColumns as Set<string>).has(col.key),
-                      )
+                      .filter((col) => (visibleColumns === "all" ? true : (visibleColumns as Set<string>).has(col.key)))
                       .map((col) => (
                         <TableCell key={col.key}>
                           <Skeleton className="rounded-lg" isLoaded={false}>
