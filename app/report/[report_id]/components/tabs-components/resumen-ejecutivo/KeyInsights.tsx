@@ -48,16 +48,16 @@ const getInsightBgColor = (type: InsightType) => {
 export default function KeyInsights({ insights }: KeyInsightsProps) {
   // Build flat list with type information
   const allInsights: Array<{ type: InsightType; content: string }> = [
-    ...insights.strengths.map((content) => ({
-      type: "strengths" as InsightType,
+    ...insights.red_flags.map((content) => ({
+      type: "red_flags" as InsightType,
       content,
     })),
     ...insights.watchouts.map((content) => ({
       type: "watchouts" as InsightType,
       content,
     })),
-    ...insights.red_flags.map((content) => ({
-      type: "red_flags" as InsightType,
+    ...insights.strengths.map((content) => ({
+      type: "strengths" as InsightType,
       content,
     })),
   ];
